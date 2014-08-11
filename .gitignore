@@ -7,3 +7,5 @@ app/bower_components
 test/bower_components/
 .DS_Store
 */.DS_Store
+*.swp
+./*.swp
