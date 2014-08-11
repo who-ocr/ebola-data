@@ -33,7 +33,7 @@ WHO.Views = WHO.Views || {};
             //this.$el.html(this.template(this.model.toJSON()));
             console.log(data)
 
-            /*var markers = L.markerClusterGroup({
+            var markers = L.markerClusterGroup({
 
               iconCreateFunction: function (cluster) {
                   var count = cluster.getChildCount();
@@ -48,8 +48,8 @@ WHO.Views = WHO.Views || {};
 			        spiderfyOnMaxZoom: false, showCoverageOnHover: false, zoomToBoundsOnClick: false
             });
 
-            for (var i in addressPoints ) {
-              var a = addressPoints[i];
+            for (var i in data ) {
+              var a = data[i];
               var title = a["Case ID"];
               var marker = L.marker(new L.LatLng(a.Latitude, a.Longitude), {
                 icon: L.mapbox.marker.icon(),
@@ -59,7 +59,7 @@ WHO.Views = WHO.Views || {};
               markers.addLayer(marker);
             }
 
-            map.addLayer(markers); */
+            WHO.map.addLayer(markers);
 
         }
     });

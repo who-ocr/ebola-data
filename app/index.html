@@ -69,8 +69,9 @@
         </div>
 
         <div id="main">
+            <div id="map" class="full"></div>
             <div class="container">
-                <div id="map" class="full"></div>
+
             </div>
         </div>
 
@@ -95,7 +96,9 @@
         <!-- endbuild -->
 
         <script src="https://api.tiles.mapbox.com/mapbox.js/v1.6.2/mapbox.js"></script>
-
+        <script src="bower_components/leaflet.markercluster/src/DistanceGrid.js"></script>
+        <script src="bower_components/leaflet.markercluster/src/MarkerCluster.js"></script>
+        <script src="bower_components/leaflet.markercluster/src/MarkerClusterGroup.js"></script>
         <!-- build:js({.tmp,app}) scripts/main.js -->
         <script src="scripts/main.js"></script>
         <script src="scripts/routes/app.js"></script>
