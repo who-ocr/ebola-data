@@ -7,8 +7,19 @@ WHO.Collections = WHO.Collections || {};
 
     WHO.Collections.Cases = Backbone.Collection.extend({
 
-        model: WHO.Models.Cases
+        model: WHO.Models.Cases,
 
+        initialize: function () {
+          this.ref = new Firebase('https://luminous-heat-4380.firebaseio.com/map_line');
+        },
+
+        query: function  (){
+          var that = this;
+          ref.once("value", function (snap) {
+              addressPoints = snap.val();
+              that.trigger("loaded",addressPoints);
+          });
+        }
     });
 
 })();

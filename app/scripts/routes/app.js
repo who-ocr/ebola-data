@@ -14,6 +14,7 @@ WHO.Routers = WHO.Routers || {};
     var defaultMap = 'cases';
 
     function newload() {
+        console.log("newload")
         bootstrap();
         WHO.mapview.load(defaultMap);
     }

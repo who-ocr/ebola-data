@@ -7,7 +7,7 @@ WHO.Views = WHO.Views || {};
 
     WHO.Views.Table = Backbone.View.extend({
 
-        template: JST['app/scripts/templates/table.ejs'],
+        //template: JST['app/scripts/templates/table.ejs'],
 
         tagName: 'div',
 
