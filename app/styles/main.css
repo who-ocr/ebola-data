@@ -2,14 +2,14 @@
 /************** Base ********************************/
 
 html {
-    height: 100%;
 }
 
 body {
     color: #333;
     height: 100%;
-    font-family: Arvo, Georgia, serif;
     position: relative;
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    text-rendering: optimizeLegibility;
 }
 
 h1, h2, h3, h4, h5, h6,
@@ -24,10 +24,33 @@ p, div, span, section, lable, ul, li {
     box-shadow:         0px 1px 3px 0px rgba(50, 50, 50, 0.75);
 }
 
+.subhead h1,
+.navbar-brand .title {
+    font-size: 18px;
+}
+
+.jumbotron p {
+    font-size: 14px;
+}
+
+.navbar-brand img {
+    width: 48px;
+    height: 48px;
+}
 
 
 /****************************************************/
 /************** Media Queries ***********************/
 
-@media only screen and (min-width: 480px) {}
-@media only screen and (min-width: 960px) {}
+@media only screen and (min-width: 480px) {
+}
+
+
+
+@media only screen and (min-width: 960px) {
+    .subhead h1 { font-size: 38px; }
+    .navbar-brand .title { font-size: 32px; }
+    .jumbotron p { font-size: 24px; }
+    .navbar-brand img { width: 60px; height: 60px; }
+
+}
