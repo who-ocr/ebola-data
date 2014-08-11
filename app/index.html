@@ -1,17 +1,29 @@
 <!doctype html>
-<html class="no-js">
+<!--[if IE 8]><html lang="en" class="ie8"><![endif]-->
+<html lang="en">
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <title>WHO</title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+
         <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
         <!-- build:css(.tmp) styles/main.css -->
+        <link rel="stylesheet" href="styles/vendor/bootstrap.min.css" />
+        <link rel="stylesheet" href="styles/vendor/font-awesome/css/font-awesome.min.css" />
+        <link rel="stylesheet" href="styles/vendor/selectize.bootstrap3.css" />
         <link rel="stylesheet" href="styles/vendor/mapbox.css">
-        <link rel="stylesheet" href="styles/scaffolding.css">
         <link rel="stylesheet" href="styles/main.css">
         <!-- endbuild -->
+
+        <!--[if lt IE 9]>
+            <script src="scripts/vendor/ie9/html5shiv.js"></script>
+            <script src="scripts/vendor/ie9/respond.min.js"></script>
+            <script src="scripts/vendor/ie9/es5.js"></script>
+        <![endif]-->
+
         <!-- build:js scripts/vendor/modernizr.js -->
         <script src="bower_components/modernizr/modernizr.js"></script>
         <!-- endbuild -->
@@ -21,12 +33,66 @@
             <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
         <![endif]-->
 
-        <div id="map" class="full"></div>
+        <div class="navbar navbar-default navbar-fixed-top">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="https://extranet.who.int/programmebudget/">
+                        <span class="title">Ebola Outbreak Portal</span>
+                        <img src="img/logo.png" alt="who-logo-prp" height="60">
+                    </a>
+                </div>
+                <div class="navbar-collapse collapse" role="navigation">
+                    <ul class="nav nav-pills pull-right" id="nav-main">
+                        <li class="active">
+                            <a href="https://extranet.who.int/programmebudget/">Home</a>
+                        </li>
+                        <li>
+                            <a href="#">Repsonse</a>
+                        </li>
+                        <li>
+                            <a href="https://extranet.who.int/programmebudget/Financing">Funding</a>
+                        </li>
+                        <li>
+                            <a href="https://extranet.who.int/programmebudget/Feedback">Contact Us</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="jumbotron subhead">
+            <div class="container">
+                <h1 class="js-page-head">Main Heading</h1>
+                <p class="lead">Sunb-heading</p>
+            </div>
+        </div>
+
+        <div id="main">
+            <div class="container">
+                <div id="map" class="full"></div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <div class="container">
+                <ul class="footer-links">
+                    <li><a href="/about/copyright/en/">© <acronym title="World Health Organization">WHO</acronym> 2013</a></li>
+                    <li class="muted">·</li>
+                    <li><a href="http://www.who.int/about/privacy/en/index.html">Privacy</a></li>
+                </ul>
+            </div>
+        </div>
 
         <!-- build:js scripts/vendor.js -->
         <script src="bower_components/jquery/dist/jquery.js"></script>
         <script src="bower_components/underscore/underscore.js"></script>
         <script src="bower_components/backbone/backbone.js"></script>
+        <script src="scripts/vendor/jquery.ui.touch-punch.min.js"></script>
+        <script src="scripts/vendor/bootstrap.min.js"></script>
+        <script src="scripts/vendor/selectize.min.js"></script>
         <!-- endbuild -->
 
         <script src="https://api.tiles.mapbox.com/mapbox.js/v1.6.2/mapbox.js"></script>
