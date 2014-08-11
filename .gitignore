@@ -1,8 +1,9 @@
-*/.DS_Store
-.DS_Store
-.yo-rc.json
 node_modules
-bower_components
 dist
-*/*.swp
+test/temp
+.sass-cache
+app/bower_components
 .tmp
+test/bower_components/
+.DS_Store
+*/.DS_Store
