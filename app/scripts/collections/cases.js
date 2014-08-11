@@ -15,9 +15,8 @@ WHO.Collections = WHO.Collections || {};
 
         query: function  (){
           var that = this;
-          ref.once("value", function (snap) {
-              addressPoints = snap.val();
-              that.trigger("loaded",addressPoints);
+          this.ref.once("value", function (snap) {
+              that.trigger("loaded",snap.val());
           });
         }
     });

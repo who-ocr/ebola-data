@@ -22,11 +22,11 @@ WHO.Views = WHO.Views || {};
         },
 
         load: function(mapType) {
-          console.log("we loaded")
           var collection = WHO.collections[mapType];
           this.stopListening();
           this.mapType = mapType;
           this.listenTo(collection, 'loaded', this.render);
+          collection.query();
         },
 
         render: function (data) {

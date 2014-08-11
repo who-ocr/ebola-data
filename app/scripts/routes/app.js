@@ -27,7 +27,6 @@ WHO.Routers = WHO.Routers || {};
         },
 
         newload: function() {
-            console.log("newload")
             bootstrap();
             WHO.mapview.load(defaultMap);
         },
