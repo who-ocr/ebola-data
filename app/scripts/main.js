@@ -8,7 +8,9 @@ window.WHO = {
     Routers: {},
     init: function () {
         'use strict';
-        console.log('Hello from Backbone!');
+        WHO.router = new WHO.Routers.App();
+        Backbone.history.start();
+
     }
 };
 
