@@ -1,0 +1,7 @@
+*/.DS_Store
+.DS_Store
+.yo-rc.json
+node_modules
+bower_components
+dist
+*/*.swp
