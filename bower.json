@@ -1,0 +1,11 @@
+{
+  "name": "who",
+  "version": "0.0.0",
+  "dependencies": {
+    "jquery": "~2.1.0",
+    "underscore": "~1.6.0",
+    "backbone": "~1.1.0",
+    "modernizr": "~2.7.1"
+  },
+  "devDependencies": {}
+}
