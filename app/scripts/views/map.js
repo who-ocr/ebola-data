@@ -53,7 +53,7 @@ WHO.Views = WHO.Views || {};
         },
 
         getBounds: function(model, maptype) {
-            var model = WHO.models[maptype] || new model();
+            var model = WHO.models[maptype]  || new model(); ;
             this.model = model;
             this.maptype = maptype;
 
@@ -69,40 +69,43 @@ WHO.Views = WHO.Views || {};
         },
 
         fitBounds: function() {
+
             if (this.layers.length) {
                 this.removeLayers();
             }
             this.drawBounds();
         },
 
-        removeLayers: function(callback, args) {
+        removeLayers: function() {
 
-            _.each(args.context.layers, function(layer) {
+            _.each(this.layers, function(layer) {
                 WHO.map.removeLayer(layer);
             });
         },
 
         drawBounds: function() {
-            console.log(this.model.attributes);
-            console.log(this.collection)
-            console.log(this.affected)
-            console.log(this.cases)
-            console.log(this.maptype)
+
             var affected = this.affected[this.maptype];
             var cases = this.cases[this.maptype];
-            var quantiles = this.quantiles[this.maptype];
-
+            var mt = this.maptype;
+            var colors = ['#fed976', '#feb24c', '#fd8d3c', '#fc4e2a', '#e31a1c', '#bd0026','#800026']
             var layer = L.geoJson(this.model.attributes, {
                 style: function(feature) {
-
-                    return {color: 'fff'}
+                     if (mt == 'country')
+                       var cs = chroma.scale(colors).domain(_.values(cases), 3, 'quantiles');
+                     else
+                       var cs = chroma.scale(colors).domain(_.values(cases), 7, 'quantiles');
+                     return {color: cs(cases[feature.id]),"opacity": 0.7,"weight":1}
                 },
                 filter: function(feature) {
-                  
-                    return true;
+                    if (affected.indexOf(feature.id) > -1)
+                      return true;
+                    else
+                      return false;
                 }
             }).addTo(WHO.map);
 
+            this.layers.push(layer);
         },
 
         render: function () {
@@ -130,11 +133,6 @@ WHO.Views = WHO.Views || {};
                 }
             }
 
-            var geo_casesByCountry = new geostats(_.values(casesByCountry))
-            var geo_casesByCountry_q = geo_casesByCountry.getClassQuantile(3);
-            var geo_casesByProvince = new geostats(_.values(casesByProvince))
-            var geo_casesByProvince_q = geo_casesByProvince.getClassQuantile(5);
-
             this.affected = {
                 country: _.keys(casesByCountry),
                 province: _.keys(casesByProvince)
@@ -144,11 +142,6 @@ WHO.Views = WHO.Views || {};
                 province: casesByProvince
             };
 
-
-            this.quantiles = {
-                country: _.values(geo_casesByCountry_q),
-                province: _.values(geo_casesByProvince_q)
-            }
             this.getmap();
             this.spinner.stop();
         },

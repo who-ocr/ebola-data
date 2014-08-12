@@ -6,20 +6,9 @@ WHO.Models = WHO.Models || {};
     'use strict';
 
     WHO.Models.Province = Backbone.Model.extend({
-
-        url: '',
-
-        initialize: function() {
-        },
-
-        defaults: {
-        },
-
-        validate: function(attrs, options) {
-        },
-
-        parse: function(response, options)  {
-            return response;
+        url: 'geo/custom.topojson',
+        parse: function(province, options)  {
+            return topojson.feature(province, province.objects.custom);
         }
     });
 
