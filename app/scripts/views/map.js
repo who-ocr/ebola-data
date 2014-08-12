@@ -66,8 +66,6 @@ WHO.Views = WHO.Views || {};
         },
 
         render: function (data) {
-            this.spinner.stop();
-
             //this.$el.html(this.template(this.model.toJSON()));
             console.log(data)
 
@@ -97,7 +95,9 @@ WHO.Views = WHO.Views || {};
               markers.addLayer(marker);
             }
 
+            this.spinner.stop();
             WHO.map.addLayer(markers);
+
 
         }
     });
