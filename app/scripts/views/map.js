@@ -7,17 +7,30 @@ WHO.Views = WHO.Views || {};
 
     WHO.Views.Map = Backbone.View.extend({
 
-        //template: JST['app/scripts/templates/map.ejs'],
-
-        tagName: 'div',
-
-        id: '',
-
-        className: '',
-
         events: {},
-
         initialize: function () {
+            WHO.map.on('zoomend', this.onZoom, this);
+        },
+
+        onZoom: function() {
+            var level = WHO.map.getZoom();
+
+            // Country level
+            if (level < 7) {
+
+            }
+            // District level
+            else if (level < 8) {
+
+            }
+            // Case level
+            else if (level < 11) {
+
+            }
+        },
+
+        removeLayers: function() {
+
 
         },
 
