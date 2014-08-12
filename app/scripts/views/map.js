@@ -9,7 +9,24 @@ WHO.Views = WHO.Views || {};
 
         events: {},
         initialize: function () {
-            WHO.map.on('zoomend', this.onZoom, this);
+            // Functions to restrict draw until after zoom complete
+            var zooming = false,
+                zoomTimer,
+                onzoom = $.proxy(this.onzoom, this);
+
+            WHO.map.on('zoomstart', function() {
+                zooming = true;
+                window.clearTimeout(zoomTimer);
+            });
+
+            WHO.map.on('zoomend', function() {
+                zooming = false;
+                zoomTimer = window.setTimeout(function() {
+                    if (!zooming) onzoom();
+                }, 400);
+            });
+
+            // Show spinner until load
             this.spinner = new Spinner({
                 color: '#888',
                 length: 2,
@@ -17,8 +34,9 @@ WHO.Views = WHO.Views || {};
             }).spin(document.getElementById('loader'));
         },
 
-        onZoom: function() {
+        onzoom: function() {
             var level = WHO.map.getZoom();
+            console.log(level);
 
             // Country level
             if (level < 7) {
