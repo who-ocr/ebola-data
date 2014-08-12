@@ -9,18 +9,20 @@ WHO.Routers = WHO.Routers || {};
         init = false;
 
     function bootstrap() {
-        WHO.mapview = new WHO.Views.Map({
-            el: '#map', id: 'map', map: WHO.map
-        });
         WHO.collections = {
             cases: new WHO.Collections.Cases(),
             response: new WHO.Collections.Response()
         };
+        WHO.mapview = new WHO.Views.Map({
+            el: '#map', id: 'map', map: WHO.map, collection: WHO.collections.cases
+        });
+        WHO.models = {};
         init = true;
     }
 
     WHO.map = L.mapbox.map('map','devseed.4e899624')
               .setView([6.0095537, -10.6059403], 5);;
+
     WHO.Routers.App = Backbone.Router.extend({
         routes: {
             ''                              : 'newload',
