@@ -7,17 +7,53 @@ WHO.Views = WHO.Views || {};
 
     WHO.Views.Map = Backbone.View.extend({
 
-        //template: JST['app/scripts/templates/map.ejs'],
-
-        tagName: 'div',
-
-        id: '',
-
-        className: '',
-
         events: {},
-
         initialize: function () {
+            // Functions to restrict draw until after zoom complete
+            var zooming = false,
+                zoomTimer,
+                onzoom = $.proxy(this.onzoom, this);
+
+            WHO.map.on('zoomstart', function() {
+                zooming = true;
+                window.clearTimeout(zoomTimer);
+            });
+
+            WHO.map.on('zoomend', function() {
+                zooming = false;
+                zoomTimer = window.setTimeout(function() {
+                    if (!zooming) onzoom();
+                }, 400);
+            });
+
+            // Show spinner until load
+            this.spinner = new Spinner({
+                color: '#888',
+                length: 2,
+                speed: 0.8
+            }).spin(document.getElementById('loader'));
+        },
+
+        onzoom: function() {
+            var level = WHO.map.getZoom();
+            console.log(level);
+
+            // Country level
+            if (level < 7) {
+
+            }
+            // District level
+            else if (level < 8) {
+
+            }
+            // Case level
+            else if (level < 11) {
+
+            }
+        },
+
+        removeLayers: function() {
+
 
         },
 
@@ -59,7 +95,9 @@ WHO.Views = WHO.Views || {};
               markers.addLayer(marker);
             }
 
+            this.spinner.stop();
             WHO.map.addLayer(markers);
+
 
         }
     });
