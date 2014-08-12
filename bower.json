@@ -6,7 +6,8 @@
     "underscore": "~1.6.0",
     "backbone": "~1.1.0",
     "modernizr": "~2.7.1",
-    "topojson": "~1.6.15"
+    "topojson": "~1.6.15",
+    "queue-async": "~1.0.7"
   },
   "devDependencies": {}
 }
