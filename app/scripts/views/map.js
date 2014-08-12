@@ -10,6 +10,11 @@ WHO.Views = WHO.Views || {};
         events: {},
         initialize: function () {
             WHO.map.on('zoomend', this.onZoom, this);
+            this.spinner = new Spinner({
+                color: '#888',
+                length: 2,
+                speed: 0.8
+            }).spin(document.getElementById('loader'));
         },
 
         onZoom: function() {
@@ -43,6 +48,8 @@ WHO.Views = WHO.Views || {};
         },
 
         render: function (data) {
+            this.spinner.stop();
+
             //this.$el.html(this.template(this.model.toJSON()));
             console.log(data)
 
