@@ -20,7 +20,7 @@ WHO.Routers = WHO.Routers || {};
         init = true;
     }
 
-    WHO.map = L.mapbox.map('map','devseed.a29d7560')
+    WHO.map = L.mapbox.map('map','nate.map-szf211bp,nate.map-c3e3vgn8')
               .setView([6.0095537, -10.6059403], 5);;
 
     WHO.Routers.App = Backbone.Router.extend({

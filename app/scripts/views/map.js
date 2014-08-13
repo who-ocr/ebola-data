@@ -88,14 +88,14 @@ WHO.Views = WHO.Views || {};
             var affected = this.affected[this.maptype];
             var cases = this.cases[this.maptype];
             var mt = this.maptype;
-            var colors = ['#fed976', '#feb24c', '#fd8d3c', '#fc4e2a', '#e31a1c', '#bd0026','#800026']
+            var colors = ['#c6dbef', '#9ecae1', '#6baed6', '#3182bd', '#08519c']
             var layer = L.geoJson(this.model.attributes, {
                 style: function(feature) {
                      if (mt == 'country')
                        var cs = chroma.scale(colors).domain(_.values(cases), 3, 'quantiles');
                      else
                        var cs = chroma.scale(colors).domain(_.values(cases), 7, 'quantiles');
-                     return {color: cs(cases[feature.id]),"opacity": 0.7,"weight":1}
+                     return {color: '#c6dbef',fillColor: cs(cases[feature.id]),"opacity": 0.1,"weight":2,fillOpacity: 0.7}
                 },
                 filter: function(feature) {
                     if (affected.indexOf(feature.id) > -1)

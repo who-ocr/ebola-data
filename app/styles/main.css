@@ -34,8 +34,8 @@ p, div, span, section, lable, ul, li {
 }
 
 .navbar-brand img {
-    width: 48px;
-    height: 48px;
+    width: 170px;
+    height: 52px;
 }
 
 /*** Map ***/
@@ -129,6 +129,6 @@ p, div, span, section, lable, ul, li {
     .subhead h1 { font-size: 38px; }
     .navbar-brand .title { font-size: 32px; }
     .jumbotron p { font-size: 24px; }
-    .navbar-brand img { width: 60px; height: 60px; }
+    .navbar-brand img { width: 170px; height: 52px; }
 
 }
