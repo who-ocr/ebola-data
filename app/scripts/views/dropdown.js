@@ -28,7 +28,6 @@ WHO.Views = WHO.Views || {};
         select: function(e) {
             e.preventDefault();
             this.$selected.text(e.toElement.innerHTML);
-
             this.$dropdown.toggleClass('open');
             return false;
         }
