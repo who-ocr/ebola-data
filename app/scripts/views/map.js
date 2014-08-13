@@ -84,8 +84,10 @@ WHO.Views = WHO.Views || {};
         },
 
         drawBounds: function() {
+            // set these next two variables according to the toggle/filter buttons
+
             var timeFrame = 'all';
-            var showThis = 'confirmed';
+            var showThis = 'total';
 
             this.timeFrame = timeFrame;
             this.showThis = showThis;
@@ -94,7 +96,7 @@ WHO.Views = WHO.Views || {};
             var cases = this.cases[timeFrame][this.maptype];
             var mt = this.maptype;
 
-            var colors = ['#ff0','#f00'];
+            var show,colors = ['#ff0','#f00'];
             var that = this;
 
             this.popup = new L.Popup({ autoPan: false });
@@ -107,10 +109,13 @@ WHO.Views = WHO.Views || {};
             var layer = L.geoJson(this.model.attributes, {
                 style: function(feature) {
                      if (mt == 'country')
-                       var cs = chroma.scale(colors).domain(_.map(cases, function(x){return x[showThis]}), 3, 'quantiles');
+                       var cs = chroma.scale(colors).domain(_.map(cases, function(x){return x[showThis]}).filter(function(x){ return x>0}), 3, 'quantiles');
                      else
-                       var cs = chroma.scale(colors).domain(_.map(cases, function(x){return x[showThis]}), 5, 'quantiles');
+                       var cs = chroma.scale(colors).domain(_.map(cases, function(x){return x[showThis]}).filter(function(x){ return x>0}), 5, 'quantiles');
+                     show = 0;
                      if (cases[feature.id])
+                       show = cases[feature.id][showThis];
+                     if (show > 0)
                        return {color: cs(cases[feature.id][showThis]),"opacity": 0.7,"weight":1}
                      else
                        return {color: '#555',"opacity": 0.7,"weight":1}
