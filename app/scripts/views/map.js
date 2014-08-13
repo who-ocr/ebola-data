@@ -87,7 +87,7 @@ WHO.Views = WHO.Views || {};
             // set these next two variables according to the toggle/filter buttons
             // timeFrame accepts 'all' and 'recent'
             // showThis accepts 'total','suspected','probable', and 'confirmed'
-            
+
             var timeFrame = 'recent';
             var showThis = 'confirmed';
 
@@ -112,13 +112,18 @@ WHO.Views = WHO.Views || {};
                 style: function(feature) {
                      if (mt == 'country')
                        var cs = chroma.scale(colors).domain(_.map(cases, function(x){return x[showThis]}).filter(function(x){ return x>0}), 3, 'quantiles');
+
                      else
                        var cs = chroma.scale(colors).domain(_.map(cases, function(x){return x[showThis]}).filter(function(x){ return x>0}), 5, 'quantiles');
+
                      show = 0;
+
                      if (cases[feature.id])
                        show = cases[feature.id][showThis];
+
                      if (show > 0)
                        return {color: cs(cases[feature.id][showThis]),"opacity": 0.7,"weight":1}
+
                      else
                        return {color: '#555',"opacity": 0.7,"weight":1}
                 },
@@ -131,8 +136,8 @@ WHO.Views = WHO.Views || {};
                 onEachFeature: function(feature, layer) {
                     layer.on({
                         mousemove: mousemove,
-                        mouseout: mouseout,
-                        click: click
+                        mouseout: mouseout
+                        //click: click
                     });
                 }
 

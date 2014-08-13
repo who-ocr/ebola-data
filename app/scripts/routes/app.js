@@ -17,11 +17,32 @@ WHO.Routers = WHO.Routers || {};
             el: '#map', id: 'map', map: WHO.map, collection: WHO.collections.cases
         });
         WHO.models = {};
+
+        WHO.map.whenReady(function() {
+
+            var $toggles = $('<div id="map-overlay-container"></div>').appendTo(
+                WHO.$map);
+
+            new WHO.Views.Dropdown({
+                id: 'toggle-time',
+                el: $('<div id="toggle-time"></div>').appendTo($toggles),
+                options: ['Most recent', 'All cases']
+            });
+
+            new WHO.Views.Dropdown({
+                id: 'toggle-case-type',
+                el: $('<div id="toggle-case-type" class="dropdown-container"></div>').appendTo($toggles),
+                options: ['Confirmed Cases', 'Suspected Cases', 'Probable Cases'],
+            });
+        });
+
         init = true;
     }
 
-    WHO.map = L.mapbox.map('map','devseed.a29d7560')
+    WHO.map = L.mapbox.map('map','nate.map-szf211bp,nate.map-c3e3vgn8')
               .setView([6.0095537, -10.6059403], 5);;
+
+    WHO.$map = $('#map');
 
     WHO.Routers.App = Backbone.Router.extend({
         routes: {
