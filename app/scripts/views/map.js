@@ -162,7 +162,7 @@ WHO.Views = WHO.Views || {};
         },
 
         mouseout: function(e) {
-          this.layers[0].resetStyle(e.target);
+          e.target.setStyle({"weight":1});
           this.closeTooltip = window.setTimeout(function() {
             WHO.map.closePopup();
           }, 100);
