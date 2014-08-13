@@ -1,14 +1,9 @@
-body {
-    padding-top: 70px;
-    position: relative;
-}
 /*.container {
     max-width: 970px;
 }*/
 .navbar-fixed-top {
     background-color: #fff;
     border-bottom: 1px solid #a1a6a9;
-    min-height: 70px;
     -webkit-box-shadow: 0 1px 10px rgba(0, 0, 0, 0.1);
     -moz-box-shadow: 0 1px 10px rgba(0, 0, 0, 0.1);
     box-shadow: 0 1px 10px rgba(0, 0, 0, 0.1);
@@ -36,9 +31,6 @@ body {
     -moz-box-shadow: none;
     box-shadow: none;
 }
-.navbar-toggle {
-    margin-top: 20px;
-}
 .navbar-brand {
     padding: 8px 20px;
     min-width: 60px;
@@ -53,13 +45,10 @@ body {
     padding: 0;
 }
 .navbar-brand .title {
-
     float: right;
     display: block;
-    margin: 8px 0 0 15px;
     padding: 8px 0 8px 15px;
     font-weight: 200;
-    font-size: 23px;
     color: #34495e;
     border-left: solid 1px #34495e;
 }
