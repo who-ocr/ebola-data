@@ -84,13 +84,22 @@ WHO.Views = WHO.Views || {};
         },
 
         drawBounds: function() {
-            var timeFrame = 'recent';
+            var timeFrame = 'all';
+            var showThis = 'confirmed';
+
+            this.timeFrame = timeFrame;
+            this.showThis = showThis;
+
             var affected = this.affected[timeFrame][this.maptype];
             var cases = this.cases[timeFrame][this.maptype];
             var mt = this.maptype;
-            var showThis = 'probable';
+
             var colors = ['#ff0','#f00'];
             var that = this;
+
+            var popup = new L.Popup({ autoPan: false });
+            var closeTooltip;
+
             console.log(cases);
 
             var mousemove = $.proxy(this.mousemove, this),
@@ -128,36 +137,38 @@ WHO.Views = WHO.Views || {};
         },
 
         mousemove: function(e) {
-          console.log(e)
-          /*
+
           var layer = e.target;
+          this.popLayer = layer;
+          this.closeTooltip;
 
-          popup.setLatLng(e.latlng);
-          popup.setContent('<div class="marker-title">' + layer.feature.properties.ADM2_NAME + '</div>' +
-            layer.feature.properties.COUNT + ' totals cases');
+          var anyData = this.cases[this.timeFrame][this.maptype][layer.feature.id]
+          if (anyData) {
+            var popup = new L.Popup({ autoPan: false });
+            popup.setLatLng(e.latlng);
+            popup.setContent('<div class="marker-title">' + layer.feature.id + '</div>' + anyData[this.showThis] + ' ' + this.showThis + ' cases');
 
-          if (!popup._map) popup.openOn(WHO.map);
-            window.clearTimeout(closeTooltip);
+            if (!popup._map) popup.openOn(WHO.map);
+              window.clearTimeout(this.closeTooltip);
 
-          // highlight feature
-          layer.setStyle({
-            weight: 3,
-            opacity: 0.3,
-            fillOpacity: 0.9
-          });
+            // highlight feature
+            layer.setStyle({
+              weight: 3,
+            });
 
-          if (!L.Browser.ie && !L.Browser.opera) {
-            layer.bringToFront();
+            if (!L.Browser.ie && !L.Browser.opera) {
+              layer.bringToFront();
+            }
+
           }
-          */
+
         },
 
         mouseout: function(e) {
-          /*
-          statesLayer.resetStyle(e.target);
-          closeTooltip = window.setTimeout(function() {
+          this.layers[0].resetStyle(e.target);
+          this.closeTooltip = window.setTimeout(function() {
             WHO.map.closePopup();
-          }, 100); */
+          }, 100);
         },
 
 
