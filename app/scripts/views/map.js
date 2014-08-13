@@ -92,6 +92,11 @@ WHO.Views = WHO.Views || {};
             var colors = ['#ff0','#f00'];
             var that = this;
             console.log(cases);
+
+            var mousemove = $.proxy(this.mousemove, this),
+                mouseout = $.proxy(this.mouseout, this),
+                click = $.proxy(this.click, this);
+
             var layer = L.geoJson(this.model.attributes, {
                 style: function(feature) {
                      if (mt == 'country')
@@ -109,20 +114,17 @@ WHO.Views = WHO.Views || {};
                     //else
                       //return false;
                 },
-                onEachFeature: that.onEachFeature
+                onEachFeature: function(feature, layer) {
+                    layer.on({
+                        mousemove: mousemove,
+                        mouseout: mouseout,
+                        click: click
+                    });
+                }
 
             }).addTo(WHO.map);
 
             this.layers.push(layer);
-        },
-
-        onEachFeature: function(feature, layer){
-          var that = this;
-          layer.on({
-            mousemove: this.mousemove,
-            mouseout: this.mouseout,
-            click: this.mousemove
-          });
         },
 
         mousemove: function(e) {
