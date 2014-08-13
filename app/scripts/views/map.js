@@ -97,10 +97,8 @@ WHO.Views = WHO.Views || {};
             var colors = ['#ff0','#f00'];
             var that = this;
 
-            var popup = new L.Popup({ autoPan: false });
+            this.popup = new L.Popup({ autoPan: false });
             var closeTooltip;
-
-            console.log(cases);
 
             var mousemove = $.proxy(this.mousemove, this),
                 mouseout = $.proxy(this.mouseout, this),
@@ -144,11 +142,10 @@ WHO.Views = WHO.Views || {};
 
           var anyData = this.cases[this.timeFrame][this.maptype][layer.feature.id]
           if (anyData) {
-            var popup = new L.Popup({ autoPan: false });
-            popup.setLatLng(e.latlng);
-            popup.setContent('<div class="marker-title">' + layer.feature.id + '</div>' + anyData[this.showThis] + ' ' + this.showThis + ' cases');
+            this.popup.setLatLng(e.latlng);
+            this.popup.setContent('<div class="marker-title">' + layer.feature.id + '</div>' + anyData[this.showThis] + ' ' + this.showThis + ' cases');
 
-            if (!popup._map) popup.openOn(WHO.map);
+            if (!this.popup._map) this.popup.openOn(WHO.map);
               window.clearTimeout(this.closeTooltip);
 
             // highlight feature
