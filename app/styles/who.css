@@ -1,5 +1,5 @@
 body {
-    padding-top: 90px;
+    padding-top: 70px;
     position: relative;
 }
 /*.container {
@@ -8,7 +8,7 @@ body {
 .navbar-fixed-top {
     background-color: #fff;
     border-bottom: 1px solid #a1a6a9;
-    min-height: 93px;
+    min-height: 70px;
     -webkit-box-shadow: 0 1px 10px rgba(0, 0, 0, 0.1);
     -moz-box-shadow: 0 1px 10px rgba(0, 0, 0, 0.1);
     box-shadow: 0 1px 10px rgba(0, 0, 0, 0.1);
@@ -40,7 +40,7 @@ body {
     margin-top: 20px;
 }
 .navbar-brand {
-    padding: 15px 20px;
+    padding: 8px 20px;
     min-width: 60px;
     margin-left: -20px;
     font-size: 40px;
@@ -53,18 +53,19 @@ body {
     padding: 0;
 }
 .navbar-brand .title {
+
     float: right;
     display: block;
-    margin: 12px 0 0 0;
+    margin: 8px 0 0 15px;
     padding: 8px 0 8px 15px;
     font-weight: 200;
-    font-size: 32px;
-    text-shadow: 0 1px 0 #ccc;
-    color: #34495E;
-    border-left: none 1px #ccc;
+    font-size: 23px;
+    color: #34495e;
+    border-left: solid 1px #34495e;
 }
+
 .navbar-collapse .nav {
-    margin: 20px -5px 0 0;
+    margin: 13px -5px 0 0;
 }
 .navbar-collapse .nav > li > a {
     color: #333;
