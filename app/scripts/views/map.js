@@ -85,9 +85,11 @@ WHO.Views = WHO.Views || {};
 
         drawBounds: function() {
             // set these next two variables according to the toggle/filter buttons
-
-            var timeFrame = 'all';
-            var showThis = 'total';
+            // timeFrame accepts 'all' and 'recent'
+            // showThis accepts 'total','suspected','probable', and 'confirmed'
+            
+            var timeFrame = 'recent';
+            var showThis = 'confirmed';
 
             this.timeFrame = timeFrame;
             this.showThis = showThis;
