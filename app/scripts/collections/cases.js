@@ -17,7 +17,23 @@ WHO.Collections = WHO.Collections || {};
         },
 
         onload: function(snap) {
-            var data = snap.val();
+            var data = snap.val(),
+                now = Date.parse(new Date());
+
+            // parse each date as such
+            var i = 0, ii = data.length,
+                d;
+
+            for(; i < ii; ++i) {
+                d = data[i]['Date of notification to WHO'].split('/');
+                data[i].datetime = Date.parse([d[1],d[0],d[2]].join('/'));
+            }
+
+            data = _.filter(data, function(d) {
+                return !isNaN(d.datetime) && d.datetime < now;
+            });
+            data = _.sortBy(data, function(d) { return d.datetime });
+
             this.reset(data);
             this.trigger("loaded", data);
         }
