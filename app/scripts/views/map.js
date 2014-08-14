@@ -8,23 +8,8 @@ WHO.Views = WHO.Views || {};
     WHO.Views.Map = Backbone.View.extend({
 
         events: {},
-        initialize: function () {
-            // Functions to restrict draw until after zoom complete
-            var zooming = false,
-                zoomTimer,
-                getmap = $.proxy(this.getmap, this);
-
-            WHO.map.on('zoomstart', function() {
-                zooming = true;
-                window.clearTimeout(zoomTimer);
-            });
-
-            WHO.map.on('zoomend', function() {
-                zooming = false;
-                zoomTimer = window.setTimeout(function() {
-                    if (!zooming) getmap();
-                }, 400);
-            });
+        initialize: function (options) {
+            this.listenTo(options.zoom, 'zoom:end', this.getmap);
 
             // Show spinner until load
             this.spinner = new Spinner({
@@ -83,7 +68,6 @@ WHO.Views = WHO.Views || {};
         },
 
         drawBounds: function(risks) {
-            console.log(risks);
             var colors = ['#fc0','#ff2a33'],
             //var colors = ['c6dbef','#08519c'],
                 cs = chroma.scale(colors).domain(_.values(risks)),

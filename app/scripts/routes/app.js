@@ -37,16 +37,21 @@ WHO.Routers = WHO.Routers || {};
         };
 
     function bootstrap() {
+        // model to listen for zoom
+        var mapzoom = new WHO.Models.Zoom();
+
         WHO.collections = {
             cases: new WHO.Collections.Cases(),
             response: new WHO.Collections.Response(),
             globalrisk: new WHO.Collections.GlobalRisk()
         };
+
         WHO.mapview = new WHO.Views.Map({
-            el: '#map', id: 'map', map: WHO.map, collection: WHO.collections.globalrisk
+            el: '#map', id: 'map', map: WHO.map, collection: WHO.collections.globalrisk, zoom: mapzoom
         });
+
         WHO.markerview = new WHO.Views.Marker({
-            el: '#map', id: 'map', map: WHO.map, collection: WHO.collections.cases
+            el: '#map', id: 'map', map: WHO.map, collection: WHO.collections.cases, zoom: mapzoom
         });
 
         WHO.models = {};
@@ -71,6 +76,7 @@ WHO.Routers = WHO.Routers || {};
 
         });
 
+        WHO.mapview.load();
         init = true;
     }
 
@@ -87,7 +93,6 @@ WHO.Routers = WHO.Routers || {};
 
         newload: function() {
             bootstrap();
-            WHO.mapview.load();
 
             WHO.markerview.setFilter({type: 'confirmed', time: 'recent'});
             WHO.markerview.load();
@@ -114,6 +119,7 @@ WHO.Routers = WHO.Routers || {};
             }
 
             WHO.markerview.load();
+
         },
 
         set: function(key, val) {

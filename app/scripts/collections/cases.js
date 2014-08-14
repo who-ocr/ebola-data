@@ -8,7 +8,7 @@ WHO.Collections = WHO.Collections || {};
     WHO.Collections.Cases = Backbone.Collection.extend({
 
         initialize: function () {
-          this.ref = new Firebase('https://luminous-heat-4380.firebaseio.com/map_line');
+            this.ref = new Firebase('https://luminous-heat-4380.firebaseio.com/cases_admin');
         },
 
         query: function () {
@@ -17,8 +17,11 @@ WHO.Collections = WHO.Collections || {};
         },
 
         onload: function(snap) {
+
             var data = snap.val(),
                 now = Date.parse(new Date());
+
+            return;
 
             // parse each date as such
             var i = 0, ii = data.length,
