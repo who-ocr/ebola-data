@@ -89,6 +89,7 @@ WHO.Views = WHO.Views || {};
         drawBounds: function(risks) {
             console.log(risks);
             var colors = ['#fc0','#ff2a33'],
+            //var colors = ['c6dbef','#08519c'],
                 cs = chroma.scale(colors).domain(_.values(risks)),
 
                 popup = this.popup,
@@ -112,7 +113,8 @@ WHO.Views = WHO.Views || {};
                     style: function(feature) {
 
                         return {
-                            color: cs(risks[feature.id]),
+                            color: '#c6dbef',
+                            fillColor: cs(risks[feature.id]),
                             opacity: 0.7,
                             fillOpacity: 0.5,
                             weight: 1
@@ -150,7 +152,6 @@ WHO.Views = WHO.Views || {};
             if (this.layers.length) {
                 this.removeLayers();
             }
-
 
             var risks = {},
                 geography = this.maptype === 'district' ?
