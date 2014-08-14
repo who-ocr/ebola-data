@@ -45,6 +45,9 @@ WHO.Routers = WHO.Routers || {};
         WHO.mapview = new WHO.Views.Map({
             el: '#map', id: 'map', map: WHO.map, collection: WHO.collections.globalrisk
         });
+        WHO.epiGraph = new WHO.Views.epiGraph({
+            id: 'epi-graph', collection: WHO.collections.cases
+        });
         WHO.models = {};
 
         WHO.map.whenReady(function() {
@@ -86,6 +89,7 @@ WHO.Routers = WHO.Routers || {};
             bootstrap();
             //WHO.mapview.setFilter({type: 'confirmed', time: 'recent'});
             WHO.mapview.load();
+            WHO.epiGraph.load();
             //this.navigate('recent/confirmed', {trigger: false});
             //state['time'] = 'recent';
             //state['type'] = 'confirmed'
