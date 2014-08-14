@@ -9,8 +9,8 @@ WHO.Models = WHO.Models || {};
         url: 'geo/ADM1.topojson',
         parse: function(province, options)  {
 
-            return topojson.feature(provinces, provinces.objects.ADM1);
-            
+            return topojson.feature(province, province.objects.ADM1);
+
         }
     });
 

@@ -59,6 +59,7 @@ WHO.Views = WHO.Views || {};
             if (this.level === level)   {   return;                                             }
             else if (level < 6)         {   this.getBounds(WHO.Models.Country, 'country');      }
             else if (level < 7)         {   this.getBounds(WHO.Models.Province, 'province');    }
+            else if (level < 8)         {   this.getBounds(WHO.Models.District, 'district');    }
             else                        {   this.drawClusters();                                }
         },
 
@@ -152,14 +153,16 @@ WHO.Views = WHO.Views || {};
 
 
             var risks = {},
-                geography = this.maptype === 'province' ?
-                    'ADM_1' : 'ISO_3_CODE',
+                geography = this.maptype === 'district' ?
+                    'ADM_2' : 'ISO_3_CODE',
+                risk_code = this.maptype === 'district' ?
+                    'ADM2_LEVEL' : 'GLOBAL_LEVEL',
                 model, geo;
 
             for(var i = 0, ii = this.collection.models.length; i < ii; ++i) {
                 model = this.collection.models[i];
                 geo = model.get(geography);
-                risks[geo] = model.get("GLOBAL_LEVEL")
+                risks[geo] = model.get(risk_code)
             }
 
             this.drawBounds(risks);
