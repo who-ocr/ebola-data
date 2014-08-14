@@ -57,9 +57,9 @@ WHO.Views = WHO.Views || {};
                 maptype;
 
             if (this.level === level)   {   return;                                             }
-            else if (level < 6)         {   this.getBounds(WHO.Models.Country, 'country');      }
-            else if (level < 7)         {   this.getBounds(WHO.Models.Province, 'province');    }
-            else if (level < 8)         {   this.getBounds(WHO.Models.District, 'district');    }
+            else if (level < 5)         {   this.getBounds(WHO.Models.Country, 'country');      }
+            else if (level < 6)         {   this.getBounds(WHO.Models.Province, 'province');    }
+            else if (level < 7)         {   this.getBounds(WHO.Models.District, 'district');    }
             else                        {   this.drawClusters();                                }
         },
 
@@ -88,9 +88,10 @@ WHO.Views = WHO.Views || {};
 
         drawBounds: function(risks) {
             console.log(risks);
-            var colors = ['#fc0','#ff2a33'],
+            var values = _.values(risks),
+                colors = ['#fc0','#ff2a33'],
             //var colors = ['c6dbef','#08519c'],
-                cs = chroma.scale(colors).domain(_.values(risks)),
+                cs = chroma.scale(colors).domain([Math.min.apply(Math, values), Math.max.apply(Math, values)]),
 
                 popup = this.popup,
 
@@ -154,16 +155,12 @@ WHO.Views = WHO.Views || {};
             }
 
             var risks = {},
-                geography = this.maptype === 'district' ?
-                    'ADM_2' : 'ISO_3_CODE',
-                risk_code = this.maptype === 'district' ?
-                    'ADM2_LEVEL' : 'GLOBAL_LEVEL',
-                model, geo;
+            model, geo;
 
             for(var i = 0, ii = this.collection.models.length; i < ii; ++i) {
                 model = this.collection.models[i];
-                geo = model.get(geography);
-                risks[geo] = model.get(risk_code)
+                geo = model.get("geoID");
+                risks[geo] = model.get("level")
             }
 
             this.drawBounds(risks);
