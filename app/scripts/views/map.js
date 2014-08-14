@@ -32,9 +32,8 @@ WHO.Views = WHO.Views || {};
             }
         },
 
-        getmap: function() {
-            var level = WHO.map.getZoom(),
-                maptype;
+        getmap: function(zoom) {
+            var level = zoom.level || WHO.defaultZoom;
 
             if (this.level === level)   {   return;                                             }
             else if (level < 6)         {   this.getBounds(WHO.Models.Country, 'country');      }
@@ -67,7 +66,6 @@ WHO.Views = WHO.Views || {};
         },
 
         drawBounds: function(risks) {
-            console.log(risks);
             var values = _.values(risks),
                 colors = ['#ccc', '#fc0','#ff2a33'],
             //var colors = ['c6dbef','#08519c'],
@@ -104,6 +102,7 @@ WHO.Views = WHO.Views || {};
                 }).addTo(WHO.map);
 
             this.spinner.stop();
+            layer.bringToBack();
             this.layers.push(layer);
 
             return;

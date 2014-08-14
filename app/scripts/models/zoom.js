@@ -21,7 +21,7 @@ WHO.Models = WHO.Models || {};
             WHO.map.on('zoomend', function() {
                 zooming = false;
                 zoomTimer = window.setTimeout(function() {
-                    if (!zooming) that.trigger('zoom:end');
+                    if (!zooming) that.trigger('zoom:end', {level: WHO.map.getZoom()});
                 }, 400);
             });
 
