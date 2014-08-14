@@ -20,7 +20,6 @@ WHO.Views = WHO.Views || {};
 
             // Keep a list of layers we've added, since we'll have to remove them
             this.layers = [];
-            this.popup = new L.Popup({ autoPan: false });
         },
 
         load: function(mapType) {
@@ -38,9 +37,9 @@ WHO.Views = WHO.Views || {};
                 maptype;
 
             if (this.level === level)   {   return;                                             }
-            else if (level < 5)         {   this.getBounds(WHO.Models.Country, 'country');      }
-            else if (level < 6)         {   this.getBounds(WHO.Models.Province, 'province');    }
-            else if (level < 7)         {   this.getBounds(WHO.Models.District, 'district');    }
+            else if (level < 6)         {   this.getBounds(WHO.Models.Country, 'country');      }
+            else if (level < 7)         {   this.getBounds(WHO.Models.Province, 'province');    }
+            else if (level < 8)         {   this.getBounds(WHO.Models.District, 'district');    }
             else                        {   this.drawClusters();                                }
         },
 
@@ -70,7 +69,7 @@ WHO.Views = WHO.Views || {};
         drawBounds: function(risks) {
             console.log(risks);
             var values = _.values(risks),
-                colors = ['#fc0','#ff2a33'],
+                colors = ['#ccc', '#fc0','#ff2a33'],
             //var colors = ['c6dbef','#08519c'],
                 cs = chroma.scale(colors).domain([Math.min.apply(Math, values), Math.max.apply(Math, values)]),
 
@@ -82,10 +81,9 @@ WHO.Views = WHO.Views || {};
 
                 bounds = {
                     type: 'FeatureCollection',
-                    features: this.model.attributes.features
-                    //features: _.filter(this.model.attributes.features, function(feature) {
-                    //    return cases[feature.id];
-                    //})
+                    features: _.filter(this.model.attributes.features, function(feature) {
+                        return risks[feature.id] > 1;
+                    })
                 },
 
                 target,
@@ -95,31 +93,13 @@ WHO.Views = WHO.Views || {};
                     style: function(feature) {
 
                         return {
-                            color: '#c6dbef',
+                            color: '#ccc',
                             fillColor: cs(risks[feature.id]),
                             opacity: 0.7,
-                            fillOpacity: 0.5,
+                            fillOpacity: 0.6,
                             weight: 1
                         };
                     },
-
-                    onEachFeature: function(feature, layer) {
-                        layer.on({
-                            mousemove: function(e) {
-                                target = e.target;
-                                popup.setLatLng(e.latlng);
-                                //popup.setContent('<div class="marker-title">' +
-                                //                      target.feature.id + '</div>' + cases[target.feature.id] + ' ' + category + ' cases');
-
-                                if (!popup._map) popup.openOn(WHO.map);
-                            },
-                            mouseout: function(e) {
-                                window.setTimeout(function() {
-                                    WHO.map.closePopup();
-                                }, 100);
-                            }
-                        });
-                    }
 
                 }).addTo(WHO.map);
 

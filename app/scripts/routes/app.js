@@ -81,7 +81,7 @@ WHO.Routers = WHO.Routers || {};
         init = true;
     }
 
-    WHO.map = L.mapbox.map('map','nate.map-szf211bp,nate.map-c3e3vgn8')
+    WHO.map = L.mapbox.map('map','nate.j812554k')
               .setView([9.211, -2.527], 3);
 
     WHO.$map = $('#map');
