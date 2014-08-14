@@ -87,7 +87,7 @@ WHO.Views = WHO.Views || {};
 
         drawBounds: function(risks) {
             console.log(risks);
-            var colors = ['#333','#ff2a33'],
+            var colors = ['#fc0','#ff2a33'],
                 cs = chroma.scale(colors).domain(_.values(risks)),
 
                 popup = this.popup,
@@ -105,7 +105,7 @@ WHO.Views = WHO.Views || {};
                 },
 
                 target,
-                category = this.filters.type,
+                //category = this.filters.type,
 
                 layer = L.geoJson(bounds, {
                     style: function(feature) {
@@ -123,8 +123,8 @@ WHO.Views = WHO.Views || {};
                             mousemove: function(e) {
                                 target = e.target;
                                 popup.setLatLng(e.latlng);
-                                popup.setContent('<div class="marker-title">' +
-                                                      target.feature.id + '</div>' + cases[target.feature.id] + ' ' + category + ' cases');
+                                //popup.setContent('<div class="marker-title">' +
+                                //                      target.feature.id + '</div>' + cases[target.feature.id] + ' ' + category + ' cases');
 
                                 if (!popup._map) popup.openOn(WHO.map);
                             },
