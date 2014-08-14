@@ -89,7 +89,7 @@ WHO.Views = WHO.Views || {};
         drawBounds: function(risks) {
             console.log(risks);
             var values = _.values(risks),
-                colors = ['#fc0','#ff2a33'],
+                colors = ['#ccc', '#fc0','#ff2a33'],
             //var colors = ['c6dbef','#08519c'],
                 cs = chroma.scale(colors).domain([Math.min.apply(Math, values), Math.max.apply(Math, values)]),
 
@@ -114,10 +114,10 @@ WHO.Views = WHO.Views || {};
                     style: function(feature) {
 
                         return {
-                            color: '#c6dbef',
+                            color: '#ccc',
                             fillColor: cs(risks[feature.id]),
                             opacity: 0.7,
-                            fillOpacity: 0.5,
+                            fillOpacity: 0.6,
                             weight: 1
                         };
                     },
