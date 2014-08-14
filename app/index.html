@@ -39,7 +39,7 @@
                     </button>
                     <a class="navbar-brand" href="#">
                         <span class="title">Ebola Outbreak Portal</span>
-                        <img src="img/logo.png" alt="who-logo-prp" height="60">
+                        <img src="img/who-logo-prp.gif" alt="who-logo-prp" height="60">
                     </a>
                 </div>
                 <div class="navbar-collapse collapse" role="navigation">
@@ -61,22 +61,11 @@
             </div>
         </div>
 
-        <div class="jumbotron subhead">
-            <div class="container">
-                <h1 class="js-page-head">Main Heading</h1>
-                <p class="lead">Sub-heading</p>
-            </div>
-        </div>
-
         <div id="main">
-            <div id="map" class="full">
-
-                <div id="loader"></div>
-            </div>
-            <div class="container">
-
-            </div>
-        </div>
+          <div id="map" class="full">
+              <div id="loader"></div>
+          </div>
+       </div>
 
         <div class="footer">
             <div class="container">
@@ -88,30 +77,54 @@
             </div>
         </div>
 
+        <div id="project-templates" style="display:none;">
+
+            <script type="text/template" id="dropdown-template">
+                <div class="dropdown">
+                    <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
+                        <span class="selected"><%= selected %></span>
+                        <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+                        <% _.each(options, function(option) { %>
+                        <li role="presentation"><a role="menuitem" tabindex="-1" href="#" class="<%= option.val %>"><%= option.display %></a></li>
+                        <% }); %>
+                    </ul>
+                </div>
+            </script>
+
+        </div>
+
         <!-- build:js scripts/vendor.js -->
         <script src="bower_components/jquery/dist/jquery.js"></script>
         <script src="bower_components/underscore/underscore.js"></script>
         <script src="bower_components/backbone/backbone.js"></script>
         <script src="bower_components/firebase/firebase.js"></script>
+        <script src="bower_components/topojson/topojson.js"></script>
+        <script src="bower_components/queue-async/queue.min.js"></script>
         <script src="scripts/vendor/spin.js/spin.js"></script>
         <script src="scripts/vendor/jquery.ui.touch-punch.min.js"></script>
         <script src="scripts/vendor/bootstrap.min.js"></script>
         <script src="scripts/vendor/selectize.min.js"></script>
         <!-- endbuild -->
-
+        <script src="https://assets-datawrapper.s3.amazonaws.com/vendor/chroma-js/0.5.2/chroma.min.js"></script>
         <script src="https://api.tiles.mapbox.com/mapbox.js/v1.6.2/mapbox.js"></script>
         <script src="bower_components/leaflet.markercluster/src/DistanceGrid.js"></script>
         <script src="bower_components/leaflet.markercluster/src/MarkerCluster.js"></script>
         <script src="bower_components/leaflet.markercluster/src/MarkerClusterGroup.js"></script>
         <!-- build:js({.tmp,app}) scripts/main.js -->
         <script src="scripts/main.js"></script>
-        <script src="scripts/routes/app.js"></script>
         <script src="scripts/views/map.js"></script>
         <script src="scripts/views/table.js"></script>
         <script src="scripts/collections/response.js"></script>
         <script src="scripts/collections/cases.js"></script>
         <script src="scripts/models/deployment.js"></script>
         <script src="scripts/models/case.js"></script>
+        <script src="scripts/models/country.js"></script>
+        <script src="scripts/models/province.js"></script>
+        <script src="scripts/models/district.js"></script>
+        <script src="scripts/views/dropdown.js"></script>
+        <script src="scripts/routes/app.js"></script>
         <!-- endbuild -->
 </body>
 </html>
