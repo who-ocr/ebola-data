@@ -85,14 +85,10 @@ WHO.Views = WHO.Views || {};
             });
         },
 
-        drawBounds: function(cases) {
-
-            var quantiles = this.maptype === 'country' ? 3 : 5,
-
-                colors = ['#ff0','#f00'],
-                cs = chroma.scale(colors).domain(_.map(cases, function(c) {
-                    return c;
-                }), quantiles, 'quantiles'),
+        drawBounds: function(risks) {
+            console.log(risks);
+            var colors = ['#333','#ff2a33'],
+                cs = chroma.scale(colors).domain(_.values(risks)),
 
                 popup = this.popup,
 
@@ -102,9 +98,10 @@ WHO.Views = WHO.Views || {};
 
                 bounds = {
                     type: 'FeatureCollection',
-                    features: _.filter(this.model.attributes.features, function(feature) {
-                        return cases[feature.id];
-                    })
+                    features: this.model.attributes.features
+                    //features: _.filter(this.model.attributes.features, function(feature) {
+                    //    return cases[feature.id];
+                    //})
                 },
 
                 target,
@@ -114,8 +111,9 @@ WHO.Views = WHO.Views || {};
                     style: function(feature) {
 
                         return {
-                            color: cs(cases[feature.id]),
+                            color: cs(risks[feature.id]),
                             opacity: 0.7,
+                            fillOpacity: 0.5,
                             weight: 1
                         };
                     },
@@ -153,35 +151,18 @@ WHO.Views = WHO.Views || {};
             }
 
 
-            var cases = {},
+            var risks = {},
                 geography = this.maptype === 'province' ?
-                    'Province Reporting' : 'Country reporting',
-                category = this.filters.type,
+                    'ADM_1' : 'ISO_3_CODE',
                 model, geo;
-
-            var maxdate = this.collection.at(this.collection.models.length - 1).get('datetime'),
-                //dateLimit = this.filters.type === 'recent' ? 1000 * 3600 * 24 * 2 : 0;
-                dateLimit = 0;
-
 
             for(var i = 0, ii = this.collection.models.length; i < ii; ++i) {
                 model = this.collection.models[i];
-
                 geo = model.get(geography);
-                // if category matches and within time limit
-                if (model.get('Category').toLowerCase() !== category ||
-                   maxdate - model.get('datetime') <= dateLimit) {
-                    continue;
-                }
-                else if (geo in cases) {
-                    cases[geo] += 1;
-                }
-                else {
-                    cases[geo] = 1;
-                }
+                risks[geo] = model.get("GLOBAL_LEVEL")
             }
 
-            this.drawBounds(cases);
+            this.drawBounds(risks);
         },
 
         drawClusters: function() {
