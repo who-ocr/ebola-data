@@ -89,7 +89,7 @@ WHO.Views = WHO.Views || {};
 
             var quantiles = this.maptype === 'country' ? 3 : 5,
 
-                colors = ['#ff0','#f00'],
+                colors = ['#c6dbef','#08519c'],
                 cs = chroma.scale(colors).domain(_.map(cases, function(c) {
                     return c;
                 }), quantiles, 'quantiles'),
@@ -114,8 +114,10 @@ WHO.Views = WHO.Views || {};
                     style: function(feature) {
 
                         return {
-                            color: cs(cases[feature.id]),
+                            color: '#c6dbef',
+                            fillColor: cs(cases[feature.id]),
                             opacity: 0.7,
+                            fillOpacity: 0.6,
                             weight: 1
                         };
                     },

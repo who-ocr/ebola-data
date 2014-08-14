@@ -13,7 +13,7 @@ WHO.Routers = WHO.Routers || {};
                 val: 'recent'
             },
             {
-                display: 'All cases',
+                display: 'All',
                 val: 'all'
             }
         ],
@@ -52,25 +52,26 @@ WHO.Routers = WHO.Routers || {};
                 WHO.$map);
 
             new WHO.Views.Dropdown({
-                id: 'toggle-time',
-                el: $('<div id="toggle-time"></div>').appendTo($toggles),
-                options: timeParams,
-                className: 'time'
-            });
-
-            new WHO.Views.Dropdown({
                 id: 'toggle-case-type',
                 el: $('<div id="toggle-case-type" class="dropdown-container"></div>').appendTo($toggles),
                 options: typeParams,
                 className: 'type'
             });
+
+            new WHO.Views.Dropdown({
+                id: 'toggle-time',
+                el: $('<div id="toggle-time" class="dropdown-container"></div>').appendTo($toggles),
+                options: timeParams,
+                className: 'time'
+            });
+
         });
 
         init = true;
     }
 
     WHO.map = L.mapbox.map('map','nate.map-szf211bp,nate.map-c3e3vgn8')
-              .setView([6.0095537, -10.6059403], 5);;
+              .setView([9.211, -2.527], 5);
 
     WHO.$map = $('#map');
 
