@@ -10,7 +10,7 @@ WHO.Models = WHO.Models || {};
         parse: function(district, options)  {
 
             return topojson.feature(district, district.objects.ADM2);
-
+        }
     });
 
 })();
