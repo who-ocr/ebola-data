@@ -39,10 +39,11 @@ WHO.Routers = WHO.Routers || {};
     function bootstrap() {
         WHO.collections = {
             cases: new WHO.Collections.Cases(),
-            response: new WHO.Collections.Response()
+            response: new WHO.Collections.Response(),
+            globalrisk: new WHO.Collections.GlobalRisk()
         };
         WHO.mapview = new WHO.Views.Map({
-            el: '#map', id: 'map', map: WHO.map, collection: WHO.collections.cases
+            el: '#map', id: 'map', map: WHO.map, collection: WHO.collections.globalrisk
         });
         WHO.models = {};
 
@@ -83,11 +84,11 @@ WHO.Routers = WHO.Routers || {};
 
         newload: function() {
             bootstrap();
-            WHO.mapview.setFilter({type: 'confirmed', time: 'recent'});
+            //WHO.mapview.setFilter({type: 'confirmed', time: 'recent'});
             WHO.mapview.load();
-            this.navigate('recent/confirmed', {trigger: false});
-            state['time'] = 'recent';
-            state['type'] = 'confirmed'
+            //this.navigate('recent/confirmed', {trigger: false});
+            //state['time'] = 'recent';
+            //state['type'] = 'confirmed'
         },
 
         newfilter: function(time, type) {
