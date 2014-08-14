@@ -6,7 +6,35 @@ WHO.Routers = WHO.Routers || {};
     'use strict';
 
     var defaultMap = 'cases',
-        init = false;
+        init = false,
+        timeParams = [
+            {
+                display: 'Most recent',
+                val: 'recent'
+            },
+            {
+                display: 'All cases',
+                val: 'all'
+            }
+        ],
+        typeParams = [
+            {
+                display: 'Confirmed cases',
+                val: 'confirmed'
+            },
+            {
+                display: 'Suspected cases',
+                val: 'suspected'
+            },
+            {
+                display: 'Probable cases',
+                val: 'probable'
+            }
+        ],
+        state = {
+            time: '',
+            type: ''
+        };
 
     function bootstrap() {
         WHO.collections = {
@@ -26,13 +54,15 @@ WHO.Routers = WHO.Routers || {};
             new WHO.Views.Dropdown({
                 id: 'toggle-time',
                 el: $('<div id="toggle-time"></div>').appendTo($toggles),
-                options: ['Most recent', 'All cases']
+                options: timeParams,
+                className: 'time'
             });
 
             new WHO.Views.Dropdown({
                 id: 'toggle-case-type',
                 el: $('<div id="toggle-case-type" class="dropdown-container"></div>').appendTo($toggles),
-                options: ['Confirmed Cases', 'Suspected Cases', 'Probable Cases'],
+                options: typeParams,
+                className: 'type'
             });
         });
 
@@ -47,22 +77,40 @@ WHO.Routers = WHO.Routers || {};
     WHO.Routers.App = Backbone.Router.extend({
         routes: {
             ''                              : 'newload',
-            ':map'                          : 'newmap',
+            ':time/:type'                   : 'newfilter',
         },
 
         newload: function() {
             bootstrap();
-            WHO.mapview.load(defaultMap);
+            WHO.mapview.setFilter({type: 'confirmed', time: 'recent'});
+            WHO.mapview.load();
+            this.navigate('recent/confirmed', {trigger: false});
+            state['time'] = 'recent';
+            state['type'] = 'confirmed'
         },
 
-        newmap: function(map) {
+        newfilter: function(time, type) {
             if (!init) bootstrap();
-            if (WHO.collections.hasOwnProperty(map)) {
-                WHO.mapview.load(map)
-            } else {
-                WHO.mapview.load(defaultMap);
-                WHO.router.navigate(defaultMap, {trigger: false});
+            if (_.map(timeParams, function(t) { return t.val }).indexOf(time) !== -1 &&
+                _.map(typeParams, function(t) { return t.val }).indexOf(type) !== -1) {
+                WHO.mapview.setFilter({type: type, time: time});
+                this.navigate(time + '/' + type, {trigger: false});
+                state['time'] = time;
+                state['type'] = type;
             }
+            else {
+                WHO.mapview.setFilter({type: 'confirmed', time: 'recent'});
+                this.navigate('recent/confirmed', {trigger: false});
+                state['time'] = 'recent';
+                state['type'] = 'confirmed'
+            }
+
+            WHO.mapview.load();
+        },
+
+        set: function(key, val) {
+            state[key] = val;
+            this.navigate(state['time'] + '/' + state['type'], {trigger: true});
         }
     });
 

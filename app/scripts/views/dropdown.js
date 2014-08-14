@@ -11,7 +11,7 @@ WHO.Views = WHO.Views || {};
         events: {'click a': 'select'},
         initialize: function (options) {
             this.options = options.options;
-            this.selected = this.options[0];
+            this.selected = this.options[0].display;
             this.render();
         },
 
@@ -27,8 +27,11 @@ WHO.Views = WHO.Views || {};
 
         select: function(e) {
             e.preventDefault();
-            this.$selected.text(e.toElement.innerHTML);
+            e = e.toElement;
+            this.$selected.text(e.innerHTML);
             this.$dropdown.toggleClass('open');
+
+            WHO.router.set(this.className, e.className);
             return false;
         }
 

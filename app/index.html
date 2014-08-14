@@ -87,7 +87,7 @@
                     </button>
                     <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
                         <% _.each(options, function(option) { %>
-                        <li role="presentation"><a role="menuitem" tabindex="-1" href="#"><%= option %></a></li>
+                        <li role="presentation"><a role="menuitem" tabindex="-1" href="#" class="<%= option.val %>"><%= option.display %></a></li>
                         <% }); %>
                     </ul>
                 </div>

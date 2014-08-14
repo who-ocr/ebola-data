@@ -35,11 +35,21 @@ WHO.Views = WHO.Views || {};
 
             // Keep a list of layers we've added, since we'll have to remove them
             this.layers = [];
+            this.popup = new L.Popup({ autoPan: false });
+        },
+
+        setFilter: function(filters) {
+            this.filters = filters;
         },
 
         load: function(mapType) {
-            this.listenToOnce(this.collection, 'loaded', this.render);
-            this.collection.query();
+            if (this.collection.length) {
+                this.getmap();
+            }
+            else {
+                this.listenToOnce(this.collection, 'loaded', this.getmap);
+                this.collection.query();
+            }
         },
 
         getmap: function() {
@@ -60,20 +70,12 @@ WHO.Views = WHO.Views || {};
             // If topojson not loaded yet, load it before drawing
             if (model.get('type') !== 'FeatureCollection') {
                 WHO.models[maptype] = model;
-                this.listenToOnce(model, 'change', this.fitBounds);
+                this.listenToOnce(model, 'change', this.render);
                 model.fetch();
             }
             else {
-                this.fitBounds();
+                this.render();
             }
-        },
-
-        fitBounds: function() {
-
-            if (this.layers.length) {
-                this.removeLayers();
-            }
-            this.drawBounds();
         },
 
         removeLayers: function() {
@@ -83,191 +85,103 @@ WHO.Views = WHO.Views || {};
             });
         },
 
-        drawBounds: function() {
-            // set these next two variables according to the toggle/filter buttons
-            // timeFrame accepts 'all' and 'recent'
-            // showThis accepts 'total','suspected','probable', and 'confirmed'
+        drawBounds: function(cases) {
 
-            var timeFrame = 'recent';
-            var showThis = 'confirmed';
+            var quantiles = this.maptype === 'country' ? 3 : 5,
 
-            this.timeFrame = timeFrame;
-            this.showThis = showThis;
+                colors = ['#ff0','#f00'],
+                cs = chroma.scale(colors).domain(_.map(cases, function(c) {
+                    return c;
+                }), quantiles, 'quantiles'),
 
-            var affected = this.affected[timeFrame][this.maptype];
-            var cases = this.cases[timeFrame][this.maptype];
-            var mt = this.maptype;
+                popup = this.popup,
 
-            var show,colors = ['#ff0','#f00'];
-            var that = this;
-
-            this.popup = new L.Popup({ autoPan: false });
-            var closeTooltip;
-
-            var mousemove = $.proxy(this.mousemove, this),
+                mousemove = $.proxy(this.mousemove, this),
                 mouseout = $.proxy(this.mouseout, this),
-                click = $.proxy(this.click, this);
+                //click = $.proxy(this.click, this)
 
-            var layer = L.geoJson(this.model.attributes, {
-                style: function(feature) {
-                     if (mt == 'country')
-                       var cs = chroma.scale(colors).domain(_.map(cases, function(x){return x[showThis]}).filter(function(x){ return x>0}), 3, 'quantiles');
-
-                     else
-                       var cs = chroma.scale(colors).domain(_.map(cases, function(x){return x[showThis]}).filter(function(x){ return x>0}), 5, 'quantiles');
-
-                     show = 0;
-
-                     if (cases[feature.id])
-                       show = cases[feature.id][showThis];
-
-                     if (show > 0)
-                       return {color: cs(cases[feature.id][showThis]),"opacity": 0.7,"weight":1}
-
-                     else
-                       return {color: '#555',"opacity": 0.7,"weight":1}
+                bounds = {
+                    type: 'FeatureCollection',
+                    features: _.filter(this.model.attributes.features, function(feature) {
+                        return cases[feature.id];
+                    })
                 },
-                filter: function(feature) {
-                    //if (affected.indexOf(feature.id) > -1)
-                      return true;
-                    //else
-                      //return false;
-                },
-                onEachFeature: function(feature, layer) {
-                    layer.on({
-                        mousemove: mousemove,
-                        mouseout: mouseout
-                        //click: click
-                    });
-                }
 
-            }).addTo(WHO.map);
+                target,
+                category = this.filters.type,
 
+                layer = L.geoJson(bounds, {
+                    style: function(feature) {
+
+                        return {
+                            color: cs(cases[feature.id]),
+                            opacity: 0.7,
+                            weight: 1
+                        };
+                    },
+
+                    onEachFeature: function(feature, layer) {
+                        layer.on({
+                            mousemove: function(e) {
+                                target = e.target;
+                                popup.setLatLng(e.latlng);
+                                popup.setContent('<div class="marker-title">' +
+                                                      target.feature.id + '</div>' + cases[target.feature.id] + ' ' + category + ' cases');
+
+                                if (!popup._map) popup.openOn(WHO.map);
+                            },
+                            mouseout: function(e) {
+                                window.setTimeout(function() {
+                                    WHO.map.closePopup();
+                                }, 100);
+                            }
+                        });
+                    }
+
+                }).addTo(WHO.map);
+
+            this.spinner.stop();
             this.layers.push(layer);
+
+            return;
         },
-
-        mousemove: function(e) {
-
-          var layer = e.target;
-          this.popLayer = layer;
-          this.closeTooltip;
-
-          var anyData = this.cases[this.timeFrame][this.maptype][layer.feature.id]
-          if (anyData) {
-            this.popup.setLatLng(e.latlng);
-            this.popup.setContent('<div class="marker-title">' + layer.feature.id + '</div>' + anyData[this.showThis] + ' ' + this.showThis + ' cases');
-
-            if (!this.popup._map) this.popup.openOn(WHO.map);
-              window.clearTimeout(this.closeTooltip);
-
-            // highlight feature
-            layer.setStyle({
-              weight: 3,
-            });
-
-            if (!L.Browser.ie && !L.Browser.opera) {
-              layer.bringToFront();
-            }
-
-          }
-
-        },
-
-        mouseout: function(e) {
-          e.target.setStyle({"weight":1});
-          this.closeTooltip = window.setTimeout(function() {
-            WHO.map.closePopup();
-          }, 100);
-        },
-
 
         render: function () {
-            var casesByCountry = {},
-                casesByProvince = {},
-                casesByCountry_r = {},
-                casesByProvince_r = {},
-                model,
-                category,
-                d, date, maxdate,
-                country, province;
 
-                var now = new Date();
+            if (this.layers.length) {
+                this.removeLayers();
+            }
 
-                maxdate = this.collection.models.map(function(x){
-                  d = x.get('Date of notification to WHO').split('/');
-                  date = new Date([d[1],d[0],d[2]].join('/'));
-                  return date;
-                })
-                  .reduce(function(a,b){
-                    if ( b > a && b < now)
-                      return b;
-                    else
-                      return a;
-                  });
+
+            var cases = {},
+                geography = this.maptype === 'province' ?
+                    'Province Reporting' : 'Country reporting',
+                category = this.filters.type,
+                model, geo;
+
+            var maxdate = this.collection.at(this.collection.models.length - 1).get('datetime'),
+                //dateLimit = this.filters.type === 'recent' ? 1000 * 3600 * 24 * 2 : 0;
+                dateLimit = 0;
+
 
             for(var i = 0, ii = this.collection.models.length; i < ii; ++i) {
                 model = this.collection.models[i];
 
-                country = model.get('Country reporting');
-                province = model.get('Province Reporting');
-                category = model.get('Category').toLowerCase();
-                d = model.get('Date of notification to WHO').split('/');
-                date = new Date([d[1],d[0],d[2]].join('/'));
-
-                if (maxdate - date <= (1000*3600*24*2)) {
-                  if (country in casesByCountry_r) {
-                      casesByCountry_r[country]['total'] += 1;
-                  } else {
-                      casesByCountry_r[country] = {total: 1, suspected: 0, probable: 0, confirmed: 0};
-                  }
-                  casesByCountry_r[country][category] += 1;
-
-                  if (province in casesByProvince_r) {
-                      casesByProvince_r[province]['total'] += 1;
-                  } else {
-                      casesByProvince_r[province] = {total: 1, suspected: 0, probable: 0, confirmed: 0};
-                    }
-                  casesByProvince_r[province][category] += 1;
+                geo = model.get(geography);
+                // if category matches and within time limit
+                if (model.get('Category').toLowerCase() !== category ||
+                   maxdate - model.get('datetime') <= dateLimit) {
+                    continue;
                 }
-
-                if (country in casesByCountry) {
-                    casesByCountry[country]['total'] += 1;
-                } else {
-                    casesByCountry[country] = {total: 1, suspected: 0, probable: 0, confirmed: 0};
+                else if (geo in cases) {
+                    cases[geo] += 1;
                 }
-                casesByCountry[country][category] += 1;
-
-                if (province in casesByProvince) {
-                    casesByProvince[province]['total'] += 1;
-                } else {
-                    casesByProvince[province] = {total: 1, suspected: 0, probable: 0, confirmed: 0};
-                  }
-                casesByProvince[province][category] += 1;
-
+                else {
+                    cases[geo] = 1;
+                }
             }
 
-            this.affected = { all: {
-                country: _.keys(casesByCountry),
-                province: _.keys(casesByProvince)
-              },
-              recent: {
-                country: _.keys(casesByCountry_r),
-                province: _.keys(casesByProvince_r)
-              }
-            };
-
-            this.cases = { all: {
-                country: casesByCountry,
-                province: casesByProvince
-              },
-              recent: {
-                country: casesByCountry_r,
-                province: casesByProvince_r
-              }
-            };
-
-            this.getmap();
-            this.spinner.stop();
+            this.drawBounds(cases);
         },
 
         drawClusters: function() {
