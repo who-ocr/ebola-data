@@ -45,8 +45,11 @@ WHO.Routers = WHO.Routers || {};
         WHO.mapview = new WHO.Views.Map({
             el: '#map', id: 'map', map: WHO.map, collection: WHO.collections.globalrisk
         });
-        WHO.models = {};
+        WHO.markerview = new WHO.Views.Marker({
+            el: '#map', id: 'map', map: WHO.map, collection: WHO.collections.cases
+        });
 
+        WHO.models = {};
         WHO.map.whenReady(function() {
 
             var $toggles = $('<div id="map-overlay-container"></div>').appendTo(
@@ -84,30 +87,33 @@ WHO.Routers = WHO.Routers || {};
 
         newload: function() {
             bootstrap();
-            //WHO.mapview.setFilter({type: 'confirmed', time: 'recent'});
             WHO.mapview.load();
-            //this.navigate('recent/confirmed', {trigger: false});
-            //state['time'] = 'recent';
-            //state['type'] = 'confirmed'
+
+            WHO.markerview.setFilter({type: 'confirmed', time: 'recent'});
+            WHO.markerview.load();
+
+            this.navigate('recent/confirmed', {trigger: false});
+            state['time'] = 'recent';
+            state['type'] = 'confirmed'
         },
 
         newfilter: function(time, type) {
             if (!init) bootstrap();
             if (_.map(timeParams, function(t) { return t.val }).indexOf(time) !== -1 &&
                 _.map(typeParams, function(t) { return t.val }).indexOf(type) !== -1) {
-                WHO.mapview.setFilter({type: type, time: time});
+                WHO.markerview.setFilter({type: type, time: time});
                 this.navigate(time + '/' + type, {trigger: false});
                 state['time'] = time;
                 state['type'] = type;
             }
             else {
-                WHO.mapview.setFilter({type: 'confirmed', time: 'recent'});
+                WHO.markerview.setFilter({type: 'confirmed', time: 'recent'});
                 this.navigate('recent/confirmed', {trigger: false});
                 state['time'] = 'recent';
                 state['type'] = 'confirmed'
             }
 
-            WHO.mapview.load();
+            WHO.markerview.load();
         },
 
         set: function(key, val) {

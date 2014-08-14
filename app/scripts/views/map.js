@@ -38,10 +38,6 @@ WHO.Views = WHO.Views || {};
             this.popup = new L.Popup({ autoPan: false });
         },
 
-        setFilter: function(filters) {
-            this.filters = filters;
-        },
-
         load: function(mapType) {
             if (this.collection.length) {
                 this.getmap();
