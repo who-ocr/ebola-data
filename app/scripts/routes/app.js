@@ -51,7 +51,8 @@ WHO.Routers = WHO.Routers || {};
         });
 
         WHO.markerview = new WHO.Views.Marker({
-            el: '#map', id: 'map', map: WHO.map, collection: WHO.collections.cases, zoom: mapzoom
+            el: '#map', id: 'map', map: WHO.map, collection: WHO.collections.cases, zoom: mapzoom,
+            model: new WHO.Models.Centroids()
         });
 
         WHO.models = {};

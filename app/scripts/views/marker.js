@@ -9,9 +9,10 @@ WHO.Views = WHO.Views || {};
 
         initialize: function (options) {
             this.listenTo(options.zoom, 'zoom:end', this.getCentroids);
+            console.log('in marker init');
         },
 
-        load: function(mapType) {
+        load: function() {
             if (this.collection.length) {
                 this.getCentroids();
             }
@@ -22,10 +23,18 @@ WHO.Views = WHO.Views || {};
         },
 
         getCentroids: function() {
-            console.log(this.collection);
+            // If topojson not loaded yet, load it before drawing
+            if (this.model.get('type') !== 'FeatureCollection') {
+                this.listenToOnce(this.model, 'change', this.render);
+                this.model.fetch();
+            }
+            else {
+                this.render();
+            }
         },
 
         render: function () {
+            console.log('in render');
         },
 
         setFilter: function(filters) {

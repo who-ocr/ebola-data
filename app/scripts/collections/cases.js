@@ -21,8 +21,6 @@ WHO.Collections = WHO.Collections || {};
             var data = snap.val(),
                 now = Date.parse(new Date());
 
-            return;
-
             // parse each date as such
             var i = 0, ii = data.length,
                 d;
