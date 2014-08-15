@@ -40,7 +40,7 @@ WHO.Views = WHO.Views || {};
 
             var margin = {top: 10, right: 60, bottom: 55, left: 60},
                 width = this.$el.width() - margin.left - margin.right,
-                height = 250 - margin.top - margin.bottom;
+                height = 200 - margin.top - margin.bottom;
 
             var max = d3.max(data, function(d) { return d.total;});
 
@@ -126,7 +126,7 @@ WHO.Views = WHO.Views || {};
 
             var xAxis = svg.append("g")
                 .attr("class", "x axis")
-                .attr("transform", "translate(0," + height + ")")
+                .attr("transform", "translate(0," + (height+5) + ")")
                 .selectAll('.tick')
                 .data(ticks)
               .enter().append('g')
@@ -137,7 +137,7 @@ WHO.Views = WHO.Views || {};
             xAxis.append('text')
                 .text(function(d) { return format(d.display); })
                 .style("text-anchor", "end")
-                .attr("dx", "-.8em")
+                //.attr("dx", "-.8em")
                 .attr("dy", ".4em")
                 .attr("transform", function(d) {
                     return "rotate(-45)"
