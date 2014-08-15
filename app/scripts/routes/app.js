@@ -48,7 +48,8 @@ WHO.Routers = WHO.Routers || {};
         WHO.collections = {
             cases: new WHO.Collections.Cases(),
             response: new WHO.Collections.Response(),
-            globalrisk: new WHO.Collections.GlobalRisk()
+            globalrisk: new WHO.Collections.GlobalRisk(),
+            clinics: new WHO.Models.Clinics()
         };
 
         WHO.mapview = new WHO.Views.Map({
@@ -62,6 +63,10 @@ WHO.Routers = WHO.Routers || {};
 
         WHO.epiGraph = new WHO.Views.epiGraph({
             el: '#epi-graph', id: 'epi-graph', collection: WHO.collections.cases
+        });
+
+        new WHO.Views.Clinic({
+            el: '#map', id: 'map', map: WHO.map, model: WHO.collections.clinics, zoom: mapzoom
         });
 
         new WHO.Views.Legend({
