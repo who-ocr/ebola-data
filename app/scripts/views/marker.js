@@ -31,7 +31,7 @@ WHO.Views = WHO.Views || {};
                 maptype = '';
 
             if (this.level === level)   {   return;                 }
-            else if (level < 6)         {   maptype = 'country'     }
+            else if (level < 5)         {   maptype = 'country'     }
             else if (level < 7)         {   maptype = 'province'    }
             else if (level < 8)         {   maptype = 'district'    }
 
