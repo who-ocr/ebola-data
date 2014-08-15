@@ -38,9 +38,9 @@ WHO.Views = WHO.Views || {};
         drawChart: function(data) {
             this.spinner.stop();
 
-            var margin = {top: 10, right: 60, bottom: 55, left: 60},
+            var margin = {top: 10, right: 60, bottom: 30, left: 60},
                 width = this.$el.width() - margin.left - margin.right,
-                height = 200 - margin.top - margin.bottom;
+                height = 180 - margin.top - margin.bottom;
 
             var max = d3.max(data, function(d) { return d.total;});
 
@@ -126,22 +126,24 @@ WHO.Views = WHO.Views || {};
 
             var xAxis = svg.append("g")
                 .attr("class", "x axis")
-                .attr("transform", "translate(0," + (height+5) + ")")
+                .attr("transform", "translate(0," + (height + 3) + ")")
                 .selectAll('.tick')
                 .data(ticks)
               .enter().append('g')
                 .attr('class', 'tick')
                 .attr('transform', function(d) { return 'translate(' + x(d.position) + ',0)'; });
 
+            xAxis.append('line')
+                .attr('x1', 0)
+                .attr('x2', 0)
+                .attr('y1', 0)
+                .attr('y2', 5)
+                .style('stroke-width', '2');
 
             xAxis.append('text')
                 .text(function(d) { return format(d.display); })
-                .style("text-anchor", "end")
-                //.attr("dx", "-.8em")
-                .attr("dy", ".4em")
-                .attr("transform", function(d) {
-                    return "rotate(-45)"
-                });
+                .style("text-anchor", "middle")
+                .attr("dy", "15px");
 
             svg.append("g")
                 .attr('transform', 'translate(' + width + ',0)')
