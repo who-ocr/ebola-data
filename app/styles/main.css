@@ -291,19 +291,20 @@ p, div, span, section, lable, ul, li {
     z-index: 999;
     display:block;
     float:left;
-    height: 14px;
+    height: 10px;
     font-size: 11px;
     line-height: 14px;
     text-align:center;
-    color:#808080;
+    color:#333;
     font-weight: 400;
+    font: 12px sans-serif;
 }
 
 .legend.country span,
 .legend.country label {
     width:16.666666666%;
 }
-.legend.district span,.legend.district label {
+.legend.district span, .legend.district label {
     width:20%;
 }
 .legend.country{
