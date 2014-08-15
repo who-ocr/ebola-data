@@ -148,8 +148,16 @@ WHO.Views = WHO.Views || {};
                         color: '#fff',
                         fillColor: '#ff0040',
                         fillOpacity: 0.7
-                    })
+                    });
+
+                },
+
+                onEachFeature: function (feature, layer) {
+                  layer.on({
+                    dblclick: function(e) {WHO.map.setView(e.latlng, WHO.map.getZoom() + 1);}
+                  });
                 }
+
             }).addTo(WHO.map);
 
             layer.bringToFront();

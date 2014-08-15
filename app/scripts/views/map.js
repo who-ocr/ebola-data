@@ -102,7 +102,7 @@ WHO.Views = WHO.Views || {};
 
                     onEachFeature: function (feature, layer) {
                       layer.on({
-                        dblclick: function(e) {map.fitBounds(e.target.getBounds());}
+                        dblclick: function(e) {WHO.map.setView(e.latlng, WHO.map.getZoom() + 1);}
                       });
                     }
 
