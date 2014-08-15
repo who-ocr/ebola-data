@@ -52,6 +52,14 @@ p, div, span, section, lable, ul, li {
   width: 100%;
   height: 500px;
   position: relative;
+  font: 10px sans-serif;
+}
+
+.axis path,
+.axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
 }
 
 
