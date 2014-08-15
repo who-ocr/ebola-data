@@ -1,0 +1,141 @@
+<!doctype html>
+<!--[if IE 8]><html lang="en" class="ie8"><![endif]-->
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>WHO</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet" type="text/css">
+
+        <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+        <link rel="stylesheet" href="styles/ac46a1ee.main.css">
+
+        <!--[if lt IE 9]>
+            <script src="scripts/vendor/ie9/html5shiv.js"></script>
+            <script src="scripts/vendor/ie9/respond.min.js"></script>
+            <script src="scripts/vendor/ie9/es5.js"></script>
+        <![endif]-->
+
+        <script src="scripts/vendor/a52a8685.modernizr.js"></script>
+    </head>
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="#">
+                        <span class="title">Ebola Outbreak Portal</span>
+                        <img src="img/who-logo-prp.gif" alt="who-logo-prp" height="60">
+                    </a>
+                </div>
+                <div class="navbar-collapse collapse" role="navigation">
+                    <ul class="nav nav-pills pull-right" id="nav-main">
+                        <li>
+                            <a href="https://extranet.who.int/programmebudget/">Home</a>
+                        </li>
+                        <li class="active">
+                            <a href="#">Response</a>
+                        </li>
+                        <li>
+                            <a href="https://extranet.who.int/programmebudget/Financing">Funding</a>
+                        </li>
+                        <li>
+                            <a href="https://extranet.who.int/programmebudget/Feedback">Contact Us</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div id="main">
+            <div class="graph-container">
+              <h5 class="who-title">New Ebola cases by week</h5>
+              <div id="epi-graph" class="full">
+                  <div class="graph-legend">
+                      <span class="box confirmed"></span> <span>Confirmed</span>
+                      <span class="box suspected"></span> <span>Suspected</span>
+                      <span class="box probable"></span> <span>Probable</span>
+
+                  </div>
+                  <div id="epi-graph-loader"></div>
+              </div>
+          </div>
+
+          <div id="map" class="full">
+              <div id="map-loader"></div>
+              <h5 class="who-title">Risk areas and cases</h5>
+          </div>
+
+          <div id="map-legend">
+            <div id="legend">
+                <nav class="legend clearfix country">
+                    <span style="background:rgba(206,211,217,0.7)"></span>
+                    <span style="background:rgba(254,229,217,0.7)"></span>
+                    <span style="background:rgba(252,174,145,0.7)"></span>
+                    <span style="background:rgba(251,106,74,0.7)"></span>
+                    <span style="background:rgba(222,45,38,0.7)"></span>
+                    <span style="background:rgba(165,15,21,0.7)"></span>
+                    <label>No cases</label>
+                    <label>Rumour Countries</label>
+                    <label>Alert Countries</label>
+                    <label>At-risk Countries</label>
+                    <label>New reporting cases</label>
+                    <label>Core Zone</label>
+                </nav>
+
+                <nav class="legend clearfix district" style="display:none">
+                    <span style="background:rgba(206,211,217,0.7)"></span>
+                    <span style="background:rgba(252,174,145,0.7)"></span>
+                    <span style="background:rgba(251,106,74,0.7)"></span>
+                    <span style="background:rgba(222,45,38,0.7)"></span>
+                    <span style="background:rgba(165,15,21,0.7)"></span>
+                    <label>No cases</label>
+                    <label>New reporting cases</label>
+                    <label>Active transmission outside core zone</label>
+                    <label>Active transmission with response hubs</label>
+                    <label>Core Zone</label>
+                </nav>
+            </div>
+       </div>
+
+        <div class="footer">
+            <div class="container">
+                <ul class="footer-links">
+                    <li><a href="/about/copyright/en/">© <acronym title="World Health Organization">WHO</acronym> 2013</a></li>
+                    <li class="muted">·</li>
+                    <li><a href="http://www.who.int/about/privacy/en/index.html">Privacy</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div id="project-templates" style="display:none">
+
+            <script type="text/template" id="dropdown-template">
+                <div class="dropdown">
+                    <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
+                        <span class="selected"><%= selected %></span>
+                        <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+                        <% _.each(options, function(option) { %>
+                        <li role="presentation"><a role="menuitem" tabindex="-1" href="#" class="<%= option.val %>"><%= option.display %></a></li>
+                        <% }); %>
+                    </ul>
+                </div>
+            </script>
+
+        </div>
+
+        <script src="scripts/c3fe213f.vendor.js"></script>
+
+        <script src="https://assets-datawrapper.s3.amazonaws.com/vendor/chroma-js/0.5.2/chroma.min.js"></script>
+        <script src="https://api.tiles.mapbox.com/mapbox.js/v1.6.2/mapbox.js"></script>
+
+        <script src="scripts/984d0fe0.main.js"></script>
+</div></body>
+</html>
