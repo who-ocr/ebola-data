@@ -17,7 +17,6 @@ WHO.Views = WHO.Views || {};
 
         render: function (zoom) {
             var level = zoom.level || WHO.defaultZoom;
-            console.log(level);
             if (this.onCountry && level >= 5) {
                 this.$country.hide();
                 this.$district.show();
