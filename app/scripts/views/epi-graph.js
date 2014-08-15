@@ -6,10 +6,8 @@ WHO.Views = WHO.Views || {};
     'use strict';
 
     function lastSunday(date) {
-        console.log(date);
         date.setDate(date.getDate() - date.getDay());
-        console.log(date);
-        return new Date(date.getFullYear() + ', ' + date.getMonth() + ', ' + date.getDate());
+        return new Date(date.getFullYear() + ', ' + (date.getMonth() + 1) + ', ' + date.getDate());
     }
 
     WHO.Views.epiGraph = Backbone.View.extend({
@@ -186,11 +184,9 @@ WHO.Views = WHO.Views || {};
             var earliest = new Date(this.collection.at(0).get('datetime')),
                 latest = new Date(this.collection.at(this.collection.length - 1).get('datetime'));
 
-            console.log(earliest);
             var oneWeek = 1000 * 60 * 60 * 24 * 7,
                 startWeek = Date.parse(lastSunday(earliest));
 
-            //console.log(earliest, new Date(startWeek));
             var nextWeek = startWeek + oneWeek,
                 format = {Suspected: 0, Probable: 0, Confirmed: 0, Total: 0},
                 weeks = [_.clone(format)],
