@@ -143,7 +143,7 @@ WHO.Views = WHO.Views || {};
                 maptype = this.maptype,
                 clicked = 0,
 
-                colors = ['#ff0', '#f00'],
+                colors = ['#fdbb84', '#e34a33'],
 
                 popup = this.popup,
 
@@ -175,10 +175,11 @@ WHO.Views = WHO.Views || {};
             var layer = L.geoJson(centroids, {
                 pointToLayer: function(feature, latlng) {
                     return L.circleMarker(latlng, {
-                        radius: Math.sqrt(scale(cases[feature.id][category]) / Math.PI),
-                        weight: 2,
+                        radius: Math.sqrt(scale(cases[feature.id][category]) / Math.PI)/1.6,
+                        weight: 1.5,
                         color: '#fff',
-                        fillColor: '#ff0040',
+                        opacity: 0.7,
+                        fillColor: '#e34a33',
                         fillOpacity: 0.7
                     });
 
