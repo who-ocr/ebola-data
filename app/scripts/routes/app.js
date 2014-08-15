@@ -92,6 +92,8 @@ WHO.Routers = WHO.Routers || {};
     WHO.map = L.mapbox.map('map','nate.j812554k')
               .setView([9.211, -2.527], WHO.defaultZoom);
 
+    WHO.map.scrollWheelZoom.disable();
+
     WHO.$map = $('#map');
 
     WHO.Routers.App = Backbone.Router.extend({

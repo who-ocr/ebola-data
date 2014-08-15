@@ -100,6 +100,12 @@ WHO.Views = WHO.Views || {};
                         };
                     },
 
+                    onEachFeature: function (feature, layer) {
+                      layer.on({
+                        dblclick: function(e) {map.fitBounds(e.target.getBounds());}
+                      });
+                    }
+
                 }).addTo(WHO.map);
 
             this.spinner.stop();
