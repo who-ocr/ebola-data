@@ -231,10 +231,10 @@ WHO.Views = WHO.Views || {};
 
                       popup.setLatLng(e.latlng);
                       popup.setContent('<div class="marker-title">' + maptype.charAt(0).toUpperCase() + maptype.slice(1) + ': ' + cases[layer.feature.id].name + '</div>'
-                        + '<table class="popup-click"><tr><td align="center">Cases</td></tr>'
-                        + '<tr><td>Confirmed</td><td>' + d.confirmed + '</td></tr>'
-                        + '<tr><td>Probable</td><td>' + d.probable + '</td></tr>'
-                        + '<tr><td>Suspected</td><td>' + d.suspected + '</td></tr><tr><td>---</td><td>---</td></tr>'
+                        + '<table class="popup-click">'
+                        + '<tr><td>Confirmed cases</td><td>' + d.confirmed + '</td></tr>'
+                        + '<tr><td>Probable cases</td><td>' + d.probable + '</td></tr>'
+                        + '<tr><td>Suspected cases</td><td>' + d.suspected + '</td></tr><tr><td>---</td><td>---</td></tr>'
                         + '<tr><td>Total Deaths</td><td>' + d.deaths + '</td></tr>'
                         + '<tr><td>Health Care Workers Affected</td><td>' + d.hcw + '</td></tr></table>');
 
