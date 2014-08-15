@@ -27,14 +27,23 @@ WHO.Views = WHO.Views || {};
         },
 
         getmap: function(zoom) {
-            var level = zoom.level || WHO.defaultZoom,
-                maptype = '';
+            var level, maptype;
+            if (zoom && zoom.level) {
+                level = zoom.level;
+            }
+            else if (this.level) {
+                level = this.level;
+            }
+            else {
+                level = WHO.defaultZoom;
+            }
 
-            if (this.level === level)   {   return;                 }
-            else if (level < 5)         {   maptype = 'country'     }
+            //if (this.level === level)   {   return;                 }
+            if (level < 5)              {   maptype = 'country'     }
             else if (level < 7)         {   maptype = 'province'    }
             else                        {   maptype = 'district'    }
 
+            this.level = level;
             this.maptype = maptype;
             this.popup = new L.Popup({ autoPan: false });
             this.getCentroids();
@@ -60,10 +69,6 @@ WHO.Views = WHO.Views || {};
 
 
         render: function () {
-
-            if (this.layers.length) {
-                this.removeLayers();
-            }
 
             var cases = {}, category,
 
@@ -118,12 +123,21 @@ WHO.Views = WHO.Views || {};
                 }
             }
 
+            _.each(cases, function(c) {
+                c.total = c.confirmed + c.probable + c.suspected;
+            });
+
+            this.cases = cases;
             this.drawMarkers(cases);
 
 
         },
 
         drawMarkers: function(cases) {
+            if (this.layers.length) {
+                this.removeLayers();
+            }
+
             var quantiles = this.maptype === 'country' ? 3 : 5,
 
                 maptype = this.maptype,
@@ -135,8 +149,9 @@ WHO.Views = WHO.Views || {};
 
                 category = this.filters.type,
 
-                //counts = _.map(cases, function(c) { return c.confirmed + c.probable + c.suspected; }),
-                max = _.max(_.map(cases, function(c) { return c[category] })),
+                //max = _.max(_.map(cases, function(c) { return c.confirmed + c.probable + c.suspected; })),
+                //max = _.max(_.map(cases, function(c) { return c[category] })),
+                max = _.max(_.map(cases, function(c) { return c.total })),
                 min = 0,
 
                 scale = d3.scale.quantize().domain([0, max])

@@ -38,8 +38,11 @@ WHO.Views = WHO.Views || {};
             if (this.level === level)   {   return;                                             }
             else if (level < 5)         {   this.getBounds(WHO.Models.Country, 'country');      }
             else if (level < 7)         {   this.getBounds(WHO.Models.Province, 'province');    }
-            else if (level < 8)         {   this.getBounds(WHO.Models.District, 'district');    }
-            else                        {   this.drawClusters();                                }
+            else                        {   this.getBounds(WHO.Models.District, 'district');    }
+            //else if (level < 8)         {   this.getBounds(WHO.Models.District, 'district');    }
+            //else                        {   this.drawClusters();                                }
+
+            this.level = level;
         },
 
         getBounds: function(model, maptype) {
