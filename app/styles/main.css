@@ -17,6 +17,18 @@ h1, h2, h3, h4, h5, h6,
 p, div, span, section, lable, ul, li {
     margin: 0;
     padding: 0;
+    text-rendering: optimizeLegibility;
+}
+
+h5 {
+    font-size: 12px;
+    line-height: 20px;
+    font-weight: 600;
+    text-transform: uppercase;
+    padding: 4px 12px;
+    background: #33475B;
+    color: #fff;
+    display: inline-block;
 }
 
 .shadow {
@@ -48,11 +60,45 @@ p, div, span, section, lable, ul, li {
 /****************************************************/
 /************** Graphs ******************************/
 
+.graph-container {
+    position: relative;
+    margin-top: 1em;
+}
+
+.graph-container > h5 {
+    position: absolute;
+    left: 0;
+    top: 0;
+}
+
 #epi-graph {
-  width: 100%;
-  height: 300px;
-  position: relative;
-  font: 10px sans-serif;
+    text-align: center;
+    width: 100%;
+    height: 212px;
+    position: relative;
+    font: 10px sans-serif;
+}
+
+.graph-legend {
+    float: right;
+    height: 12px;
+    margin: 0 45px;
+    position: relative;
+}
+
+.graph-legend > span {
+    font-size: 12px;
+    line-height: 12px;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.graph-legend > .box {
+    height: 12px;
+    width: 12px;
+    border-radius: 2px;
+    margin-right: 0.5em;
+    margin-left: 1.2em;
 }
 
 .axis path,
@@ -78,14 +124,17 @@ p, div, span, section, lable, ul, li {
 
 .confirmed {
     fill: #98abc5;
+    background: #98abc5;
 }
 
 .suspected {
     fill: #8a89a6 ;
+    background: #8a89a6 ;
 }
 
 .probable {
     fill: #7b6888;
+    background: #7b6888;
 }
 
 .week {

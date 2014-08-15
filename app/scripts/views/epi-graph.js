@@ -38,9 +38,9 @@ WHO.Views = WHO.Views || {};
         drawChart: function(data) {
             this.spinner.stop();
 
-            var margin = {top: 10, right: 50, bottom: 70, left: 50},
+            var margin = {top: 10, right: 60, bottom: 55, left: 60},
                 width = this.$el.width() - margin.left - margin.right,
-                height = 300 - margin.top - margin.bottom;
+                height = 200 - margin.top - margin.bottom;
 
             var max = d3.max(data, function(d) { return d.total;});
 
@@ -78,7 +78,7 @@ WHO.Views = WHO.Views || {};
             });
 
             var line = d3.svg.line()
-                .x(function(d, i) { console.log(i); return x(i); })
+                .x(function(d, i) { return x(i); })
                 .y(function(d) { return y(d.total); })
                 .interpolate('basis');
 
@@ -117,13 +117,14 @@ WHO.Views = WHO.Views || {};
                 .attr('class', 'tick')
                 .attr('transform', function(d) { return 'translate(' + x(d.position) + ',0)'; });
 
+
             xAxis.append('text')
                 .text(function(d) { return format(d.display); })
                 .style("text-anchor", "end")
                 .attr("dx", "-.8em")
-                .attr("dy", ".15em")
+                .attr("dy", ".4em")
                 .attr("transform", function(d) {
-                    return "rotate(-65)"
+                    return "rotate(-45)"
                 });
 
             svg.append("g")
@@ -142,9 +143,10 @@ WHO.Views = WHO.Views || {};
                 .attr('class', 'case-line')
                 .attr('d', line);
 
+            var l = data.length;
             columns.transition()
                 .duration(0)
-                .delay(function(d, i) { return i * 20 })
+                .delay(function(d, i) { return (l - i) * 20 })
                 .attr('class', 'week active');
         },
 
@@ -165,8 +167,6 @@ WHO.Views = WHO.Views || {};
 
             var earliest = new Date(this.collection.at(0).get('datetime')),
                 latest = new Date(this.collection.at(this.collection.length - 1).get('datetime'));
-
-            console.log(earliest, latest);
 
             var oneWeek = 1000 * 60 * 60 * 24 * 7,
                 startWeek = Date.parse(lastSunday(earliest)),
