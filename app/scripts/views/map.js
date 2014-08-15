@@ -8,38 +8,18 @@ WHO.Views = WHO.Views || {};
     WHO.Views.Map = Backbone.View.extend({
 
         events: {},
-        initialize: function () {
-            // Functions to restrict draw until after zoom complete
-            var zooming = false,
-                zoomTimer,
-                getmap = $.proxy(this.getmap, this);
-
-            WHO.map.on('zoomstart', function() {
-                zooming = true;
-                window.clearTimeout(zoomTimer);
-            });
-
-            WHO.map.on('zoomend', function() {
-                zooming = false;
-                zoomTimer = window.setTimeout(function() {
-                    if (!zooming) getmap();
-                }, 400);
-            });
+        initialize: function (options) {
+            this.listenTo(options.zoom, 'zoom:end', this.getmap);
 
             // Show spinner until load
             this.spinner = new Spinner({
                 color: '#888',
                 length: 2,
                 speed: 0.8
-            }).spin(document.getElementById('loader'));
+            }).spin(document.getElementById('map-loader'));
 
             // Keep a list of layers we've added, since we'll have to remove them
             this.layers = [];
-            this.popup = new L.Popup({ autoPan: false });
-        },
-
-        setFilter: function(filters) {
-            this.filters = filters;
         },
 
         load: function(mapType) {
@@ -52,13 +32,13 @@ WHO.Views = WHO.Views || {};
             }
         },
 
-        getmap: function() {
-            var level = WHO.map.getZoom(),
-                maptype;
+        getmap: function(zoom) {
+            var level = zoom.level || WHO.defaultZoom;
 
             if (this.level === level)   {   return;                                             }
-            else if (level < 6)         {   this.getBounds(WHO.Models.Country, 'country');      }
+            else if (level < 5)         {   this.getBounds(WHO.Models.Country, 'country');      }
             else if (level < 7)         {   this.getBounds(WHO.Models.Province, 'province');    }
+            else if (level < 8)         {   this.getBounds(WHO.Models.District, 'district');    }
             else                        {   this.drawClusters();                                }
         },
 
@@ -85,14 +65,12 @@ WHO.Views = WHO.Views || {};
             });
         },
 
-        drawBounds: function(cases) {
+        drawBounds: function(risks) {
 
-            var quantiles = this.maptype === 'country' ? 3 : 5,
-
-                colors = ['#ff0','#f00'],
-                cs = chroma.scale(colors).domain(_.map(cases, function(c) {
-                    return c;
-                }), quantiles, 'quantiles'),
+            var values = _.values(risks),
+                colors = ['#ccc', '#fc0','#ff2a33'],
+            //var colors = ['c6dbef','#08519c'],
+                cs = chroma.scale(colors).domain([Math.min.apply(Math, values), Math.max.apply(Math, values)]),
 
                 popup = this.popup,
 
@@ -103,44 +81,29 @@ WHO.Views = WHO.Views || {};
                 bounds = {
                     type: 'FeatureCollection',
                     features: _.filter(this.model.attributes.features, function(feature) {
-                        return cases[feature.id];
+                        return risks[feature.id] > 1;
                     })
                 },
 
                 target,
-                category = this.filters.type,
+                //category = this.filters.type,
 
                 layer = L.geoJson(bounds, {
                     style: function(feature) {
 
                         return {
-                            color: cs(cases[feature.id]),
+                            color: '#ccc',
+                            fillColor: cs(risks[feature.id]),
                             opacity: 0.7,
+                            fillOpacity: 0.6,
                             weight: 1
                         };
                     },
 
-                    onEachFeature: function(feature, layer) {
-                        layer.on({
-                            mousemove: function(e) {
-                                target = e.target;
-                                popup.setLatLng(e.latlng);
-                                popup.setContent('<div class="marker-title">' +
-                                                      target.feature.id + '</div>' + cases[target.feature.id] + ' ' + category + ' cases');
-
-                                if (!popup._map) popup.openOn(WHO.map);
-                            },
-                            mouseout: function(e) {
-                                window.setTimeout(function() {
-                                    WHO.map.closePopup();
-                                }, 100);
-                            }
-                        });
-                    }
-
                 }).addTo(WHO.map);
 
             this.spinner.stop();
+            layer.bringToBack();
             this.layers.push(layer);
 
             return;
@@ -152,36 +115,16 @@ WHO.Views = WHO.Views || {};
                 this.removeLayers();
             }
 
-
-            var cases = {},
-                geography = this.maptype === 'province' ?
-                    'Province Reporting' : 'Country reporting',
-                category = this.filters.type,
-                model, geo;
-
-            var maxdate = this.collection.at(this.collection.models.length - 1).get('datetime'),
-                //dateLimit = this.filters.type === 'recent' ? 1000 * 3600 * 24 * 2 : 0;
-                dateLimit = 0;
-
+            var risks = {},
+            model, geo;
 
             for(var i = 0, ii = this.collection.models.length; i < ii; ++i) {
                 model = this.collection.models[i];
-
-                geo = model.get(geography);
-                // if category matches and within time limit
-                if (model.get('Category').toLowerCase() !== category ||
-                   maxdate - model.get('datetime') <= dateLimit) {
-                    continue;
-                }
-                else if (geo in cases) {
-                    cases[geo] += 1;
-                }
-                else {
-                    cases[geo] = 1;
-                }
+                geo = model.get("geoID");
+                risks[geo] = model.get("level")
             }
 
-            this.drawBounds(cases);
+            this.drawBounds(risks);
         },
 
         drawClusters: function() {

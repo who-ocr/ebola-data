@@ -6,20 +6,10 @@ WHO.Models = WHO.Models || {};
     'use strict';
 
     WHO.Models.District = Backbone.Model.extend({
+        url: 'geo/ADM2.topojson',
+        parse: function(district, options)  {
 
-        url: '',
-
-        initialize: function() {
-        },
-
-        defaults: {
-        },
-
-        validate: function(attrs, options) {
-        },
-
-        parse: function(response, options)  {
-            return response;
+            return topojson.feature(district, district.objects.ADM2);
         }
     });
 

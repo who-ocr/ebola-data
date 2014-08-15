@@ -6,9 +6,9 @@ WHO.Models = WHO.Models || {};
     'use strict';
 
     WHO.Models.Country = Backbone.Model.extend({
-        url: 'geo/africa.topojson',
+        url: 'geo/world_ISO_A3.topojson',
         parse: function(country, options)  {
-            return topojson.feature(country, country.objects.africa);
+            return topojson.feature(country, country.objects.world);
         }
     });
 

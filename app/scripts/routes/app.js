@@ -13,7 +13,7 @@ WHO.Routers = WHO.Routers || {};
                 val: 'recent'
             },
             {
-                display: 'All cases',
+                display: 'All',
                 val: 'all'
             }
         ],
@@ -37,26 +37,35 @@ WHO.Routers = WHO.Routers || {};
         };
 
     function bootstrap() {
+        // model to listen for zoom
+        var mapzoom = new WHO.Models.Zoom();
+
         WHO.collections = {
             cases: new WHO.Collections.Cases(),
-            response: new WHO.Collections.Response()
+            response: new WHO.Collections.Response(),
+            globalrisk: new WHO.Collections.GlobalRisk()
         };
+
         WHO.mapview = new WHO.Views.Map({
-            el: '#map', id: 'map', map: WHO.map, collection: WHO.collections.cases
+            el: '#map', id: 'map', map: WHO.map, collection: WHO.collections.globalrisk, zoom: mapzoom
         });
+
+        WHO.markerview = new WHO.Views.Marker({
+            el: '#map', id: 'map', map: WHO.map, collection: WHO.collections.cases, zoom: mapzoom,
+            model: new WHO.Models.Centroids()
+        });
+
+        WHO.epiGraph = new WHO.Views.epiGraph({
+            id: 'epi-graph', collection: WHO.collections.cases
+        });
+
         WHO.models = {};
 
+        WHO.models = {};
         WHO.map.whenReady(function() {
 
             var $toggles = $('<div id="map-overlay-container"></div>').appendTo(
                 WHO.$map);
-
-            new WHO.Views.Dropdown({
-                id: 'toggle-time',
-                el: $('<div id="toggle-time"></div>').appendTo($toggles),
-                options: timeParams,
-                className: 'time'
-            });
 
             new WHO.Views.Dropdown({
                 id: 'toggle-case-type',
@@ -64,13 +73,24 @@ WHO.Routers = WHO.Routers || {};
                 options: typeParams,
                 className: 'type'
             });
+
+            new WHO.Views.Dropdown({
+                id: 'toggle-time',
+                el: $('<div id="toggle-time" class="dropdown-container"></div>').appendTo($toggles),
+                options: timeParams,
+                className: 'time'
+            });
+
         });
 
+        WHO.mapview.load();
+        WHO.epiGraph.load();
         init = true;
     }
 
-    WHO.map = L.mapbox.map('map','nate.map-szf211bp,nate.map-c3e3vgn8')
-              .setView([6.0095537, -10.6059403], 5);;
+    WHO.defaultZoom = 3;
+    WHO.map = L.mapbox.map('map','nate.j812554k')
+              .setView([9.211, -2.527], WHO.defaultZoom);
 
     WHO.$map = $('#map');
 
@@ -82,30 +102,32 @@ WHO.Routers = WHO.Routers || {};
 
         newload: function() {
             bootstrap();
-            WHO.mapview.setFilter({type: 'confirmed', time: 'recent'});
-            WHO.mapview.load();
+
+            WHO.markerview.setFilter({type: 'confirmed', time: 'recent'});
+            WHO.markerview.load();
+
             this.navigate('recent/confirmed', {trigger: false});
             state['time'] = 'recent';
-            state['type'] = 'confirmed'
         },
 
         newfilter: function(time, type) {
             if (!init) bootstrap();
             if (_.map(timeParams, function(t) { return t.val }).indexOf(time) !== -1 &&
                 _.map(typeParams, function(t) { return t.val }).indexOf(type) !== -1) {
-                WHO.mapview.setFilter({type: type, time: time});
+                WHO.markerview.setFilter({type: type, time: time});
                 this.navigate(time + '/' + type, {trigger: false});
                 state['time'] = time;
                 state['type'] = type;
             }
             else {
-                WHO.mapview.setFilter({type: 'confirmed', time: 'recent'});
+                WHO.markerview.setFilter({type: 'confirmed', time: 'recent'});
                 this.navigate('recent/confirmed', {trigger: false});
                 state['time'] = 'recent';
                 state['type'] = 'confirmed'
             }
 
-            WHO.mapview.load();
+            WHO.markerview.load();
+
         },
 
         set: function(key, val) {
