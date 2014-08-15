@@ -17,12 +17,13 @@ WHO.Views = WHO.Views || {};
 
         render: function (zoom) {
             var level = zoom.level || WHO.defaultZoom;
-            if (level < 7 && this.onCountry) {
+            console.log(level);
+            if (this.onCountry && level >= 5) {
                 this.$country.hide();
                 this.$district.show();
                 this.onCountry = false;
             }
-            else {
+            else if (!this.onCountry && level < 5) {
                 this.$country.show();
                 this.$district.hide();
                 this.onCountry = true;
