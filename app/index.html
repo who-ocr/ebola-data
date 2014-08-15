@@ -63,7 +63,7 @@
 
         <div id="main">
             <div class="graph-container">
-              <h5>New Ebola cases by week</h5>
+              <h5 class="who-title">New Ebola cases by week</h5>
               <div id="epi-graph" class="full">
                   <div class="graph-legend">
                       <span class="box confirmed"></span> <span>Confirmed</span>
@@ -75,11 +75,41 @@
               </div>
           </div>
 
-          <div id="map-legend"></div>
-
           <div id="map" class="full">
               <div id="map-loader"></div>
+              <h5 class="who-title">Risk areas and cases</h5>
           </div>
+
+          <div id="map-legend">
+            <div id='legend'>
+                <nav class='legend clearfix country'>
+                    <span style='background:#F1EEF6;'></span>
+                    <span style='background:rgba(255,255,212,0.7);'></span>
+                    <span style='background:rgba(254,217,142,0.7);'></span>
+                    <span style='background:rgba(254,153,41,0.7);'></span>
+                    <span style='background:rgba(217,95,14,0.7);'></span>
+                    <span style='background:rgba(153,52,4,0.7);'></span>
+                    <label>No cases</label>
+                    <label>Rumour Countries</label>
+                    <label>Alert Countries</label>
+                    <label>At-risk Countries</label>
+                    <label>New reporting cases</label>
+                    <label>Core Zone</label>
+                </nav>
+
+                <nav class='legend clearfix district'>
+                    <span style='background:#F1EEF6;'></span>
+                    <span style='background:rgba(254,217,142,0.7);'></span>
+                    <span style='background:rgba(254,153,41,0.7);'></span>
+                    <span style='background:rgba(217,95,14,0.7);'></span>
+                    <span style='background:rgba(153,52,4,0.7);'></span>
+                    <label>No cases</label>
+                    <label>New reporting cases</label>
+                    <label>Active transmission outside core zone</label>
+                    <label>Active transmission with response hubs</label>
+                    <label>Core Zone</label>
+                </nav>
+            </div>
        </div>
 
         <div class="footer">
@@ -127,9 +157,6 @@
 
         <script src="https://assets-datawrapper.s3.amazonaws.com/vendor/chroma-js/0.5.2/chroma.min.js"></script>
         <script src="https://api.tiles.mapbox.com/mapbox.js/v1.6.2/mapbox.js"></script>
-        <script src="bower_components/leaflet.markercluster/src/DistanceGrid.js"></script>
-        <script src="bower_components/leaflet.markercluster/src/MarkerCluster.js"></script>
-        <script src="bower_components/leaflet.markercluster/src/MarkerClusterGroup.js"></script>
 
         <!-- build:js({.tmp,app}) scripts/main.js -->
         <script src="scripts/main.js"></script>
