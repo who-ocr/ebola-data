@@ -33,7 +33,7 @@ WHO.Views = WHO.Views || {};
             if (this.level === level)   {   return;                 }
             else if (level < 6)         {   maptype = 'country'     }
             else if (level < 7)         {   maptype = 'province'    }
-            else if (level < 8)         {   maptype = 'district'    }
+            else                        {   maptype = 'district'    }
 
             this.maptype = maptype;
             this.popup = new L.Popup({ autoPan: false });
@@ -153,6 +153,10 @@ WHO.Views = WHO.Views || {};
                 target,
                 category = this.filters.type;
 
+            WHO.map.on('popupclose', function () {
+               clicked = 0;
+            });
+
             var layer = L.geoJson(centroids, {
                 pointToLayer: function(feature, latlng) {
                     return L.circleMarker(latlng, {
@@ -206,11 +210,10 @@ WHO.Views = WHO.Views || {};
                       var layer = e.target;
                       popup.setLatLng(e.latlng);
                       popup.setContent('<div class="marker-title">' + maptype.charAt(0).toUpperCase() + maptype.slice(1) + ': ' + cases[layer.feature.id].name + '</div>'
-                        + '<table class="popup-1"><tr><td></td><td>Cases</td></tr>'
+                        + '<table class="popup-click"><tr><td align="center">Cases</td></tr>'
                         + '<tr><td>Confirmed</td><td>' + cases[layer.feature.id].confirmed + '</td></tr>'
                         + '<tr><td>Probable</td><td>' + cases[layer.feature.id].probable + '</td></tr>'
-                        + '<tr><td>Suspected</td><td>' + cases[layer.feature.id].suspected + '</td></tr></table><br>'
-                        + '<table class="popup-1">'
+                        + '<tr><td>Suspected</td><td>' + cases[layer.feature.id].suspected + '</td></tr><tr><td>---</td><td>---</td></tr>'
                         + '<tr><td>Total Deaths</td><td>' + cases[layer.feature.id].deaths + '</td></tr>'
                         + '<tr><td>Health Care Workers Affected</td><td>' + cases[layer.feature.id].hcw + '</td></tr></table>');
 
