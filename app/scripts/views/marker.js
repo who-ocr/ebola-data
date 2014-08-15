@@ -127,7 +127,7 @@ WHO.Views = WHO.Views || {};
                 min = 0,
 
                 scale = function(n) {
-                    return n / max * 75;
+                    return n / max * 60;
                 },
 
                 centroids = {
@@ -144,7 +144,8 @@ WHO.Views = WHO.Views || {};
                 pointToLayer: function(feature, latlng) {
                     return L.circleMarker(latlng, {
                         radius: scale(cases[feature.id].count),
-                        stroke: 0,
+                        weight: 2,
+                        color: '#fff',
                         fillColor: '#ff0040',
                         fillOpacity: 0.7
                     })

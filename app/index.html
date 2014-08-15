@@ -62,8 +62,11 @@
         </div>
 
         <div id="main">
+          <div id="epi-graph" class="full">
+              <div id="epi-graph-loader"></div>
+          </div>
           <div id="map" class="full">
-              <div id="loader"></div>
+              <div id="map-loader"></div>
           </div>
        </div>
 
@@ -107,6 +110,7 @@
         <script src="scripts/vendor/bootstrap.min.js"></script>
         <script src="scripts/vendor/selectize.min.js"></script>
         <!-- endbuild -->
+        <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
         <script src="https://assets-datawrapper.s3.amazonaws.com/vendor/chroma-js/0.5.2/chroma.min.js"></script>
         <script src="https://api.tiles.mapbox.com/mapbox.js/v1.6.2/mapbox.js"></script>
         <script src="bower_components/leaflet.markercluster/src/DistanceGrid.js"></script>
@@ -116,6 +120,7 @@
         <script src="scripts/main.js"></script>
         <script src="scripts/views/map.js"></script>
         <script src="scripts/views/table.js"></script>
+        <script src="scripts/views/epi-graph.js"></script>
         <script src="scripts/collections/response.js"></script>
         <script src="scripts/collections/cases.js"></script>
         <script src="scripts/collections/globalrisk.js"></script>

@@ -55,6 +55,12 @@ WHO.Routers = WHO.Routers || {};
             model: new WHO.Models.Centroids()
         });
 
+        WHO.epiGraph = new WHO.Views.epiGraph({
+            id: 'epi-graph', collection: WHO.collections.cases
+        });
+
+        WHO.models = {};
+
         WHO.models = {};
         WHO.map.whenReady(function() {
 
@@ -78,6 +84,7 @@ WHO.Routers = WHO.Routers || {};
         });
 
         WHO.mapview.load();
+        WHO.epiGraph.load();
         init = true;
     }
 
@@ -101,7 +108,6 @@ WHO.Routers = WHO.Routers || {};
 
             this.navigate('recent/confirmed', {trigger: false});
             state['time'] = 'recent';
-            state['type'] = 'confirmed'
         },
 
         newfilter: function(time, type) {

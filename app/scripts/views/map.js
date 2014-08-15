@@ -16,7 +16,7 @@ WHO.Views = WHO.Views || {};
                 color: '#888',
                 length: 2,
                 speed: 0.8
-            }).spin(document.getElementById('loader'));
+            }).spin(document.getElementById('map-loader'));
 
             // Keep a list of layers we've added, since we'll have to remove them
             this.layers = [];
@@ -36,7 +36,7 @@ WHO.Views = WHO.Views || {};
             var level = zoom.level || WHO.defaultZoom;
 
             if (this.level === level)   {   return;                                             }
-            else if (level < 6)         {   this.getBounds(WHO.Models.Country, 'country');      }
+            else if (level < 5)         {   this.getBounds(WHO.Models.Country, 'country');      }
             else if (level < 7)         {   this.getBounds(WHO.Models.Province, 'province');    }
             else if (level < 8)         {   this.getBounds(WHO.Models.District, 'district');    }
             else                        {   this.drawClusters();                                }
@@ -66,6 +66,7 @@ WHO.Views = WHO.Views || {};
         },
 
         drawBounds: function(risks) {
+
             var values = _.values(risks),
                 colors = ['#ccc', '#fc0','#ff2a33'],
             //var colors = ['c6dbef','#08519c'],
