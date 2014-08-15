@@ -72,12 +72,6 @@ WHO.Views = WHO.Views || {};
             //var colors = ['c6dbef','#08519c'],
                 cs = chroma.scale(colors).domain([Math.min.apply(Math, values), Math.max.apply(Math, values)]),
 
-                popup = this.popup,
-
-                mousemove = $.proxy(this.mousemove, this),
-                mouseout = $.proxy(this.mouseout, this),
-                //click = $.proxy(this.click, this)
-
                 bounds = {
                     type: 'FeatureCollection',
                     features: _.filter(this.model.attributes.features, function(feature) {
@@ -102,7 +96,9 @@ WHO.Views = WHO.Views || {};
 
                     onEachFeature: function (feature, layer) {
                       layer.on({
-                        dblclick: function(e) {WHO.map.setView(e.latlng, WHO.map.getZoom() + 1);}
+                        dblclick: function(e) {
+                          WHO.map.setView(e.latlng, WHO.map.getZoom() + 1);
+                          }
                       });
                     }
 
