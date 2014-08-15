@@ -40,7 +40,7 @@ WHO.Views = WHO.Views || {};
 
             var margin = {top: 10, right: 60, bottom: 55, left: 60},
                 width = this.$el.width() - margin.left - margin.right,
-                height = 200 - margin.top - margin.bottom;
+                height = 250 - margin.top - margin.bottom;
 
             var max = d3.max(data, function(d) { return d.total;});
 
@@ -72,20 +72,33 @@ WHO.Views = WHO.Views || {};
                 if (i % 5 === 0) {
                     ticks.push({
                         position: i,
-                        display: new Date(d.time)
+                        display: d.time
                     });
                 }
             });
 
-            var line = d3.svg.line()
-                .x(function(d, i) { return x(i); })
-                .y(function(d) { return y(d.total); })
-                .interpolate('basis');
+            // var line = d3.svg.line()
+                // .x(function(d, i) { return x(i); })
+                // .y(function(d) { return y(d.total); })
+                // .interpolate('basis');
 
             var yAxis = d3.svg.axis()
                 .scale(y)
-                .orient("right")
-                ;
+                .orient("right");
+
+            var format = d3.time.format("%d-%m-%Y");
+            var template = _.template('<h4><%= date %></h4><p>Confirmed: <%= confirmed %><br />Suspected: <%= suspected %><br />Probable: <%= probable %>');
+
+            var tip = d3.tip()
+                .attr('class', 'd3-tip')
+                .html(function(d) {
+                    return template({
+                        date: format(d.time),
+                        confirmed: d.vals[0],
+                        suspected: d.vals[1],
+                        probable: d.vals[2]
+                    });
+                });
 
             var svg = d3.select("#epi-graph").append("svg")
                 .attr("width", width + margin.left + margin.right)
@@ -93,20 +106,23 @@ WHO.Views = WHO.Views || {};
             .append("g")
                 .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
+            svg.call(tip);
+
             var columns = svg.selectAll(".week")
                 .data(data)
             .enter().append("g")
                 .attr("class", "week")
-                .attr("transform", function(d, i) { return "translate(" + (x(i) - halfBar) + ",0)"; });
+                .attr("transform", function(d, i) { return "translate(" + (x(i) - halfBar) + ",0)"; })
+                .on('mouseover', tip.show)
+                .on('mouseout', tip.hide);
+
             var bars = columns.selectAll("rect")
                 .data(function(d) { return d.bars; })
             .enter().append("rect")
                 .attr("width", barW)
                 .attr('y', function(d) { return y(d.y1) })
-                .attr('height', function(d) { return height - y(d.val); })
+                .attr('height', function(d) { return height - y(d.val) || 1; })
                 .attr('class', function(d) { return d.name; });
-
-            var format = d3.time.format("%d-%m-%Y");
 
             var xAxis = svg.append("g")
                 .attr("class", "x axis")
@@ -138,10 +154,10 @@ WHO.Views = WHO.Views || {};
                 .style("text-anchor", "end")
                 .text("Cases");
 
-            var path = svg.append('path')
-                .datum(data)
-                .attr('class', 'case-line')
-                .attr('d', line);
+            // var path = svg.append('path')
+                // .datum(data)
+                // .attr('class', 'case-line')
+                // .attr('d', line);
 
             var l = data.length;
             columns.transition()
@@ -204,7 +220,7 @@ WHO.Views = WHO.Views || {};
                 return {
                     vals: [week.Confirmed, week.Suspected, week.Probable],
                     total: week.Total,
-                    time: week.week
+                    time: new Date(week.week)
                 };
             });
 
