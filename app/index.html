@@ -62,9 +62,21 @@
         </div>
 
         <div id="main">
-          <div id="epi-graph" class="full">
-              <div id="epi-graph-loader"></div>
+            <div class="graph-container">
+              <h5>New Ebola cases by week</h5>
+              <div id="epi-graph" class="full">
+                  <div class="graph-legend">
+                      <span class="box confirmed"></span> <span>Confirmed</span>
+                      <span class="box suspected"></span> <span>Suspected</span>
+                      <span class="box probable"></span> <span>Probable</span>
+
+                  </div>
+                  <div id="epi-graph-loader"></div>
+              </div>
           </div>
+
+          <div id="map-legend"></div>
+
           <div id="map" class="full">
               <div id="map-loader"></div>
           </div>
@@ -109,13 +121,16 @@
         <script src="scripts/vendor/jquery.ui.touch-punch.min.js"></script>
         <script src="scripts/vendor/bootstrap.min.js"></script>
         <script src="scripts/vendor/selectize.min.js"></script>
+        <script src="bower_components/d3/d3.min.js" charset="utf-8"></script>
+        <script src="bower_components/d3-tip/index.js"></script>
         <!-- endbuild -->
-        <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+
         <script src="https://assets-datawrapper.s3.amazonaws.com/vendor/chroma-js/0.5.2/chroma.min.js"></script>
         <script src="https://api.tiles.mapbox.com/mapbox.js/v1.6.2/mapbox.js"></script>
         <script src="bower_components/leaflet.markercluster/src/DistanceGrid.js"></script>
         <script src="bower_components/leaflet.markercluster/src/MarkerCluster.js"></script>
         <script src="bower_components/leaflet.markercluster/src/MarkerClusterGroup.js"></script>
+
         <!-- build:js({.tmp,app}) scripts/main.js -->
         <script src="scripts/main.js"></script>
         <script src="scripts/views/map.js"></script>

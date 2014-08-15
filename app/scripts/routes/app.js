@@ -56,7 +56,7 @@ WHO.Routers = WHO.Routers || {};
         });
 
         WHO.epiGraph = new WHO.Views.epiGraph({
-            id: 'epi-graph', collection: WHO.collections.cases
+            el: '#epi-graph', id: 'epi-graph', collection: WHO.collections.cases
         });
 
         WHO.models = {};

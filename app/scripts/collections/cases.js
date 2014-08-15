@@ -19,7 +19,8 @@ WHO.Collections = WHO.Collections || {};
         onload: function(snap) {
 
             var data = snap.val(),
-                now = Date.parse(new Date());
+                now = Date.parse(new Date()),
+                start = Date.parse(new Date('2013', '11', '20'));
 
             // parse each date as such
             var i = 0, ii = data.length,
@@ -31,7 +32,7 @@ WHO.Collections = WHO.Collections || {};
             }
 
             data = _.filter(data, function(d) {
-                return !isNaN(d.datetime) && d.datetime < now;
+                return !isNaN(d.datetime) && d.datetime < now && d.datetime > start;
             });
             data = _.sortBy(data, function(d) { return d.datetime });
 

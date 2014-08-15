@@ -17,6 +17,18 @@ h1, h2, h3, h4, h5, h6,
 p, div, span, section, lable, ul, li {
     margin: 0;
     padding: 0;
+    text-rendering: optimizeLegibility;
+}
+
+h5 {
+    font-size: 12px;
+    line-height: 20px;
+    font-weight: 600;
+    text-transform: uppercase;
+    padding: 4px 12px;
+    background: #33475B;
+    color: #fff;
+    display: inline-block;
 }
 
 .shadow {
@@ -48,19 +60,120 @@ p, div, span, section, lable, ul, li {
 /****************************************************/
 /************** Graphs ******************************/
 
+.graph-container {
+    position: relative;
+    margin-top: 1em;
+}
+
+.graph-container > h5 {
+    position: absolute;
+    left: 0;
+    top: 0;
+    padding: 4px 12px 4px 36px;
+}
+
 #epi-graph {
-  width: 100%;
-  height: 500px;
-  position: relative;
-  font: 10px sans-serif;
+    text-align: center;
+    width: 100%;
+    height: 212px;
+    position: relative;
+    font: 10px sans-serif;
+}
+
+.graph-legend {
+    float: right;
+    height: 12px;
+    margin: 0 45px;
+    position: relative;
+}
+
+.graph-legend > span {
+    font-size: 12px;
+    line-height: 12px;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.graph-legend > .box {
+    height: 12px;
+    width: 12px;
+    border-radius: 2px;
+    margin-right: 0.5em;
+    margin-left: 1.2em;
 }
 
 .axis path,
 .axis line {
   fill: none;
-  stroke: #000;
+  stroke: #666;
   shape-rendering: crispEdges;
 }
+
+.case-line {
+    fill: none;
+    shape-rendering: crispEdges;
+    stroke-width: 2px;
+    stroke: #EBBA5D;
+}
+
+.tick line {
+    stroke: #666;
+}
+.tick text {
+    color: #666;
+}
+
+.confirmed {
+    fill: #98abc5;
+    background: #98abc5;
+}
+
+.suspected {
+    fill: #8a89a6 ;
+    background: #8a89a6 ;
+}
+
+.probable {
+    fill: #7b6888;
+    background: #7b6888;
+}
+
+.week {
+    opacity: 0;
+    -webkit-transition: opacity 200ms;
+    -moz-transition: opacity 200ms;
+    transition: opacity 200ms;
+}
+
+.week.active {
+    opacity: 0.8;
+}
+
+.d3-tip {
+    line-height: 1;
+    font-weight: bold;
+    padding: 6px 12px;
+    background: #34495e;
+    opacity: 0.8;
+    color: #fff;
+    border-radius: 4px;
+    pointer-events: none;
+    z-index: 1002;
+}
+
+.d3-tip > h4 {
+    font-size: 14px;
+    line-height: 20px;
+    margin: 4px 0 8px;
+}
+
+.d3-tip > p {
+    font-size: 12px;
+    line-height: 18px;
+    font-weight: 300;
+    margin-bottom: 6px;
+}
+
 
 
 /****************************************************/
