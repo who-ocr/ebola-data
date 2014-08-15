@@ -5,6 +5,11 @@ WHO.Views = WHO.Views || {};
 (function () {
     'use strict';
 
+    function lastSunday(date) {
+        date.setDate(date.getDate() - date.getDay());
+        return new Date(date.getFullYear() + ', ' + date.getMonth() + ', ' + date.getDate());
+    }
+
     WHO.Views.epiGraph = Backbone.View.extend({
 
         events: {},
@@ -21,136 +26,189 @@ WHO.Views = WHO.Views || {};
 
         load: function() {
 
-            this.listenToOnce(this.collection, 'loaded', this.render);
-            this.collection.query();
+            if (this.collection.length) {
+                this.render();
+            }
+            else {
+                this.listenToOnce(this.collection, 'loaded', this.render);
+                this.collection.query();
+            }
         },
 
-        drawChart: function(allWeeks) {
+        drawChart: function(data) {
+            this.spinner.stop();
 
-          var margin = {top: 20, right: 20, bottom: 100, left: 40},
-            width = 960 - margin.left - margin.right,
-            height = 500 - margin.top - margin.bottom;
+            var margin = {top: 10, right: 50, bottom: 70, left: 50},
+                width = this.$el.width() - margin.left - margin.right,
+                height = 300 - margin.top - margin.bottom;
 
-          var x = d3.scale.ordinal()
-            .rangeRoundBands([0, width], .1);
+            var max = d3.max(data, function(d) { return d.total;});
 
-          var y = d3.scale.linear()
-            .rangeRound([height, 0]);
+            var x = d3.scale.linear()
+                .rangeRound([0, width])
+                .domain([0, data.length]);
 
-          var color = d3.scale.ordinal()
-            .range(["#98abc5", "#8a89a6", "#7b6888", "#6b486b", "#a05d56", "#d0743c", "#ff8c00"]);
+            var y = d3.scale.linear()
+                .range([height, 0])
+                .domain([0, max]);
 
-          var xAxis = d3.svg.axis()
-            .scale(x)
-            .orient("bottom")
-            .tickFormat(d3.time.format("%m-%d-%Y"));
+            var barW = Math.floor(width / data.length) - 1,
+                halfBar = barW / 2;
 
-          var yAxis = d3.svg.axis()
-            .scale(y)
-            .orient("left")
-            .tickFormat(d3.format(".2s"));
+            var order = this.order,
+                ticks = [];
 
-          var svg = d3.select("#epi-graph").append("svg")
-            .attr("width", width + margin.left + margin.right)
-            .attr("height", height + margin.top + margin.bottom)
-          .append("g")
-            .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-
-          var data = allWeeks;
-
-          color.domain(d3.keys(data[0]).filter(function(key) { return key !== "week"; }));
-
-          data.forEach(function(d) {
-            var y0 = 0;
-            d.ages = color.domain().map(function(name) { return {name: name, y0: y0, y1: y0 += +d[name]}; });
-            d.total = d.ages[d.ages.length - 1].y1;
-          });
-
-          x.domain(data.map(function(d) { return d["week"]; }));
-          y.domain([0, d3.max(data, function(d) { return d.total; }) + 100]);
-
-          svg.append("g")
-            .attr("class", "x axis")
-            .attr("transform", "translate(0," + height + ")")
-            .call(xAxis)
-            .selectAll("text")
-            .style("text-anchor", "end")
-            .attr("dx", "-.8em")
-            .attr("dy", ".15em")
-            .attr("transform", function(d) {
-                return "rotate(-65)"
+            _.each(data, function(d, i) {
+                var y0 = 0;
+                d.bars = _.map(d.vals, function(val, i) {
+                    return {
+                        name: order[i],
+                        y0: y0,
+                        y1: y0 += val,
+                        val: val
+                    }
                 });
 
-          svg.append("g")
-            .attr("class", "y axis")
-            .call(yAxis)
-          .append("text")
-            .attr("transform", "rotate(-90)")
-            .attr("y", 6)
-            .attr("dy", ".71em")
-            .style("text-anchor", "end")
-            .text("Cases");
+                if (i % 5 === 0) {
+                    ticks.push({
+                        position: i,
+                        display: new Date(d.time)
+                    });
+                }
+            });
 
-          var state = svg.selectAll(".state")
-            .data(data)
-          .enter().append("g")
-            .attr("class", "g")
-            .attr("transform", function(d) { return "translate(" + x(d["week"]) + ",0)"; });
+            var line = d3.svg.line()
+                .x(function(d, i) { console.log(i); return x(i); })
+                .y(function(d) { return y(d.total); })
+                .interpolate('basis');
 
-          state.selectAll("rect")
-            .data(function(d) { return d.ages; })
-          .enter().append("rect")
-            .attr("width", x.rangeBand())
-            .attr("y", function(d) { return y(d.y1); })
-            .attr("height", function(d) { return y(d.y0) - y(d.y1); })
-            .style("fill", function(d) { return color(d.name); });
+            var yAxis = d3.svg.axis()
+                .scale(y)
+                .orient("right")
+                ;
 
-          var legend = svg.selectAll(".legend")
-            .data(color.domain().slice().reverse())
-          .enter().append("g")
-            .attr("class", "legend")
-            .attr("transform", function(d, i) { return "translate(0," + i * 20 + ")"; });
+            var svg = d3.select("#epi-graph").append("svg")
+                .attr("width", width + margin.left + margin.right)
+                .attr("height", height + margin.top + margin.bottom)
+            .append("g")
+                .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-          legend.append("rect")
-            .attr("x", width - 18)
-            .attr("width", 18)
-            .attr("height", 18)
-            .style("fill", color);
+            var columns = svg.selectAll(".week")
+                .data(data)
+            .enter().append("g")
+                .attr("class", "week")
+                .attr("transform", function(d, i) { return "translate(" + (x(i) - halfBar) + ",0)"; });
+            var bars = columns.selectAll("rect")
+                .data(function(d) { return d.bars; })
+            .enter().append("rect")
+                .attr("width", barW)
+                .attr('y', function(d) { return y(d.y1) })
+                .attr('height', function(d) { return height - y(d.val); })
+                .attr('class', function(d) { return d.name; });
 
-          legend.append("text")
-            .attr("x", width - 24)
-            .attr("y", 9)
-            .attr("dy", ".35em")
-            .style("text-anchor", "end")
-            .text(function(d) { return d; });
+            var format = d3.time.format("%d-%m-%Y");
 
-          this.spinner.stop();
+            var xAxis = svg.append("g")
+                .attr("class", "x axis")
+                .attr("transform", "translate(0," + height + ")")
+                .selectAll('.tick')
+                .data(ticks)
+              .enter().append('g')
+                .attr('class', 'tick')
+                .attr('transform', function(d) { return 'translate(' + x(d.position) + ',0)'; });
+
+            xAxis.append('text')
+                .text(function(d) { return format(d.display); })
+                .style("text-anchor", "end")
+                .attr("dx", "-.8em")
+                .attr("dy", ".15em")
+                .attr("transform", function(d) {
+                    return "rotate(-65)"
+                });
+
+            svg.append("g")
+                .attr('transform', 'translate(' + width + ',0)')
+                .attr("class", "y axis")
+                .call(yAxis)
+            .append("text")
+                .attr("transform", "rotate(-90)")
+                .attr("y", 6)
+                .attr("dy", "-.8em")
+                .style("text-anchor", "end")
+                .text("Cases");
+
+            var path = svg.append('path')
+                .datum(data)
+                .attr('class', 'case-line')
+                .attr('d', line);
+
+            columns.transition()
+                .duration(0)
+                .delay(function(d, i) { return i * 20 })
+                .attr('class', 'week active');
         },
 
         render: function () {
 
-            var d = Date.parse('01/05/2014'),
-                allWeeks = [], i = 0,
-                model;
+            // old method relies on an absolute 'start' day, which is ok but not the best
+            // since days are already sorted, we just need to find the sunday before the first date
+            // http://stackoverflow.com/questions/6024328/the-closest-sunday-before-given-date-with-javascript
+            // var d = Date.parse('01/05/2014'),
+                // allWeeks = [], i = 0,
+                // model;
 
-            while (d < this.collection.models[this.collection.models.length - 1].get("datetime")) {
-                allWeeks[i] = {week: new Date(d), Suspected: 0, Probable: 0, Confirmed: 0};
-                d += (7*1000*3600*24);
-                i++;
-            }
+            // while (d < this.collection.models[this.collection.models.length - 1].get("datetime")) {
+                // allWeeks[i] = {week: new Date(d), Suspected: 0, Probable: 0, Confirmed: 0};
+                // d += (7*1000*3600*24);
+                // i++;
+            // }
 
-            for(var j = 0, jj = this.collection.models.length; j < jj; ++j) {
-                model = this.collection.models[j];
-                for (var w = 0; w < allWeeks.length; ++w) {
-                  if ((model.get("datetime") - Date.parse(allWeeks[w].week) < (7*24*3600*1000)) && (model.get("datetime") > Date.parse(allWeeks[w].week)) && (model.get("Category") != 'For Aggregates'))
-                    allWeeks[w][model.get("Category")] += 1;
+            var earliest = new Date(this.collection.at(0).get('datetime')),
+                latest = new Date(this.collection.at(this.collection.length - 1).get('datetime'));
+
+            console.log(earliest, latest);
+
+            var oneWeek = 1000 * 60 * 60 * 24 * 7,
+                startWeek = Date.parse(lastSunday(earliest)),
+                nextWeek = startWeek + oneWeek,
+                format = {Suspected: 0, Probable: 0, Confirmed: 0, Total: 0},
+                weeks = [_.clone(format)],
+                onWeek = 0,
+                model,
+                date,
+                category;
+
+            weeks[0].week = new Date(startWeek);
+
+            for (var i = 0, ii = this.collection.length; i < ii; ++i) {
+                model = this.collection.at(i);
+                date = model.get('datetime');
+
+                // since dates are sorted, we can just keep adding weeks as we go
+                while (date > nextWeek) {
+                    onWeek += 1;
+                    weeks.push(_.clone(format));
+                    weeks[onWeek].week = new Date(nextWeek);
+                    nextWeek += oneWeek;
                 }
-            }
 
-            this.drawChart(allWeeks);
+                category = model.get('Category');
+                if (category in weeks[onWeek]) {
+                    weeks[onWeek][category] += 1;
+                    weeks[onWeek].Total += 1;
+                }
+            };
+
+            this.order = ['confirmed', 'suspected', 'probable'];
+            var weeks = _.map(weeks.slice(0,-1), function(week) {
+                return {
+                    vals: [week.Confirmed, week.Suspected, week.Probable],
+                    total: week.Total,
+                    time: week.week
+                };
+            });
+
+            this.drawChart(weeks);
         },
-
-
     });
-
 })();
