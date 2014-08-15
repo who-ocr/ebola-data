@@ -313,7 +313,13 @@ p, div, span, section, lable, ul, li {
     margin-bottom:20px;
 }
 
+.leaflet-popup-content {
+  font-size: 12px;
+}
 
+.popup-click td {
+  padding: 1px 5px 1px 0px;
+}
 
 /****************************************************/
 /************** Media Queries ***********************/
