@@ -132,26 +132,26 @@ WHO.Views = WHO.Views || {};
                 colors = ['#ff0', '#f00'],
 
                 popup = this.popup,
-                counts = _.map(cases, function(c) { return c.confirmed + c.probable + c.suspected; }),
 
-                max = _.max(counts),
+                category = this.filters.type,
+
+                //counts = _.map(cases, function(c) { return c.confirmed + c.probable + c.suspected; }),
+                max = _.max(_.map(cases, function(c) { return c[category] })),
                 min = 0,
 
-                scale = function(n) {
-                    return n / max * 60;
-                },
-
-                closeTooltip,
+                scale = d3.scale.quantize().domain([0, max])
+                    .range([50, 400, 800, 1200, 1600, 2000, 2400, 2800, 3200, 3600]),
 
                 centroids = {
                     type: 'Topology',
-                    features: _.filter(this.model.get('features'), function(feature) {
-                        return cases[feature.id];
-                    })
+                    features: _.chain(this.model.get('features'))
+                        .filter(function(feature) { return cases[feature.id]; })
+                        .sortBy(function(feature) { return -cases[feature.id][category] })
+                        .value()
                 },
 
                 target,
-                category = this.filters.type;
+                closeTooltip;
 
             WHO.map.on('popupclose', function () {
                clicked = 0;
@@ -160,7 +160,7 @@ WHO.Views = WHO.Views || {};
             var layer = L.geoJson(centroids, {
                 pointToLayer: function(feature, latlng) {
                     return L.circleMarker(latlng, {
-                        radius: scale(cases[feature.id][category]),
+                        radius: Math.sqrt(scale(cases[feature.id][category]) / Math.PI),
                         weight: 2,
                         color: '#fff',
                         fillColor: '#ff0040',
@@ -184,15 +184,18 @@ WHO.Views = WHO.Views || {};
                         window.clearTimeout(closeTooltip);
 
                         // highlight feature
-                        /*layer.setStyle({
-                          weight: 3,
-                          opacity: 0.3,
-                          fillOpacity: 0.9
-                        }); */
+                        // layer.setStyle({
+                          // weight: 3,
+                          // opacity: 0.3,
+                          // fillOpacity: 0.9
+                        // });
 
-                        if (!L.Browser.ie && !L.Browser.opera) {
-                          layer.bringToFront();
-                        }
+                        // We draw larger markers first, so bringing markers to front on hover
+                        // obscures the smaller markers around it.
+                        //
+                        // if (!L.Browser.ie && !L.Browser.opera) {
+                          // layer.bringToFront();
+                        // }
                       }
                     },
                     mouseout: function(e) {
@@ -207,29 +210,20 @@ WHO.Views = WHO.Views || {};
 
                       clicked = 1;
 
-                      var layer = e.target;
+                      var layer = e.target,
+                          d = cases[layer.feature.id];
+
                       popup.setLatLng(e.latlng);
                       popup.setContent('<div class="marker-title">' + maptype.charAt(0).toUpperCase() + maptype.slice(1) + ': ' + cases[layer.feature.id].name + '</div>'
                         + '<table class="popup-click"><tr><td align="center">Cases</td></tr>'
-                        + '<tr><td>Confirmed</td><td>' + cases[layer.feature.id].confirmed + '</td></tr>'
-                        + '<tr><td>Probable</td><td>' + cases[layer.feature.id].probable + '</td></tr>'
-                        + '<tr><td>Suspected</td><td>' + cases[layer.feature.id].suspected + '</td></tr><tr><td>---</td><td>---</td></tr>'
-                        + '<tr><td>Total Deaths</td><td>' + cases[layer.feature.id].deaths + '</td></tr>'
-                        + '<tr><td>Health Care Workers Affected</td><td>' + cases[layer.feature.id].hcw + '</td></tr></table>');
+                        + '<tr><td>Confirmed</td><td>' + d.confirmed + '</td></tr>'
+                        + '<tr><td>Probable</td><td>' + d.probable + '</td></tr>'
+                        + '<tr><td>Suspected</td><td>' + d.suspected + '</td></tr><tr><td>---</td><td>---</td></tr>'
+                        + '<tr><td>Total Deaths</td><td>' + d.deaths + '</td></tr>'
+                        + '<tr><td>Health Care Workers Affected</td><td>' + d.hcw + '</td></tr></table>');
 
                       if (!popup._map) popup.openOn(WHO.map);
                       window.clearTimeout(closeTooltip);
-
-                      // highlight feature
-                      /*layer.setStyle({
-                        weight: 3,
-                        opacity: 0.3,
-                        fillOpacity: 0.9
-                      }); */
-
-                      if (!L.Browser.ie && !L.Browser.opera) {
-                        layer.bringToFront();
-                      }
                     }
 
                   });
