@@ -177,7 +177,21 @@ p, div, span, section, lable, ul, li {
     margin-bottom: 6px;
 }
 
+.download{
+  position: relative;
+  left:88%;
+  font: 14px sans-serif;
+  margin-bottom: 10px;
+  line-height: 14px;
+}
 
+.download-button:before {
+    content: '';
+    width: 20px;
+    height: 12px;
+    display: inline-block;
+    background: url(/img/download_14.png) no-repeat;
+}
 
 /****************************************************/
 /************** Maps ********************************/
@@ -320,6 +334,27 @@ p, div, span, section, lable, ul, li {
 
 .popup-click td {
   padding: 1px 5px 1px 0px;
+}
+
+/****************************************************/
+/************** Download ******************************/
+
+.download-container {
+    position: relative;
+    margin-top: 1em;
+}
+
+.download-section {
+    top: 40px;
+    left: 30px;
+    width: 100%;
+    position: relative;
+    font: 14px sans-serif;
+}
+
+.download-container .btn {
+  top: 50px;
+  left: 30px;
 }
 
 /****************************************************/

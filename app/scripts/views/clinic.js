@@ -68,8 +68,9 @@ WHO.Views = WHO.Views || {};
                             var props = e.target.feature.properties;
 
                             popup.setLatLng(e.latlng);
-                            popup.setContent('<div class="marker-title">' + props.COUNTRY + ', ' + props.CITY + '</div>'
+                            popup.setContent('<div class="marker-title">' + props.CITY + ', ' + props.COUNTRY + '</div>'
                                 + '<table class="popup-click">'
+                                + '<tr><td>Facility</td><td>' + props['Ebola Treatment Centre locations'] + '</td></tr>'
                                 + '<tr><td>Function</td><td>' + props.FUNCTION + '</td></tr>'
                                 + '<tr><td>Laboratory</td><td>' + props.Laboratory + '</td></tr>'
                                 + '<tr><td>Partners</td><td>' + props.Partners + '</td></tr>'

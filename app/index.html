@@ -51,9 +51,6 @@
                             <a href="#">Response</a>
                         </li>
                         <li>
-                            <a href="https://extranet.who.int/programmebudget/Financing">Funding</a>
-                        </li>
-                        <li>
                             <a href="https://extranet.who.int/programmebudget/Feedback">Contact Us</a>
                         </li>
                     </ul>
@@ -63,7 +60,7 @@
 
         <div id="main">
             <div class="graph-container">
-              <h5 class="who-title">New Ebola cases by week</h5>
+              <h5 class="who-title">Reported Ebola cases by week</h5>
               <div id="epi-graph" class="full">
                   <div class="graph-legend">
                       <span class="box confirmed"></span> <span>Confirmed</span>
@@ -73,11 +70,16 @@
                   </div>
                   <div id="epi-graph-loader"></div>
               </div>
+              <div class="download">
+                <a href="https://luminous-heat-4380.firebaseio.com/cases_admin/.json?download=who-reported-cases.txt">
+                    <button class="download-button btn btn-xs btn-default">Download data</button>
+                <a>
+              </div>
           </div>
 
           <div id="map" class="full">
               <div id="map-loader"></div>
-              <h5 class="who-title">Risk areas and cases</h5>
+              <h5 class="who-title">Response level and cases</h5>
           </div>
 
           <div id="map-legend">
@@ -111,6 +113,8 @@
                 </nav>
             </div>
        </div>
+
+   </div>
 
         <div class="footer">
             <div class="container">

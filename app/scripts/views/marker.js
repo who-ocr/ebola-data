@@ -179,7 +179,7 @@ WHO.Views = WHO.Views || {};
                         weight: 1.5,
                         color: '#fff',
                         opacity: 0.7,
-                        fillColor: '#e34a33',
+                        fillColor: '#99000d',
                         fillOpacity: 0.7
                     });
 
