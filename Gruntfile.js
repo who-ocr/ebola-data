@@ -197,7 +197,7 @@ module.exports = function (grunt) {
                     dest: '<%= yeoman.dist %>',
                     src: [
                         'styles/images/*.*',
-                        'img/{,*/}*.{webp,gif,jpg,jpeg,png}',
+                        'img/{,*/}*.{webp,gif,jpg,jpeg,png,ico}',
                         'geo/*.topojson',
                         '*.{ico,txt}',
                         '.htaccess',
