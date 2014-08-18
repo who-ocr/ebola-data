@@ -360,10 +360,29 @@ p, div, span, section, lable, ul, li {
 /****************************************************/
 /************** Media Queries ***********************/
 
-@media only screen and (min-width: 480px) {
+@media only screen and (min-device-width : 320px) and (max-device-width : 568px) {
+    .navbar-toggle {
+        margin-right: 8px!important;
+    }
+    .graph-container {
+        display: none;
+    }
+    .navbar-brand .title {
+        max-width: 125px;
+        padding: 0px 0px 8px 4px;
+        height: 35px;
+        margin: 0px 0px 0px 8px;
+    }
+    .navbar-brand a {
+        margin-top: 0px;
+    }
+    .navbar-brand img {
+        margin-left: 15px;
+    }
+    #map {
+        height: 350px;
+    }
 }
-
-
 
 @media only screen and (min-width: 960px) {
     body {
