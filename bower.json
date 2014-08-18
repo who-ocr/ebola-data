@@ -9,7 +9,8 @@
     "topojson": "~1.6.15",
     "queue-async": "~1.0.7",
     "d3-tip": "~0.6.4",
-    "d3": "~3.4.11"
+    "d3": "~3.4.11",
+    "firebase": "~1.0.19"
   },
   "devDependencies": {}
 }

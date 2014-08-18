@@ -96,12 +96,26 @@ WHO.Views = WHO.Views || {};
                         };
                         // get color depending on response level
                         function getColor(d) {
-                            return d == 2 ? 'rgb(255,252,224)' :
-                                d == 3  ? 'rgb(250,175,78)' :
-                                d == 4   ? 'rgb(249,145,77)' :
-                                d == 5   ? 'rgb(247,117,77)' :
-                                d == 6   ? 'rgb(246, 104, 61)' :
-                                '#fff';
+                            console.log(feature.id);
+                            console.log(d);
+                            if (feature.id.substr(7,1) == 0) {
+                                // for admin0 geoids with different scale
+                                return d == 1 ? '#fff' :
+                                    d == 2 ? 'rgb(255,252,224)' :
+                                    d == 3 ? 'rgb(252,202,78)' :
+                                    d == 4 ? 'rgb(250,175,78)' :
+                                    d == 5 ? 'rgb(249,145,77)' :
+                                    d == 6 ? 'rgb(246,104,61)' :
+                                    '#fff';
+                            }
+                            else {
+                                return d == 1 ? '#fff' :
+                                    d == 2 ? 'rgb(252,202,78)' :
+                                    d == 3 ? 'rgb(250,175,78)' :
+                                    d == 4 ? 'rgb(249,145,77)' :
+                                    d == 5 ? 'rgb(246,104,61)' :
+                                    '#fff';
+                            }
                         };
                     },
 
