@@ -71,10 +71,9 @@ WHO.Views = WHO.Views || {};
         drawBounds: function(risks) {
 
             var values = _.values(risks),
-                colors = ['#ccc', '#fee5d9','#fcae91','#fb6a4a','#de2d26','#a50f15'],
-            //var colors = ['c6dbef','#08519c'],
+                colors = ['#fff','rgb(255,252,224)','rgb(252,202,78)','rgb(250,175,78)','rgb(249,145,77)','rgb(247,117,77)'],
+                //var colors = ['c6dbef','#08519c'],
                 cs = chroma.scale(colors).domain([Math.min.apply(Math, values), Math.max.apply(Math, values)]),
-
                 bounds = {
                     type: 'FeatureCollection',
                     features: _.filter(this.model.attributes.features, function(feature) {
@@ -89,11 +88,20 @@ WHO.Views = WHO.Views || {};
                     style: function(feature) {
 
                         return {
-                            color: '#fee5d9',
-                            fillColor: cs(risks[feature.id]),
+                            color: 'rgb(254,243,183)',
+                            fillColor: getColor(risks[feature.id]),
                             opacity: 0.7,
-                            fillOpacity: 0.6,
+                            fillOpacity: 0.7,
                             weight: 1
+                        };
+                        // get color depending on response level
+                        function getColor(d) {
+                            return d == 2 ? 'rgb(255,252,224)' :
+                                d == 3  ? 'rgb(250,175,78)' :
+                                d == 4   ? 'rgb(249,145,77)' :
+                                d == 5   ? 'rgb(247,117,77)' :
+                                d == 6   ? 'rgb(246, 104, 61)' :
+                                '#fff';
                         };
                     },
 

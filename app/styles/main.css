@@ -127,18 +127,18 @@ p, div, span, section, lable, ul, li {
 }
 
 .confirmed {
+    fill: #7b6888;
+    background: #7b6888;
+}
+
+.suspected {
     fill: #98abc5;
     background: #98abc5;
 }
 
-.suspected {
+.probable {
     fill: #8a89a6 ;
     background: #8a89a6 ;
-}
-
-.probable {
-    fill: #7b6888;
-    background: #7b6888;
 }
 
 .week {
@@ -198,7 +198,7 @@ p, div, span, section, lable, ul, li {
 
 #map {
     width: 100%;
-    height: 450px;
+    height: 500px;
     position: relative;
 }
 

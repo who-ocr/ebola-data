@@ -7,7 +7,7 @@ WHO.Models = WHO.Models || {};
 
     WHO.Models.Clinics = Backbone.Model.extend({
         initialize: function () {
-            this.ref = new Firebase('https://luminous-heat-4380.firebaseio.com/ebolaClinics');
+            this.ref = new Firebase('https://luminous-heat-4380.firebaseio.com/ebolaClinics_aug17');
         },
 
         query: function () {

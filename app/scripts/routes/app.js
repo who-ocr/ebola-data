@@ -104,7 +104,7 @@ WHO.Routers = WHO.Routers || {};
     }
 
     WHO.defaultZoom = 3;
-    WHO.map = L.mapbox.map('map','nate.j812554k')
+    WHO.map = L.mapbox.map('map','nate.j8n0m4ld')
         .setView([22.23, 8.00], WHO.defaultZoom);
 
     WHO.map.scrollWheelZoom.disable();

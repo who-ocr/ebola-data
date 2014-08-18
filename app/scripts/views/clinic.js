@@ -70,12 +70,13 @@ WHO.Views = WHO.Views || {};
                             popup.setLatLng(e.latlng);
                             popup.setContent('<div class="marker-title">' + props.CITY + ', ' + props.COUNTRY + '</div>'
                                 + '<table class="popup-click">'
-                                + '<tr><td>Facility</td><td>' + props['Ebola Treatment Centre locations'] + '</td></tr>'
+                                + '<tr><td>Facility</td><td>' + props.LOCATIONS + '</td></tr>'
                                 + '<tr><td>Function</td><td>' + props.FUNCTION + '</td></tr>'
-                                + '<tr><td>Laboratory</td><td>' + props.Laboratory + '</td></tr>'
                                 + '<tr><td>Partners</td><td>' + props.Partners + '</td></tr>'
-                                + '<tr><td>Status</td><td>' + props['Status ECT'] + '</td></tr></table>'
-                                            );
+                                + '<tr><td>Bed Capacity</td><td>' + props.Bed_capacity_current + '</td></tr>'
+                                + '<tr><td>Laboratory</td><td>' + props.Serving_Lab_Location + '</td></tr>'
+                                + '<tr><td>Status</td><td>' + props.Status_ECT + '</td></tr></table>'
+                                );
 
                             if (!popup._map) popup.openOn(WHO.map);
                         }

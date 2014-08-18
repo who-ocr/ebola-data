@@ -87,7 +87,7 @@ WHO.Views = WHO.Views || {};
                 .orient("right");
 
             var format = d3.time.format("%d-%m-%Y");
-            var template = _.template('<h4><%= date %></h4><p>Confirmed: <%= confirmed %><br />Suspected: <%= suspected %><br />Probable: <%= probable %>');
+            var template = _.template('<h4><%= date %></h4><p>Confirmed: <%= confirmed %><br />Probable: <%= probable %><br />Suspected: <%= suspected %>');
 
             var tip = d3.tip()
                 .attr('class', 'd3-tip')
@@ -95,8 +95,8 @@ WHO.Views = WHO.Views || {};
                     return template({
                         date: format(d.time),
                         confirmed: d.vals[0],
-                        suspected: d.vals[1],
-                        probable: d.vals[2]
+                        probable: d.vals[1],
+                        suspected: d.vals[2]
                     });
                 });
 
@@ -211,17 +211,17 @@ WHO.Views = WHO.Views || {};
                     nextWeek += oneWeek;
                 }
 
-                category = model.get('Category');
+                category = model.get('case category');
                 if (category in weeks[onWeek]) {
                     weeks[onWeek][category] += 1;
                     weeks[onWeek].Total += 1;
                 }
             };
 
-            this.order = ['confirmed', 'suspected', 'probable'];
+            this.order = ['confirmed', 'probable', 'suspected'];
             var weeks = _.map(weeks.slice(0,-1), function(week) {
                 return {
-                    vals: [week.Confirmed, week.Suspected, week.Probable],
+                    vals: [week.Confirmed, week.Probable, week.Suspected],
                     total: week.Total,
                     time: new Date(week.week)
                 };
