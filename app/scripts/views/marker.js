@@ -105,7 +105,6 @@ WHO.Views = WHO.Views || {};
                 else if (admin == 'ADM1_NAME') {
                     tmpid = model.get(adminCode).substring(0,8);
                     geoid = tmpid.concat('000000000000');
-                    console.log(tmpid);
                 }
                 else {
                     geoid = model.get(adminCode);
@@ -184,7 +183,6 @@ WHO.Views = WHO.Views || {};
             });
 
             var sizeFactor = WHO.map.getZoom() < 5 ? 3.2 : 2.8;
-            console.log(sizeFactor);
             var layer = L.geoJson(centroids, {
                 pointToLayer: function(feature, latlng) {
                     return L.circleMarker(latlng, {
