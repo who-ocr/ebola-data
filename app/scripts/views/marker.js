@@ -70,7 +70,7 @@ WHO.Views = WHO.Views || {};
 
         render: function () {
 
-            var cases = {}, category,
+            var cases = {}, category, tmpid, 
 
                 admin, adminCode,
 
@@ -82,23 +82,34 @@ WHO.Views = WHO.Views || {};
 
             switch(this.maptype) {
                 case 'country':
-                    admin = 'Country reporting';
-                    adminCode = 'ADM0_CODE';
+                    admin = 'ADM0_NAME';
+                    adminCode = 'ADM2_CODE';
                     break;
                 case 'province':
-                    admin = 'ADM1_VIZ_N';
-                    adminCode = 'ADM1_CODE';
+                    admin = 'ADM1_NAME';
+                    adminCode = 'ADM2_CODE';
                     break;
                 case 'district':
-                    admin = 'ADM2_VIZ_N';
+                    admin = 'ADM2_NAME';
                     adminCode = 'ADM2_CODE';
             }
 
             for(var i = 0, ii = this.collection.models.length; i < ii; ++i) {
                 model = this.collection.models[i];
-                category = model.get('Category').toLowerCase();
+                category = model.get('case category').toLowerCase();
                 geo = model.get(admin);
-                geoid = model.get(adminCode);
+                if (admin == 'ADM0_NAME') {
+                    tmpid = model.get(adminCode).substring(0,5);
+                    geoid = tmpid.concat('000000000000000');
+                }
+                else if (admin == 'ADM1_NAME') {
+                    tmpid = model.get(adminCode).substring(0,8);
+                    geoid = tmpid.concat('000000000000');
+                    console.log(tmpid);
+                }
+                else {
+                    geoid = model.get(adminCode);
+                }
 
                 if (category === 'For Aggregates' ||
                     maxdate - model.get('datetime') <= dateLimit) {
@@ -116,9 +127,9 @@ WHO.Views = WHO.Views || {};
                     };
                   }
                   cases[geoid][category] += 1;
-                  if (model.get('HCW') == 'Yes')
+                  if (model.get('HCW') == 'TRUE')
                     cases[geoid].hcw += 1;
-                  if (model.get('Outcome') == 'Deceased')
+                  if (model.get('outcome') == 'Dead')
                     cases[geoid].deaths += 1;
                 }
             }
@@ -172,10 +183,12 @@ WHO.Views = WHO.Views || {};
                clicked = 0;
             });
 
+            var sizeFactor = WHO.map.getZoom() < 5 ? 3.2 : 2.8;
+            console.log(sizeFactor);
             var layer = L.geoJson(centroids, {
                 pointToLayer: function(feature, latlng) {
                     return L.circleMarker(latlng, {
-                        radius: Math.sqrt(scale(cases[feature.id][category]) / Math.PI)/1.6,
+                        radius: Math.sqrt(scale(cases[feature.id][category]) / Math.PI)/(sizeFactor/1.88),
                         weight: 1.5,
                         color: '#fff',
                         opacity: 0.7,

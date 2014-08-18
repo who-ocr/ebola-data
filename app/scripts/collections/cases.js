@@ -8,7 +8,7 @@ WHO.Collections = WHO.Collections || {};
     WHO.Collections.Cases = Backbone.Collection.extend({
 
         initialize: function () {
-            this.ref = new Firebase('https://luminous-heat-4380.firebaseio.com/cases_admin');
+            this.ref = new Firebase('https://glowing-fire-650.firebaseio.com/cases_admin_aug17');
         },
 
         query: function () {
@@ -27,8 +27,10 @@ WHO.Collections = WHO.Collections || {};
                 d;
 
             for(; i < ii; ++i) {
-                d = data[i]['Date of notification to WHO'].split('/');
-                data[i].datetime = Date.parse([d[1],d[0],d[2]].join('/'));
+                // d = data[i]['Date of notification to WHO'].split('/');
+                // data[i].datetime = Date.parse([d[1],d[0],d[2]].join('/'));
+                d = data[i]['date'];
+                data[i].datetime = Date.parse(d);
             }
 
             data = _.filter(data, function(d) {

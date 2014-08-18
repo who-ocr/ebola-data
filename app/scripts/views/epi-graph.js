@@ -211,7 +211,7 @@ WHO.Views = WHO.Views || {};
                     nextWeek += oneWeek;
                 }
 
-                category = model.get('Category');
+                category = model.get('case category');
                 if (category in weeks[onWeek]) {
                     weeks[onWeek][category] += 1;
                     weeks[onWeek].Total += 1;
