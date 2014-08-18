@@ -1,6 +1,6 @@
 ## WHO-OCR Ebola Portal
 
-Data site for the World Health Organization Outbreak and Crisis and Response (OCR). 
+Data site for the World Health Organization Outbreak and Crisis Response (OCR). 
 
 #### Requirements
 
