@@ -7,7 +7,7 @@ WHO.Views = WHO.Views || {};
 
     function lastSunday(date) {
         date.setDate(date.getDate() - date.getDay());
-        return new Date(date.getFullYear() + ', ' + (date.getMonth() + 1) + ', ' + date.getDate());
+        return new Date(date.getFullYear(), date.getMonth(), date.getDate())
     }
 
     WHO.Views.epiGraph = Backbone.View.extend({
@@ -226,7 +226,6 @@ WHO.Views = WHO.Views || {};
                     time: new Date(week.week)
                 };
             });
-
             this.drawChart(weeks);
         },
     });
