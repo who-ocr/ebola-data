@@ -140,6 +140,9 @@
 .navbar-collapse .dropdown-menu::-webkit-scrollbar-corner {
     background-color: transparent;
 }
+.container>.navbar-collapse {
+    margin-bottom: 10px;
+}
 
 /* Jumbotrons
 -------------------------------------------------- */

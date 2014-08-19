@@ -372,6 +372,7 @@ p, div, span, section, lable, ul, li {
         padding: 0px 0px 8px 4px;
         height: 35px;
         margin: 0px 0px 0px 8px;
+        font-size: 12px;
     }
     .navbar-brand a {
         margin-top: 0px;
