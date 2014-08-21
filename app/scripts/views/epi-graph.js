@@ -36,7 +36,7 @@ WHO.Views = WHO.Views || {};
         },
 
         drawChart: function(data) {
-            //this.spinner.stop();
+            this.spinner.stop();
 
             var margin = {top: 10, right: 60, bottom: 30, left: 60},
                 width = this.$el.width() - margin.left - margin.right,
