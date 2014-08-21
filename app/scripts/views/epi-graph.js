@@ -40,10 +40,15 @@ WHO.Views = WHO.Views || {};
             var $test = $('#test-index');
 
             $test.append('<p style="font-size: 10px;">1</p>');
+            $test.append('<p>' + this.$el.width() + '</p>');
 
-            var margin = {top: 10, right: 60, bottom: 30, left: 60},
-                width = this.$el.width() - margin.left - margin.right,
-                height = 180 - margin.top - margin.bottom;
+            var margin = {top: 10, right: 60, bottom: 30, left: 60};
+            $test.append('<p style="font-size: 10px;">1</p>');
+            var width = this.$el.width() - margin.left - margin.right;
+            $test.append('<p style="font-size: 10px;">1</p>');
+            var height = 180 - margin.top - margin.bottom;
+
+            $test.append('<p style="font-size: 10px;">1</p>');
 
             var max = d3.max(data, function(d) { return d.total;});
 
