@@ -61,9 +61,11 @@ WHO.Routers = WHO.Routers || {};
             model: new WHO.Models.Centroids()
         });
 
+        /*
         WHO.epiGraph = new WHO.Views.epiGraph({
             el: '#epi-graph', id: 'epi-graph', collection: WHO.collections.cases
         });
+        */
 
         new WHO.Views.Clinic({
             el: '#map', id: 'map', map: WHO.map, model: WHO.collections.clinics, zoom: mapzoom
