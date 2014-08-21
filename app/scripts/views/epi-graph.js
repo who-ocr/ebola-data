@@ -58,6 +58,9 @@ WHO.Views = WHO.Views || {};
             var order = this.order,
                 ticks = [];
 
+            var $test = $('#test-index');
+            $test.append('<p style="font-size: 10px;">1</p>');
+
             _.each(data, function(d, i) {
                 var y0 = 0;
                 d.bars = _.map(d.vals, function(val, i) {
@@ -82,12 +85,16 @@ WHO.Views = WHO.Views || {};
                 // .y(function(d) { return y(d.total); })
                 // .interpolate('basis');
 
+            $test.append('<p style="font-size: 10px;">1</p>');
+
             var yAxis = d3.svg.axis()
                 .scale(y)
                 .orient("right");
 
             var format = d3.time.format("%d-%m-%Y");
             var template = _.template('<h4><%= date %></h4><p>Confirmed: <%= confirmed %><br />Probable: <%= probable %><br />Suspected: <%= suspected %>');
+
+            $test.append('<p style="font-size: 10px;">1</p>');
 
             var tip = d3.tip()
                 .attr('class', 'd3-tip')
@@ -100,11 +107,15 @@ WHO.Views = WHO.Views || {};
                     });
                 });
 
+            $test.append('<p style="font-size: 10px;">1</p>');
+
             var svg = d3.select("#epi-graph").append("svg")
                 .attr("width", width + margin.left + margin.right)
                 .attr("height", height + margin.top + margin.bottom)
             .append("g")
                 .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+            $test.append('<p style="font-size: 10px;">1</p>');
 
             var columns = svg.selectAll(".week")
                 .data(data)
@@ -114,6 +125,8 @@ WHO.Views = WHO.Views || {};
                 .on('mouseover', tip.show)
                 .on('mouseout', tip.hide);
 
+            $test.append('<p style="font-size: 10px;">1</p>');
+
             var bars = columns.selectAll("rect")
                 .data(function(d) { return d.bars; })
             .enter().append("rect")
@@ -122,7 +135,7 @@ WHO.Views = WHO.Views || {};
                 .attr('height', function(d) { return height - y(d.val) || 1; })
                 .attr('class', function(d) { return d.name; });
 
-            $('#test-index').text(svg.length + ' ' + bars.length + ' ' + bars[0][0].nodeName);
+            $('#test-index').append('<p>' + svg.length + ' ' + bars.length + ' ' + bars[0][0].nodeName + '</p>');
 
             var xAxis = svg.append("g")
                 .attr("class", "x axis")
