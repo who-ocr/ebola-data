@@ -37,12 +37,17 @@ WHO.Views = WHO.Views || {};
 
         drawChart: function(data) {
             this.spinner.stop();
+            var $test = $('#test-index');
+
+            $test.append('<p style="font-size: 10px;">1</p>');
 
             var margin = {top: 10, right: 60, bottom: 30, left: 60},
                 width = this.$el.width() - margin.left - margin.right,
                 height = 180 - margin.top - margin.bottom;
 
             var max = d3.max(data, function(d) { return d.total;});
+
+            $test.append('<p style="font-size: 10px;">1</p>');
 
             var x = d3.scale.linear()
                 .rangeRound([0, width])
@@ -58,7 +63,6 @@ WHO.Views = WHO.Views || {};
             var order = this.order,
                 ticks = [];
 
-            var $test = $('#test-index');
             $test.append('<p style="font-size: 10px;">1</p>');
 
             _.each(data, function(d, i) {
