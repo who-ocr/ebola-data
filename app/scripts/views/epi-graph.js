@@ -183,6 +183,8 @@ WHO.Views = WHO.Views || {};
                 // i++;
             // }
 
+            $('#test-index').text(this.collection.length + ' ' + this.collection.at(0).get('datetime'));
+
             var earliest = new Date(this.collection.at(0).get('datetime')),
                 latest = new Date(this.collection.at(this.collection.length - 1).get('datetime'));
 

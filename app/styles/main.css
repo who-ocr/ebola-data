@@ -358,6 +358,7 @@ body .navbar {
     .graph-container { margin-top: 1em; }
     .graph-legend { margin: 0 45px; }
     #epi-graph { display: block; height: 192px; }
+    #test-index { display: none; }
     #map { height: 500px; }
     #map-overlay-container > .dropdown-container {
         float: right;
