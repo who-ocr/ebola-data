@@ -77,15 +77,16 @@ WHO.Views = WHO.Views || {};
             });
             $test.append('<p style="font-size: 10px;">1</p>');
 
+            var y = d3.scale.linear()
+                .range([height, 0])
+                .domain([0, max]);
+            $test.append('<p style="font-size: 10px;">1</p>');
+
             var x = d3.scale.linear()
                 .rangeRound([0, width])
                 .domain([0, data.length]);
             $test.append('<p style="font-size: 10px;">1</p>');
 
-            var y = d3.scale.linear()
-                .range([height, 0])
-                .domain([0, max]);
-            $test.append('<p style="font-size: 10px;">1</p>');
 
 
             // var line = d3.svg.line()
