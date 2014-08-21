@@ -101,7 +101,7 @@ WHO.Routers = WHO.Routers || {};
         });
 
         WHO.mapview.load();
-        WHO.epiGraph.load();
+        //WHO.epiGraph.load();
         init = true;
     }
 
