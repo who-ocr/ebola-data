@@ -37,6 +37,7 @@ WHO.Views = WHO.Views || {};
 
         drawChart: function(data) {
             this.spinner.stop();
+            $('#test-index').text(data.length + ' ' + data[0]['total'] + ' ' + data[data.length-1].time);
 
             var margin = {top: 10, right: 60, bottom: 30, left: 60},
                 width = this.$el.width() - margin.left - margin.right,
@@ -182,8 +183,6 @@ WHO.Views = WHO.Views || {};
                 // d += (7*1000*3600*24);
                 // i++;
             // }
-
-            $('#test-index').text(this.collection.length + ' ' + this.collection.at(0).get('datetime'));
 
             var earliest = new Date(this.collection.at(0).get('datetime')),
                 latest = new Date(this.collection.at(this.collection.length - 1).get('datetime'));

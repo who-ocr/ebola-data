@@ -37,7 +37,6 @@ WHO.Collections = WHO.Collections || {};
                 return !isNaN(d.datetime) && d.datetime < now && d.datetime > start;
             });
             data = _.sortBy(data, function(d) { return d.datetime });
-            console.log(data);
 
             this.reset(data);
             this.trigger("loaded", data);
