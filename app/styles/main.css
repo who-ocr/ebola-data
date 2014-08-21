@@ -346,7 +346,8 @@ body .navbar {
     .subhead h1 { font-size: 38px; }
     .jumbotron p { font-size: 24px; }
     body .navbar { min-height: 70px; }
-    .navbar-brand img { width: 170px; height: 52px; }
+    .navbar-brand { padding: 8px; }
+    .navbar-brand img { width: 140px; height: 43px; }
     .navbar-brand .title {
         font-size: 23px;
         margin: 8px 0 0 15px;
