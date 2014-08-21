@@ -39,9 +39,6 @@ WHO.Views = WHO.Views || {};
             else if (level < 5)         {   this.getBounds(WHO.Models.Country, 'country');      }
             else if (level < 7)         {   this.getBounds(WHO.Models.Province, 'province');    }
             else                        {   this.getBounds(WHO.Models.District, 'district');    }
-            //else if (level < 8)         {   this.getBounds(WHO.Models.District, 'district');    }
-            //else                        {   this.drawClusters();                                }
-
             this.level = level;
         },
 
@@ -71,9 +68,6 @@ WHO.Views = WHO.Views || {};
         drawBounds: function(risks) {
 
             var values = _.values(risks),
-                colors = ['#fff','rgb(255,252,224)','rgb(252,202,78)','rgb(250,175,78)','rgb(249,145,77)','rgb(247,117,77)'],
-                //var colors = ['c6dbef','#08519c'],
-                cs = chroma.scale(colors).domain([Math.min.apply(Math, values), Math.max.apply(Math, values)]),
                 bounds = {
                     type: 'FeatureCollection',
                     features: _.filter(this.model.attributes.features, function(feature) {
@@ -82,40 +76,35 @@ WHO.Views = WHO.Views || {};
                 },
 
                 target,
-                //category = this.filters.type,
+                colors, cs;
 
-                layer = L.geoJson(bounds, {
+            if (this.maptype === 'country') {
+                colors = ['#fff',
+                        'rgb(255,252,224)',
+                        'rgb(252,202,78)',
+                        'rgb(250,175,78)',
+                        'rgb(249,145,77)',
+                        'rgb(246,104,61)'
+                ];
+                cs = chroma.scale(colors).domain([1, 6]);
+            } else {
+                colors = ['#fff',
+                        'rgb(252,202,78)',
+                        'rgb(250,175,78)',
+                        'rgb(249,145,77)',
+                        'rgb(246,104,61)'
+                ];
+                cs = chroma.scale(colors).domain([1, 5]);
+            }
+
+            var layer = L.geoJson(bounds, {
                     style: function(feature) {
-
                         return {
                             color: 'rgb(254,243,183)',
-                            fillColor: getColor(risks[feature.id]),
+                            fillColor: cs(risks[feature.id]),
                             opacity: 0.7,
                             fillOpacity: 0.7,
                             weight: 1
-                        };
-                        // get color depending on response level
-                        function getColor(d) {
-                            console.log(feature.id);
-                            console.log(d);
-                            if (feature.id.substr(7,1) == 0) {
-                                // for admin0 geoids with different scale
-                                return d == 1 ? '#fff' :
-                                    d == 2 ? 'rgb(255,252,224)' :
-                                    d == 3 ? 'rgb(252,202,78)' :
-                                    d == 4 ? 'rgb(250,175,78)' :
-                                    d == 5 ? 'rgb(249,145,77)' :
-                                    d == 6 ? 'rgb(246,104,61)' :
-                                    '#fff';
-                            }
-                            else {
-                                return d == 1 ? '#fff' :
-                                    d == 2 ? 'rgb(252,202,78)' :
-                                    d == 3 ? 'rgb(250,175,78)' :
-                                    d == 4 ? 'rgb(249,145,77)' :
-                                    d == 5 ? 'rgb(246,104,61)' :
-                                    '#fff';
-                            }
                         };
                     },
 
@@ -153,41 +142,6 @@ WHO.Views = WHO.Views || {};
 
             this.drawBounds(risks);
         },
-
-        drawClusters: function() {
-
-            /*
-            var markers = L.markerClusterGroup({
-
-                iconCreateFunction: function (cluster) {
-                    var count = cluster.getChildCount();
-                    var digits = (count+'').length;
-                    return new L.DivIcon({
-                        html: count,
-                        className:'cluster digits-'+digits,
-                        iconSize: null
-
-                    });
-                },
-                //Disable all of the defaults:
-                spiderfyOnMaxZoom: false, showCoverageOnHover: false, zoomToBoundsOnClick: false
-            });
-
-            for (var i in data ) {
-                var a = data[i];
-                var title = a["Case ID"];
-                var marker = L.marker(new L.LatLng(a.Latitude, a.Longitude), {
-                    icon: L.mapbox.marker.icon(),
-                    title: title
-                });
-                marker.bindPopup(title);
-                markers.addLayer(marker);
-            }
-            */
-            //WHO.map.addLayer(markers);
-
-
-        }
     });
 
 })();

@@ -50,18 +50,20 @@ p, div, span, section, lable, ul, li {
 /****************************************************/
 /************** Navs ********************************/
 
-.navbar-fixed-top {
+body .navbar {
     min-height: 55px;
 }
 
 .navbar-brand .title {
-    font-size: 16px;
-    margin: 0 0 0 15px;
+    font-size: 14px;
+    line-height: 14px;
+    margin: 0 0 0 10px;
+    padding: 6px 0 6px 10px;
 }
 
 .navbar-brand img {
-    width: 120px;
-    height: 37px;
+    width: 90px;
+    height: 28px;
     margin-left: 8px;
 }
 
@@ -72,7 +74,6 @@ p, div, span, section, lable, ul, li {
 
 .graph-container {
     position: relative;
-    margin-top: 1em;
 }
 
 #epi-graph {
@@ -178,11 +179,10 @@ p, div, span, section, lable, ul, li {
 }
 
 .download{
-  position: relative;
-  left:88%;
-  font: 14px sans-serif;
-  margin-bottom: 10px;
-  line-height: 14px;
+    margin: 0 10px 10px 0;
+    line-height: 14px;
+    text-align: right;
+    display: none;
 }
 
 .download-button:before {
@@ -198,7 +198,7 @@ p, div, span, section, lable, ul, li {
 
 #map {
     width: 100%;
-    height: 500px;
+    height: 350px;
     position: relative;
 }
 
@@ -337,53 +337,7 @@ p, div, span, section, lable, ul, li {
 }
 
 /****************************************************/
-/************** Download ******************************/
-
-.download-container {
-    position: relative;
-    margin-top: 1em;
-}
-
-.download-section {
-    top: 40px;
-    left: 30px;
-    width: 100%;
-    position: relative;
-    font: 14px sans-serif;
-}
-
-.download-container .btn {
-  top: 50px;
-  left: 30px;
-}
-
-/****************************************************/
 /************** Media Queries ***********************/
-
-@media only screen and (min-device-width : 320px) and (max-device-width : 568px) {
-    .navbar-toggle {
-        margin-right: 8px!important;
-    }
-    .graph-container {
-        display: none;
-    }
-    .navbar-brand .title {
-        max-width: 125px;
-        padding: 0px 0px 8px 4px;
-        height: 35px;
-        margin: 0px 0px 0px 8px;
-        font-size: 12px;
-    }
-    .navbar-brand a {
-        margin-top: 0px;
-    }
-    .navbar-brand img {
-        margin-left: 15px;
-    }
-    #map {
-        height: 350px;
-    }
-}
 
 @media only screen and (min-width: 960px) {
     body {
@@ -391,16 +345,18 @@ p, div, span, section, lable, ul, li {
     }
     .subhead h1 { font-size: 38px; }
     .jumbotron p { font-size: 24px; }
-    .navbar-fixed-top { min-height: 70px; }
+    body .navbar { min-height: 70px; }
     .navbar-brand img { width: 170px; height: 52px; }
     .navbar-brand .title {
         font-size: 23px;
         margin: 8px 0 0 15px;
     }
-    .navbar-collapse .nav { margin: 13px -5px 0 0; }
+    .navbar-collapse .nav { margin: 18px -5px 0 0; }
 
+    .graph-container { margin-top: 1em; }
     .graph-legend { margin: 0 45px; }
     #epi-graph { height: 192px; }
+    #map { height: 500px; }
     #map-overlay-container > .dropdown-container {
         float: right;
         margin-top: 0;
@@ -410,5 +366,8 @@ p, div, span, section, lable, ul, li {
         height:20px;
         font-size:12px;
         line-height: 20px;
+    }
+    .download {
+        display: block;
     }
 }

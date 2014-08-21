@@ -47,14 +47,9 @@
 .navbar-brand .title {
     float: right;
     display: block;
-    padding: 8px 0 8px 15px;
     font-weight: 200;
     color: #34495e;
     border-left: solid 1px #34495e;
-}
-
-.navbar-collapse .nav {
-    margin: 13px -5px 0 0;
 }
 .navbar-collapse .nav > li > a {
     color: #333;
@@ -139,9 +134,6 @@
 }
 .navbar-collapse .dropdown-menu::-webkit-scrollbar-corner {
     background-color: transparent;
-}
-.container>.navbar-collapse {
-    margin-bottom: 10px;
 }
 
 /* Jumbotrons
