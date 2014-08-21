@@ -37,7 +37,6 @@ WHO.Views = WHO.Views || {};
 
         drawChart: function(data) {
             this.spinner.stop();
-            $('#test-index').text(data.length + ' ' + data[0]['total'] + ' ' + data[data.length-1].time);
 
             var margin = {top: 10, right: 60, bottom: 30, left: 60},
                 width = this.$el.width() - margin.left - margin.right,
@@ -107,8 +106,6 @@ WHO.Views = WHO.Views || {};
             .append("g")
                 .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-            svg.call(tip);
-
             var columns = svg.selectAll(".week")
                 .data(data)
             .enter().append("g")
@@ -124,6 +121,8 @@ WHO.Views = WHO.Views || {};
                 .attr('y', function(d) { return y(d.y1) })
                 .attr('height', function(d) { return height - y(d.val) || 1; })
                 .attr('class', function(d) { return d.name; });
+
+            $('#test-index').text(svg.length + ' ' + bars.length + ' ' + bars[0][0].nodeName);
 
             var xAxis = svg.append("g")
                 .attr("class", "x axis")
