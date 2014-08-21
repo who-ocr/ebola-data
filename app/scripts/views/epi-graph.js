@@ -46,27 +46,15 @@ WHO.Views = WHO.Views || {};
             console.log(data);
             var totals = _.map(data, function(d) { return d['total'] }),
                 max = Math.max.apply(null, totals);
-            //var max = d3.max(data, function(d) { return d.total;});
 
             $test.append('<p style="font-size: 10px;">1</p>');
 
-            var x = d3.scale.linear()
-                .rangeRound([0, width])
-                .domain([0, data.length]);
-
-            $test.append('<p style="font-size: 10px;">1</p>');
-            var y = d3.scale.linear()
-                .range([height, 0])
-                .domain([0, max]);
-
-            $test.append('<p style="font-size: 10px;">1</p>');
             var barW = Math.floor(width / data.length) - 1,
                 halfBar = barW / 2;
-
             $test.append('<p style="font-size: 10px;">1</p>');
+
             var order = this.order,
                 ticks = [];
-
             $test.append('<p style="font-size: 10px;">1</p>');
 
             _.each(data, function(d, i) {
@@ -87,17 +75,29 @@ WHO.Views = WHO.Views || {};
                     });
                 }
             });
+            $test.append('<p style="font-size: 10px;">1</p>');
+
+            var x = d3.scale.linear()
+                .rangeRound([0, width])
+                .domain([0, data.length]);
+            $test.append('<p style="font-size: 10px;">1</p>');
+
+            var y = d3.scale.linear()
+                .range([height, 0])
+                .domain([0, max]);
+            $test.append('<p style="font-size: 10px;">1</p>');
+
 
             // var line = d3.svg.line()
                 // .x(function(d, i) { return x(i); })
                 // .y(function(d) { return y(d.total); })
                 // .interpolate('basis');
 
-            $test.append('<p style="font-size: 10px;">1</p>');
-
             var yAxis = d3.svg.axis()
                 .scale(y)
                 .orient("right");
+            $test.append('<p style="font-size: 10px;">1</p>');
+
 
             var format = d3.time.format("%d-%m-%Y");
             var template = _.template('<h4><%= date %></h4><p>Confirmed: <%= confirmed %><br />Probable: <%= probable %><br />Suspected: <%= suspected %>');
