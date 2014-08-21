@@ -82,6 +82,7 @@ body .navbar {
     height: 237px;
     position: relative;
     font: 10px sans-serif;
+    display: none;
 }
 
 .graph-legend {
@@ -356,7 +357,7 @@ body .navbar {
 
     .graph-container { margin-top: 1em; }
     .graph-legend { margin: 0 45px; }
-    #epi-graph { height: 192px; }
+    #epi-graph { display: block; height: 192px; }
     #map { height: 500px; }
     #map-overlay-container > .dropdown-container {
         float: right;
