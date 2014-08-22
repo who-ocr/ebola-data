@@ -10,7 +10,6 @@ body {
     position: relative;
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
     text-rendering: optimizeLegibility;
-    padding-top: 55px;
 }
 
 h1, h2, h3, h4, h5, h6,
@@ -340,9 +339,6 @@ body .navbar {
 /************** Media Queries ***********************/
 
 @media only screen and (min-width: 960px) {
-    body {
-        padding-top: 70px;
-    }
     .subhead h1 { font-size: 38px; }
     .jumbotron p { font-size: 24px; }
     body .navbar { min-height: 70px; }
