@@ -76,7 +76,7 @@ WHO.Views = WHO.Views || {};
                 },
 
                 target,
-                colors, cs;
+                colors, cs, max;
 
             if (this.maptype === 'country') {
                 colors = ['#fff',
@@ -86,7 +86,7 @@ WHO.Views = WHO.Views || {};
                         'rgb(249,145,77)',
                         'rgb(246,104,61)'
                 ];
-                cs = chroma.scale(colors).domain([1, 6]);
+                max = 6;
             } else {
                 colors = ['#fff',
                         'rgb(252,202,78)',
@@ -94,8 +94,10 @@ WHO.Views = WHO.Views || {};
                         'rgb(249,145,77)',
                         'rgb(246,104,61)'
                 ];
-                cs = chroma.scale(colors).domain([1, 5]);
+                max = 5;
             }
+            cs = d3.scale.ordinal()
+                .range(colors).domain(d3.range(1,max));
 
             var layer = L.geoJson(bounds, {
                     style: function(feature) {
