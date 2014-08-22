@@ -36,11 +36,14 @@ WHO.Views = WHO.Views || {};
         },
 
         drawChart: function(data) {
-            this.spinner.stop();
-            var $test = $('#test-index');
+            var elWidth = this.$el.width(),
+                mobile = elWidth < 480;
 
             var margin = {top: 10, right: 60, bottom: 30, left: 60};
-            var width = this.$el.width() - margin.left - margin.right;
+            if (mobile) {
+                margin.bottom = 60;
+            }
+            var width = elWidth - margin.left - margin.right;
             var height = 180 - margin.top - margin.bottom;
 
             var totals = _.map(data, function(d) { return d['total'] }),
@@ -89,12 +92,17 @@ WHO.Views = WHO.Views || {};
 
             var yAxis = d3.svg.axis()
                 .scale(y)
-                .orient("right");
+                .orient('right');
 
 
-            var format = d3.time.format("%d-%m-%Y");
+            var format = d3.time.format('%d-%m-%Y');
             var template = _.template('<h4><%= date %></h4><p>Confirmed: <%= confirmed %><br />Probable: <%= probable %><br />Suspected: <%= suspected %>');
 
+            var svg = d3.select('#epi-graph').append('svg')
+                .attr('width', width + margin.left + margin.right)
+                .attr('height', height + margin.top + margin.bottom)
+            .append('g')
+                .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
 
             var tip = d3.tip()
                 .attr('class', 'd3-tip')
@@ -107,62 +115,67 @@ WHO.Views = WHO.Views || {};
                     });
                 });
 
+            svg.call(tip);
 
-            var svg = d3.select("#epi-graph").append("svg")
-                .attr("width", width + margin.left + margin.right)
-                .attr("height", height + margin.top + margin.bottom)
-            .append("g")
-                .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-
-
-            var columns = svg.selectAll(".week")
+            var columns = svg.selectAll('.week')
                 .data(data)
-            .enter().append("g")
-                .attr("class", "week")
-                .attr("transform", function(d, i) { return "translate(" + (x(i) - halfBar) + ",0)"; })
+            .enter().append('g')
+                .attr('class', 'week')
+                .attr('transform', function(d, i) { return 'translate(' + (x(i) - halfBar) + ',0)'; })
                 .on('mouseover', tip.show)
                 .on('mouseout', tip.hide);
 
 
-            var bars = columns.selectAll("rect")
+            var bars = columns.selectAll('rect')
                 .data(function(d) { return d.bars; })
-            .enter().append("rect")
-                .attr("width", barW)
+            .enter().append('rect')
+                .attr('width', barW)
                 .attr('y', function(d) { return y(d.y1) })
                 .attr('height', function(d) { return height - y(d.val) || 1; })
                 .attr('class', function(d) { return d.name; });
 
-            var xAxis = svg.append("g")
-                .attr("class", "x axis")
-                .attr("transform", "translate(0," + (height + 3) + ")")
+            var xAxis = svg.append('g')
+                .attr('class', 'x axis')
+                .attr('transform', 'translate(0,' + (height + 3) + ')')
                 .selectAll('.tick')
                 .data(ticks)
               .enter().append('g')
                 .attr('class', 'tick')
                 .attr('transform', function(d) { return 'translate(' + x(d.position) + ',0)'; });
 
-            xAxis.append('line')
-                .attr('x1', 0)
-                .attr('x2', 0)
-                .attr('y1', 0)
-                .attr('y2', 5)
-                .style('stroke-width', '2');
+            if (mobile) {
+                xAxis.append('text')
+                    .text(function(d) { return format(d.display); })
+                    .style('text-anchor', 'end')
+                    .attr('dy', '-.8em')
+                    .attr('dy', '.15em')
+                    .attr('transform', 'rotate(-65)');
 
-            xAxis.append('text')
-                .text(function(d) { return format(d.display); })
-                .style("text-anchor", "middle")
-                .attr("dy", "15px");
+            } else {
 
-            svg.append("g")
+                xAxis.append('line')
+                    .attr('x1', 0)
+                    .attr('x2', 0)
+                    .attr('y1', 0)
+                    .attr('y2', 5)
+                    .style('stroke-width', '2');
+
+                xAxis.append('text')
+                    .text(function(d) { return format(d.display); })
+                    .style('text-anchor', 'middle')
+                    .attr('dy', '15px');
+            }
+
+            svg.append('g')
                 .attr('transform', 'translate(' + width + ',0)')
-                .attr("class", "y axis")
+                .attr('class', 'y axis')
                 .call(yAxis)
-            .append("text")
-                .attr("transform", "rotate(-90)")
-                .attr("y", 6)
-                .attr("dy", "-.8em")
-                .style("text-anchor", "end")
-                .text("Cases");
+            .append('text')
+                .attr('transform', 'rotate(-90)')
+                .attr('y', 6)
+                .attr('dy', '-.8em')
+                .style('text-anchor', 'end')
+                .text('Cases');
 
             // var path = svg.append('path')
                 // .datum(data)
@@ -174,6 +187,8 @@ WHO.Views = WHO.Views || {};
                 .duration(0)
                 .delay(function(d, i) { return (l - i) * 20 })
                 .attr('class', 'week active');
+
+            this.spinner.stop();
         },
 
         render: function () {
@@ -185,7 +200,7 @@ WHO.Views = WHO.Views || {};
                 // allWeeks = [], i = 0,
                 // model;
 
-            // while (d < this.collection.models[this.collection.models.length - 1].get("datetime")) {
+            // while (d < this.collection.models[this.collection.models.length - 1].get('datetime')) {
                 // allWeeks[i] = {week: new Date(d), Suspected: 0, Probable: 0, Confirmed: 0};
                 // d += (7*1000*3600*24);
                 // i++;
