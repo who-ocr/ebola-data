@@ -116,15 +116,29 @@ WHO.Views = WHO.Views || {};
                 });
 
             svg.call(tip);
+            var inclick = false,
+                $body = $('body');
 
             var columns = svg.selectAll('.week')
                 .data(data)
             .enter().append('g')
                 .attr('class', 'week')
                 .attr('transform', function(d, i) { return 'translate(' + (x(i) - halfBar) + ',0)'; })
-                .on('mouseover', tip.show)
-                .on('mouseout', tip.hide);
-
+                .on('mouseover', function(d) {
+                    if (!mobile) {
+                        tip.show(d);
+                    }
+                })
+                .on('mouseout', function(d) {
+                    if (!mobile) {
+                        tip.hide(d);
+                    }
+                })
+                .on('click', function(d) {
+                    if (mobile) {
+                        tip.show(d);
+                    }
+                });
 
             var bars = columns.selectAll('rect')
                 .data(function(d) { return d.bars; })
