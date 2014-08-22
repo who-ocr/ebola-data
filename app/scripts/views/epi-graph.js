@@ -45,6 +45,7 @@ WHO.Views = WHO.Views || {};
                 margin.right = 34;
                 margin.left = 34;
             }
+
             var width = elWidth - margin.left - margin.right;
             var height = 180 - margin.top - margin.bottom;
 
@@ -84,8 +85,6 @@ WHO.Views = WHO.Views || {};
             var x = d3.scale.linear()
                 .rangeRound([0, width])
                 .domain([0, data.length]);
-
-
 
             // var line = d3.svg.line()
                 // .x(function(d, i) { return x(i); })
@@ -223,6 +222,8 @@ WHO.Views = WHO.Views || {};
                 .attr('class', 'week active');
 
             this.spinner.stop();
+
+            return;
         },
 
         render: function () {

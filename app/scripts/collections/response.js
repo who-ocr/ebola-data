@@ -4,11 +4,8 @@ WHO.Collections = WHO.Collections || {};
 
 (function () {
     'use strict';
-
     WHO.Collections.Response = Backbone.Collection.extend({
-
-        model: WHO.Models.Response
-
+        model: WHO.Models.Clinics
     });
 
 })();
