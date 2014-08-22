@@ -116,8 +116,8 @@ WHO.Views = WHO.Views || {};
                 });
 
             svg.call(tip);
-            var inclick = false,
-                $body = $('body');
+            var $body = $('body'),
+                timeout = false;
 
             var columns = svg.selectAll('.week')
                 .data(data)
@@ -131,14 +131,32 @@ WHO.Views = WHO.Views || {};
                 })
                 .on('mouseout', function(d) {
                     if (!mobile) {
-                        tip.hide(d);
+                        tip.hide();
                     }
                 })
                 .on('click', function(d) {
                     if (mobile) {
                         tip.show(d);
+                        tip.isopen = true;
+                        tip.justclicked = true;
+                        if (timeout) {
+                            window.clearTimeout(timeout);
+                            timeout = false;
+                        }
+                        timeout = window.setTimeout(function() {
+                            tip.justclicked = false;
+                        }, 50);
                     }
                 });
+
+            $body.on('click', function() {
+                if (tip.justclicked || !tip.isopen) {
+                    return;
+                } else {
+                    tip.hide();
+                    tip.isopen = false;
+                }
+            });
 
             var bars = columns.selectAll('rect')
                 .data(function(d) { return d.bars; })
