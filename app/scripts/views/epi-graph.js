@@ -42,6 +42,8 @@ WHO.Views = WHO.Views || {};
             var margin = {top: 10, right: 60, bottom: 30, left: 60};
             if (mobile) {
                 margin.bottom = 60;
+                margin.right = 34;
+                margin.left = 34;
             }
             var width = elWidth - margin.left - margin.right;
             var height = 180 - margin.top - margin.bottom;
