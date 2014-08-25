@@ -71,15 +71,32 @@
                         <h5 class="who-title">Reported Ebola cases by week</h5>
 
                         <ul class="legend">
-                            <li><span class="box confirmed"></span> Confirmed</li>
-                            <li><span class="box probable"></span> Probable</li>
-                            <li><span class="box suspected"></span> Suspected</li>
+                            <li><span class="box confirmed">&nbsp;</span> Confirmed</li>
+                            <li><span class="box probable">&nbsp;</span> Probable</li>
+                            <li><span class="box suspected">&nbsp;</span> Suspected</li>
                         </ul>
                     </div>
 
                     <div class="col-md-4" id="map-legend">
 
                         <h5 class="who-title">Legend</h5>
+
+                        <ul class="country legend">
+                            <li><span class="box zone-5">&nbsp;</span> Core zone</li>
+                            <li><span class="box zone-4">&nbsp;</span> New reporting cases</li>
+                            <li><span class="box zone-3">&nbsp;</span> At-risk</li>
+                            <li><span class="box zone-2">&nbsp;</span> Alert</li>
+                            <li><span class="box zone-1">&nbsp;</span> Rumour countries</li>
+                            <li><span class="box zone-0">&nbsp;</span> No cases</li>
+                        </ul>
+
+                        <ul class="district legend" style="display: none;">
+                            <li><span class="box zone-4">&nbsp;</span>Core Zone</li>
+                            <li><span class="box zone-3">&nbsp;</span>Active transmission with response hubs</li>
+                            <li><span class="box zone-2">&nbsp;</span>Active transmission outside core zone</li>
+                            <li><span class="box zone-1">&nbsp;</span>New reporting cases</li>
+                            <li><span class="box zone-0">&nbsp;</span>No cases</li>
+                        </ul>
 
                     </div>
 
@@ -89,27 +106,10 @@
 
 
         <div class="download">
-
-            <a href="https://luminous-heat-4380.firebaseio.com/cases_admin_aug17/.json?download=who-reported-cases.txt"><button class="download-button btn btn-xs btn-default">Download data</button></a>
-
+            <a href="https://luminous-heat-4380.firebaseio.com/cases_admin_aug17/.json?download=who-reported-cases.txt"><button class="download-button btn btn-default">Download data</button></a>
         </div>
 
         <div style="display:none;">
-            <div id='legend'>
-                <nav class='legend clearfix country'>
-                    <span style='background:rgba(246,247,246,0.7);'></span>
-                    <span style='background:rgba(255,252,224,0.7);'></span>
-                    <span style='background:rgba(252,202,78,0.7);'></span>
-                    <span style='background:rgba(250,175,78,0.7);'></span>
-                    <span style='background:rgba(249,145,77,0.7);'></span>
-                    <span style='background:rgba(246,104,61,0.7);'></span>
-                    <label>No cases</label>
-                    <label>Rumour Countries</label>
-                    <label>Alert Countries</label>
-                    <label>At-risk Countries</label>
-                    <label>New reporting cases</label>
-                    <label>Core Zone</label>
-                </nav>
 
                 <nav class='legend clearfix district' style="display:none;">
                     <span style='background:rgba(246,247,246,0.7);'></span>
@@ -123,7 +123,6 @@
                     <label>Active transmission with response hubs</label>
                     <label>Core Zone</label>
                 </nav>
-            </div>
        </div>
 
    </div>

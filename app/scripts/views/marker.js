@@ -147,9 +147,7 @@ WHO.Views = WHO.Views || {};
                 this.removeLayers();
             }
 
-            var quantiles = this.maptype === 'country' ? 3 : 5,
-
-                maptype = this.maptype,
+            var maptype = this.maptype,
                 clicked = 0,
 
                 popup = this.popup,
@@ -170,22 +168,29 @@ WHO.Views = WHO.Views || {};
                 },
 
                 target,
-                closeTooltip;
+                closeTooltip,
+
+                sizeFactor = 0.77868852459,
+                opacity = 0.7;
+
+            if (maptype === 'country') {
+                sizeFactor = 1.10655737705;
+                opacity = 0.5;
+            }
 
             WHO.map.on('popupclose', function () {
                clicked = 0;
             });
 
-            var sizeFactor = WHO.map.getZoom() < 5 ? 3.2 : 3.8;
             var layer = L.geoJson(centroids, {
                 pointToLayer: function(feature, latlng) {
                     return L.circleMarker(latlng, {
-                        radius: Math.sqrt(scale(cases[feature.id][category]) / Math.PI)/(sizeFactor/4.88),
+                        radius: Math.sqrt(scale(cases[feature.id][category]) / Math.PI)/sizeFactor,
                         weight: 1.5,
                         color: '#9686A1',
-                        opacity: 0.7,
+                        opacity: opacity,
                         fillColor: '#9686A1',
-                        fillOpacity: 0.7
+                        fillOpacity: opacity,
                     });
                 },
 

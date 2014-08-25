@@ -102,35 +102,17 @@ body .navbar {
 .legend li {
     font-size: 12px;
     line-height: 12px;
-    margin: 0.5em 1em;
+    margin: 1em 1.2em;
+    font-weight: 600;
+    color: #444;
 }
 
 .legend .box {
     height: 10px;
     width: 10px;
     border-radius: 2px;
+    margin-right: 4px;
     display: inline-block;
-}
-
-.axis path,
-.axis line {
-  fill: none;
-  stroke: #666;
-  shape-rendering: crispEdges;
-}
-
-.case-line {
-    fill: none;
-    shape-rendering: crispEdges;
-    stroke-width: 2px;
-    stroke: #EBBA5D;
-}
-
-.tick line {
-    stroke: #666;
-}
-.tick text {
-    color: #666;
 }
 
 .confirmed {
@@ -148,6 +130,35 @@ body .navbar {
     background: #8a89a6 ;
 }
 
+.country .zone-0            { background: #ffffd4; }
+.country .zone-1            { background: #fee391; }
+.country .zone-2            { background: #fec44f; }
+.country .zone-3            { background: #fe9929; }
+.country .zone-4            { background: #d95f0e; }
+.country .zone-5            { background: #993404; }
+
+
+
+/****************************************************/
+/************** SVG *********************************/
+
+.axis path,
+.axis line {
+  fill: none;
+  stroke: #666;
+  shape-rendering: crispEdges;
+}
+
+.case-line {
+    fill: none;
+    shape-rendering: crispEdges;
+    stroke-width: 2px;
+    stroke: #EBBA5D;
+}
+
+.tick line { stroke: #666; }
+.tick text { color: #666; }
+
 .week {
     opacity: 0;
     -webkit-transition: opacity 200ms;
@@ -163,9 +174,9 @@ body .navbar {
     line-height: 1;
     font-weight: bold;
     padding: 6px 12px;
-    background: #34495e;
+    background: #fff;
     opacity: 0.8;
-    color: #fff;
+    color: #333;
     border-radius: 4px;
     pointer-events: none;
     z-index: 1002;
@@ -180,14 +191,18 @@ body .navbar {
 .d3-tip > p {
     font-size: 12px;
     line-height: 18px;
-    font-weight: 300;
+    font-weight: 400;
     margin-bottom: 6px;
 }
 
+
+/****************************************************/
+/************** Download ****************************/
+
 .download{
-    margin: 0 10px 10px 0;
-    line-height: 14px;
-    text-align: right;
+    position: fixed;
+    top: 78px;
+    right: 10px;
     display: none;
 }
 
@@ -254,9 +269,8 @@ body .navbar {
     .navbar-collapse .nav { margin: 18px -5px 0 0; }
 
     .graph-container { margin-top: 1em; }
-    #epi-graph { height: 192px; }
+    #epi-graph { height: 280px; }
     #test-index { display: none; }
-    /*#map { height: 500px; }*/
     #map-overlay-container > .dropdown-container {
         float: right;
         margin-top: 0;

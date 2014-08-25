@@ -48,11 +48,10 @@ WHO.Views = WHO.Views || {};
             }
 
             var width = elWidth - margin.left - margin.right;
-            var height = 180 - margin.top - margin.bottom;
+            var height = 270 - margin.top - margin.bottom;
 
             var totals = _.map(data, function(d) { return d['total'] }),
                 max = Math.max.apply(null, totals);
-
 
             var barW = Math.floor(width / data.length) - 1,
                 halfBar = barW / 2;

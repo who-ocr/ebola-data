@@ -79,14 +79,26 @@ WHO.Views = WHO.Views || {};
                 colors, cs, max;
 
             if (this.maptype === 'country') {
-                colors = ['#fff',
+                colors = [
+                    '#ffffd4',
+                    '#fee391',
+                    '#fec44f',
+                    '#fe9929',
+                    '#d95f0e',
+                    '#993404'
+                ];
+                /*
+
+                    '#fff',
                         'rgb(255,252,224)',
                         'rgb(252,202,78)',
                         'rgb(250,175,78)',
                         'rgb(249,145,77)',
                         'rgb(246,104,61)'
-                ];
+
+                        */
                 max = 6;
+
             } else {
                 colors = ['#fff',
                         'rgb(252,202,78)',
@@ -96,16 +108,17 @@ WHO.Views = WHO.Views || {};
                 ];
                 max = 5;
             }
+
             cs = d3.scale.ordinal()
                 .range(colors).domain(d3.range(1,max));
 
             var layer = L.geoJson(bounds, {
                     style: function(feature) {
                         return {
-                            color: 'rgb(0,0,0)',
+                            color: '#666',
                             fillColor: cs(risks[feature.id]),
-                            opacity: 0.2,
-                            fillOpacity: 0.2,
+                            opacity: 0.333,
+                            fillOpacity: 0.333,
                             weight: 1
                         };
                     },
