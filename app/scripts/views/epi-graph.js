@@ -16,11 +16,12 @@ WHO.Views = WHO.Views || {};
         initialize: function () {
 
             // Show spinner until load
-            this.spinner = new Spinner({
-                color: '#888',
-                length: 2,
-                speed: 0.8
-            }).spin(document.getElementById('epi-graph'));
+            // Not showing spinner since it's now below the map
+            // this.spinner = new Spinner({
+                // color: '#888',
+                // length: 2,
+                // speed: 0.8
+            // }).spin(document.getElementById('epi-graph'));
 
         },
 
@@ -221,7 +222,7 @@ WHO.Views = WHO.Views || {};
                 .delay(function(d, i) { return (l - i) * 20 })
                 .attr('class', 'week active');
 
-            this.spinner.stop();
+            // this.spinner.stop();
 
             return;
         },
