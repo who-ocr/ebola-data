@@ -102,10 +102,10 @@ WHO.Views = WHO.Views || {};
             var layer = L.geoJson(bounds, {
                     style: function(feature) {
                         return {
-                            color: 'rgb(254,243,183)',
+                            color: 'rgb(0,0,0)',
                             fillColor: cs(risks[feature.id]),
-                            opacity: 0.7,
-                            fillOpacity: 0.7,
+                            opacity: 0.2,
+                            fillOpacity: 0.2,
                             weight: 1
                         };
                     },

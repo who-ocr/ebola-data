@@ -159,7 +159,7 @@ WHO.Views = WHO.Views || {};
                 min = 0,
 
                 scale = d3.scale.quantize().domain([0, max])
-                    .range([150, 600, 1200, 1800, 2400, 3000, 3600, 4200, 4800, 6000]),
+                    .range([200, 400, 800, 1200, 1600, 2000, 2400, 2800, 3200, 3600]),
 
                 centroids = {
                     type: 'Topology',
@@ -176,15 +176,15 @@ WHO.Views = WHO.Views || {};
                clicked = 0;
             });
 
-            var sizeFactor = WHO.map.getZoom() < 5 ? 3.2 : 2.8;
+            var sizeFactor = WHO.map.getZoom() < 5 ? 3.2 : 3.8;
             var layer = L.geoJson(centroids, {
                 pointToLayer: function(feature, latlng) {
                     return L.circleMarker(latlng, {
-                        radius: Math.sqrt(scale(cases[feature.id][category]) / Math.PI)/(sizeFactor/1.88),
+                        radius: Math.sqrt(scale(cases[feature.id][category]) / Math.PI)/(sizeFactor/4.88),
                         weight: 1.5,
-                        color: '#fff',
+                        color: '#9686A1',
                         opacity: 0.7,
-                        fillColor: '#B1A6B8',
+                        fillColor: '#9686A1',
                         fillOpacity: 0.7
                     });
                 },
