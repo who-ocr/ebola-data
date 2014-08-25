@@ -40,7 +40,7 @@ WHO.Views = WHO.Views || {};
             var elWidth = this.$el.width(),
                 mobile = elWidth < 480;
 
-            var margin = {top: 10, right: 60, bottom: 30, left: 60};
+            var margin = {top: 30, right: 60, bottom: 30, left: 60};
             if (mobile) {
                 margin.bottom = 60;
                 margin.right = 34;
