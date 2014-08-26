@@ -12,10 +12,6 @@ WHO.Views = WHO.Views || {};
             this.layers = [];
         },
 
-        setFilter: function(filters) {
-            this.filters = filters;
-        },
-
         load: function() {
             if (this.collection.length) {
                 this.getmap();

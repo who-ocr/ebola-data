@@ -5,41 +5,25 @@ WHO.Routers = WHO.Routers || {};
 (function () {
     'use strict';
 
-    var defaultType = 'total';
-    var defaultMap = 'cases',
-        init = false,
-        timeParams = [
-            {
-                display: 'Most recent',
-                val: 'recent'
-            },
-            {
-                display: 'All',
-                val: 'all'
-            }
-        ],
-        typeParams = [
-            {
-                display: 'All cases',
-                val: 'total'
-            },
-            {
-                display: 'Confirmed cases',
-                val: 'confirmed'
-            },
-            {
-                display: 'Suspected cases',
-                val: 'suspected'
-            },
-            {
-                display: 'Probable cases',
-                val: 'probable'
-            }
-        ],
-        state = {
-            time: '',
-            type: ''
-        };
+    var init = false;
+
+    //********************* Map Initialize the map *********************//
+    WHO.defaultZoom = 3;
+    WHO.map = L.mapbox.map('map','nate.j8n0m4ld')
+        .setView([-14.179, -11.426], WHO.defaultZoom);
+    WHO.map.scrollWheelZoom.disable();
+    WHO.$map = $('#map');
+
+    //********************* Start the router *********************//
+    WHO.Routers.App = Backbone.Router.extend({
+        routes: {
+            ''                              : 'newload'
+        },
+        newload: function() {
+            bootstrap();
+            WHO.markerview.load();
+        },
+    });
 
     function bootstrap() {
         // model to listen for zoom
@@ -82,79 +66,38 @@ WHO.Routers = WHO.Routers || {};
             var $toggles = $('<div id="map-overlay-container"></div>').appendTo(
                 WHO.$map);
 
-            // new WHO.Views.Dropdown({
-                // id: 'toggle-case-type',
-                // el: $('<div id="toggle-case-type" class="dropdown-container"></div>').appendTo($toggles),
-                // options: typeParams,
-                // className: 'type'
-            // });
-
-            // new WHO.Views.Dropdown({
-                // id: 'toggle-time',
-                // el: $('<div id="toggle-time" class="dropdown-container"></div>').appendTo($toggles),
-                // options: timeParams,
-                // className: 'time'
-            // });
-
         });
 
         WHO.mapview.load();
         WHO.epiGraph.load();
+
+        //********************* Listen and convert to CSVs *********************//
+
+        $('#csv-download').on('click', function() {
+            if (WHO.collections.cases.length) {
+                convertCSV(WHO.collections.cases);
+            }
+        });
+
         init = true;
     }
 
-    WHO.defaultZoom = 3;
-    WHO.map = L.mapbox.map('map','nate.j8n0m4ld')
-        .setView([-14.179, -11.426], WHO.defaultZoom);
+    function convertCSV(models) {
+        // Convert models to arrays
+        var i = 0, ii = models.length,
+            keys = _.keys(models.at(0).attributes),
+            k = 0, kk = keys.length,
+            csvList = [],
+            csvString = 'data:text/csv;charset=utf-8,' + keys.join(',') + '\n',
+            row = [];
 
-    WHO.map.scrollWheelZoom.disable();
-
-    WHO.$map = $('#map');
-
-    WHO.Routers.App = Backbone.Router.extend({
-        routes: {
-            ''                              : 'newload',
-            ':time/:type'                   : 'newload'
-            // ':time/:type'                : 'newfilter',
-        },
-
-        newload: function() {
-            bootstrap();
-
-            WHO.markerview.setFilter({type: defaultType, time: 'recent'});
-            WHO.markerview.load();
-
-            //this.navigate('recent/' + defaultType, {trigger: false});
-            state['time'] = 'recent';
-            state['type'] = defaultType;
-        },
-
-        newfilter: function(time, type) {
-            if (!init) bootstrap();
-            if (_.map(timeParams, function(t) { return t.val }).indexOf(time) !== -1 &&
-                _.map(typeParams, function(t) { return t.val }).indexOf(type) !== -1) {
-
-                WHO.markerview.setFilter({type: type, time: time});
-                this.navigate(time + '/' + type, {trigger: false});
-                state['time'] = time;
-                state['type'] = type;
-            }
-
-            else {
-                WHO.markerview.setFilter({type: defaultType, time: 'recent'});
-                this.navigate('recent/' + defaultType, {trigger: false});
-                state['time'] = 'recent';
-                state['type'] = defaultType;
-            }
-
-            WHO.markerview.load();
-
-        },
-
-        set: function(key, val) {
-            state[key] = val;
-            this.navigate(state['time'] + '/' + state['type'], {trigger: true});
+        for (; i < ii; k = 0, row = [], ++i) {
+            for(; k < kk; row.push(models.at(i).get(keys[k])), ++k) {}
+            csvList.push(row.join(','));
         }
-    });
+
+        var encodedUri = encodeURI(csvString + csvList.join('\n'));
+        window.open(encodedUri);
+    }
 
 })();
