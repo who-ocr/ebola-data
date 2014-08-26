@@ -5,6 +5,36 @@ WHO.Views = WHO.Views || {};
 (function () {
     'use strict';
 
+    function convertIds(cases, start, end, inc) {
+        var zeros = [],
+            tail = '';
+
+        for (var i = 0, ii = inc; i < inc; zeros.push('0'), ++i);
+        tail = zeros.join('');
+
+        var keys = _.keys(cases),
+            props = _.keys(cases[keys[0]]),
+            newids = {},
+            newid;
+
+        for(i = 0, ii = keys.length; i < ii; ++i) {
+            // ignore empty strings, they mean nothing
+            if (keys[i]) {
+                newid = keys[i].substring(start, end).concat(tail);
+
+                if (!newids[newid]) {
+                    newids[newid] = _.clone(cases[keys[i]]);
+                } else {
+                    _.each(props, function(prop) {
+                        newids[newid][prop] = cases[keys[i]][prop]
+                    });
+                }
+            }
+
+        }
+        return newids;
+    }
+
     WHO.Views.Marker = Backbone.View.extend({
 
         initialize: function (options) {
@@ -92,40 +122,38 @@ WHO.Views = WHO.Views || {};
                 model = this.collection.models[i];
                 category = model.get('case category').toLowerCase();
                 geo = model.get(admin);
-                if (admin == 'ADM0_NAME') {
-                    tmpid = model.get(adminCode).substring(0,5);
-                    geoid = tmpid.concat('000000000000000');
-                }
-                else if (admin == 'ADM1_NAME') {
-                    tmpid = model.get(adminCode).substring(0,8);
-                    geoid = tmpid.concat('000000000000');
-                }
-                else {
-                    geoid = model.get(adminCode);
-                }
+                geoid = model.get(adminCode);
 
                 if (category === 'For Aggregates' ||
                     maxdate - model.get('datetime') <= dateLimit) {
                     continue;
                 }
 
-                else {
-                  if (!(geoid in cases)) {
+                if (!cases[geoid]) {
                     cases[geoid] = {
                         name: geo,
                         confirmed: 0,
                         probable: 0,
                         suspected: 0,
+                        total: 1,
                         hcw: 0,
                         deaths: 0
                     };
-                  }
-                  cases[geoid][category] += 1;
-                  if (model.get('HCW') == 'TRUE')
+                }
+
+                cases[geoid][category] += 1;
+
+                if (model.get('HCW') === 'TRUE') {
                     cases[geoid].hcw += 1;
-                  if (model.get('outcome') == 'Dead')
+                }
+                if (model.get('outcome') === 'Dead') {
                     cases[geoid].deaths += 1;
                 }
+            }
+
+            if (this.maptype === 'province' || this.maptype === 'country') {
+                var end = this.maptype === 'province' ? 8 : 5;
+                cases = convertIds(cases, 0, end, 20 - end);
             }
 
             _.each(cases, function(c) {
@@ -134,7 +162,6 @@ WHO.Views = WHO.Views || {};
 
             this.cases = cases;
             this.drawMarkers(cases);
-
 
         },
 
@@ -147,7 +174,9 @@ WHO.Views = WHO.Views || {};
                 clicked = 0,
 
                 popup = this.popup,
-                category = this.filters.type,
+
+                // this is hardcoded at the moment, since we don't have toggles for it atm
+                category = 'total',
 
                 max = _.max(_.map(cases, function(c) { return c.total })),
                 min = 0,
