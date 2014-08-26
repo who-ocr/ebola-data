@@ -9,7 +9,9 @@ WHO.Views = WHO.Views || {};
 
         events: {},
         initialize: function (options) {
-            this.listenTo(options.zoom, 'zoom:end', this.getmap);
+            this.listenToOnce(this.collection, 'loaded', function() {
+                this.featureChange(WHO.getMapType(WHO.map.getZoom()));
+            });
 
             // Show spinner until load
             this.spinner = new Spinner({
@@ -22,34 +24,14 @@ WHO.Views = WHO.Views || {};
             this.layers = [];
         },
 
-        load: function(mapType) {
-            if (this.collection.length) {
-                this.getmap();
-            }
-            else {
-                this.listenToOnce(this.collection, 'loaded', this.getmap);
-                this.collection.query();
-            }
-        },
-
-        getmap: function(zoom) {
-            var level = zoom.level || WHO.defaultZoom;
-
-            if (this.level === level)   {   return;                                             }
-            else if (level < 5)         {   this.getBounds(WHO.Models.Country, 'country');      }
-            else if (level < 7)         {   this.getBounds(WHO.Models.Province, 'province');    }
-            else                        {   this.getBounds(WHO.Models.District, 'district');    }
-            this.level = level;
-        },
-
-        getBounds: function(model, maptype) {
-            var model = WHO.models[maptype]  || new model(); ;
+        getBounds: function(model, mapType) {
+            var model = WHO.models[mapType]  || new model(); ;
             this.model = model;
-            this.maptype = maptype;
+            this.mapType = mapType;
 
             // If topojson not loaded yet, load it before drawing
             if (model.get('type') !== 'FeatureCollection') {
-                WHO.models[maptype] = model;
+                WHO.models[mapType] = model;
                 this.listenToOnce(model, 'change', this.render);
                 model.fetch();
             }
@@ -58,16 +40,30 @@ WHO.Views = WHO.Views || {};
             }
         },
 
-        removeLayers: function() {
+        render: function () {
 
-            _.each(this.layers, function(layer) {
-                WHO.map.removeLayer(layer);
-            });
+            if (this.layers.length) {
+                this.removeLayers();
+            }
+
+            var risks = {},
+            model, geo;
+
+            for(var i = 0, ii = this.collection.models.length; i < ii; ++i) {
+                model = this.collection.models[i];
+                geo = model.get("geoID");
+                risks[geo] = model.get("level")
+            }
+
+            this.risks = risks;
+            this.drawBounds();
         },
 
-        drawBounds: function(risks) {
 
-            var values = _.values(risks),
+        drawBounds: function() {
+
+            var risks = this.risks,
+                values = _.values(risks),
                 bounds = {
                     type: 'FeatureCollection',
                     features: _.filter(this.model.attributes.features, function(feature) {
@@ -76,9 +72,18 @@ WHO.Views = WHO.Views || {};
                 },
 
                 target,
-                colors, cs, max;
+                cs,
 
-            if (this.maptype === 'country') {
+                // default colors for countries, will change now that all are 5 categories
+                colors = ['#fff',
+                        'rgb(252,202,78)',
+                        'rgb(250,175,78)',
+                        'rgb(249,145,77)',
+                        'rgb(246,104,61)'
+                ],
+                max = 5;
+
+            if (this.mapType === 'country') {
                 colors = [
                     '#ffffd4',
                     '#fee391',
@@ -87,26 +92,7 @@ WHO.Views = WHO.Views || {};
                     '#d95f0e',
                     '#993404'
                 ];
-                /*
-
-                    '#fff',
-                        'rgb(255,252,224)',
-                        'rgb(252,202,78)',
-                        'rgb(250,175,78)',
-                        'rgb(249,145,77)',
-                        'rgb(246,104,61)'
-
-                        */
                 max = 6;
-
-            } else {
-                colors = ['#fff',
-                        'rgb(252,202,78)',
-                        'rgb(250,175,78)',
-                        'rgb(249,145,77)',
-                        'rgb(246,104,61)'
-                ];
-                max = 5;
             }
 
             cs = d3.scale.ordinal()
@@ -140,23 +126,22 @@ WHO.Views = WHO.Views || {};
             return;
         },
 
-        render: function () {
-
-            if (this.layers.length) {
-                this.removeLayers();
+        featureChange: function(type) {
+            if (type === this.mapType) {
+                return;
             }
 
-            var risks = {},
-            model, geo;
-
-            for(var i = 0, ii = this.collection.models.length; i < ii; ++i) {
-                model = this.collection.models[i];
-                geo = model.get("geoID");
-                risks[geo] = model.get("level")
-            }
-
-            this.drawBounds(risks);
+            this.mapType = type;
+            var modelName = type.charAt(0).toUpperCase() + type.slice(1);
+            this.getBounds(WHO.Models[modelName], type);
         },
+
+        removeLayers: function() {
+            _.each(this.layers, function(layer) {
+                WHO.map.removeLayer(layer);
+            });
+        }
+
     });
 
 })();
