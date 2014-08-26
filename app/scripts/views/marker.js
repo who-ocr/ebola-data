@@ -5,66 +5,48 @@ WHO.Views = WHO.Views || {};
 (function () {
     'use strict';
 
+    function convertIds(cases, start, end, inc) {
+        var zeros = [],
+            tail = '';
+
+        for (var i = 0, ii = inc; i < inc; zeros.push('0'), ++i);
+        tail = zeros.join('');
+
+        var keys = _.keys(cases),
+            props = _.keys(cases[keys[0]]),
+            newids = {},
+            newid;
+
+        for(i = 0, ii = keys.length; i < ii; ++i) {
+            // ignore empty strings, they mean nothing
+            if (keys[i]) {
+                newid = keys[i].substring(start, end).concat(tail);
+
+                if (!newids[newid]) {
+                    newids[newid] = _.clone(cases[keys[i]]);
+                } else {
+                    _.each(props, function(prop) {
+                        newids[newid][prop] = cases[keys[i]][prop]
+                    });
+                }
+            }
+
+        }
+        return newids;
+    }
+
     WHO.Views.Marker = Backbone.View.extend({
 
         initialize: function (options) {
-            this.listenTo(options.zoom, 'zoom:end', this.getmap);
             this.layers = [];
-        },
-
-        load: function() {
-            if (this.collection.length) {
-                this.getmap();
-            }
-            else {
-                this.listenToOnce(this.collection, 'loaded', this.getmap);
-                this.collection.query();
-            }
-        },
-
-        getmap: function(zoom) {
-            var level, maptype;
-            if (zoom && zoom.level) {
-                level = zoom.level;
-            }
-            else if (this.level) {
-                level = this.level;
-            }
-            else {
-                level = WHO.defaultZoom;
-            }
-
-            //if (this.level === level)   {   return;                 }
-            if (level < 5)              {   maptype = 'country'     }
-            else if (level < 7)         {   maptype = 'province'    }
-            else                        {   maptype = 'district'    }
-
-            this.level = level;
-            this.maptype = maptype;
             this.popup = new L.Popup({ autoPan: false });
-            this.getCentroids();
+            this.mapType = WHO.getMapType(WHO.map.getZoom());
+
+            this.listenToOnce(this.collection, 'loaded', this.getCases);
+            this.listenToOnce(this.model, 'change', this.render);
         },
 
-
-        getCentroids: function() {
-            // If topojson not loaded yet, load it before drawing
-            if (this.model.get('type') !== 'FeatureCollection') {
-                this.listenToOnce(this.model, 'change', this.render);
-                this.model.fetch();
-            }
-            else {
-                this.render();
-            }
-        },
-
-        removeLayers: function() {
-            _.each(this.layers, function(layer) {
-                WHO.map.removeLayer(layer);
-            });
-        },
-
-
-        render: function () {
+        getCases: function () {
 
             var cases = {}, category, tmpid,
                 admin, adminCode,
@@ -74,7 +56,7 @@ WHO.Views = WHO.Views || {};
                 //dateLimit = this.filters.type === 'recent' ? 1000 * 3600 * 24 * 2 : 0;
                 dateLimit = 0;
 
-            switch(this.maptype) {
+            switch(this.mapType) {
                 case 'country':
                     admin = 'ADM0_NAME';
                     adminCode = 'ADM2_CODE';
@@ -91,41 +73,40 @@ WHO.Views = WHO.Views || {};
             for(var i = 0, ii = this.collection.models.length; i < ii; ++i) {
                 model = this.collection.models[i];
                 category = model.get('case category').toLowerCase();
-                geo = model.get(admin);
-                if (admin == 'ADM0_NAME') {
-                    tmpid = model.get(adminCode).substring(0,5);
-                    geoid = tmpid.concat('000000000000000');
-                }
-                else if (admin == 'ADM1_NAME') {
-                    tmpid = model.get(adminCode).substring(0,8);
-                    geoid = tmpid.concat('000000000000');
-                }
-                else {
-                    geoid = model.get(adminCode);
-                }
 
                 if (category === 'For Aggregates' ||
                     maxdate - model.get('datetime') <= dateLimit) {
                     continue;
                 }
 
-                else {
-                  if (!(geoid in cases)) {
+                geo = model.get(admin);
+                geoid = model.get(adminCode);
+
+                if (!cases[geoid]) {
                     cases[geoid] = {
                         name: geo,
                         confirmed: 0,
                         probable: 0,
                         suspected: 0,
+                        total: 1,
                         hcw: 0,
                         deaths: 0
                     };
-                  }
-                  cases[geoid][category] += 1;
-                  if (model.get('HCW') == 'TRUE')
+                }
+
+                cases[geoid][category] += 1;
+
+                if (model.get('HCW') === 'TRUE') {
                     cases[geoid].hcw += 1;
-                  if (model.get('outcome') == 'Dead')
+                }
+                if (model.get('outcome') === 'Dead') {
                     cases[geoid].deaths += 1;
                 }
+            }
+
+            if (this.mapType === 'province' || this.mapType === 'country') {
+                var end = this.mapType === 'province' ? 8 : 5;
+                cases = convertIds(cases, 0, end, 20 - end);
             }
 
             _.each(cases, function(c) {
@@ -133,21 +114,30 @@ WHO.Views = WHO.Views || {};
             });
 
             this.cases = cases;
-            this.drawMarkers(cases);
-
+            this.render();
 
         },
 
-        drawMarkers: function(cases) {
+        render: function() {
+
+            if (!this.cases || this.model.get('type') !== 'FeatureCollection') {
+                var render = $.proxy(this.render, this);
+                window.setTimeout(render, 100);
+                return;
+            }
+
             if (this.layers.length) {
                 this.removeLayers();
             }
 
-            var maptype = this.maptype,
+            var cases = this.cases,
+                mapType = this.mapType,
                 clicked = 0,
 
                 popup = this.popup,
-                category = this.filters.type,
+
+                // this is hardcoded at the moment, since we don't have toggles for it atm
+                category = 'total',
 
                 max = _.max(_.map(cases, function(c) { return c.total })),
                 min = 0,
@@ -169,7 +159,7 @@ WHO.Views = WHO.Views || {};
                 sizeFactor = 0.77868852459,
                 opacity = 0.7;
 
-            if (maptype === 'country') {
+            if (mapType === 'country') {
                 sizeFactor = 1.10655737705;
                 opacity = 0.5;
             }
@@ -201,7 +191,7 @@ WHO.Views = WHO.Views || {};
                             if (clicked == 0){
                                 var layer = e.target;
                                 popup.setLatLng(e.latlng);
-                                popup.setContent('<div class="marker-title">' + maptype.charAt(0).toUpperCase() + maptype.slice(1) + ': ' + cases[layer.feature.id].name + '</div> Click for more information');
+                                popup.setContent('<div class="marker-title">' + mapType.charAt(0).toUpperCase() + mapType.slice(1) + ': ' + cases[layer.feature.id].name + '</div> Click for more information');
                                 if (!popup._map) popup.openOn(WHO.map);
                                 window.clearTimeout(closeTooltip);
                             }
@@ -220,7 +210,7 @@ WHO.Views = WHO.Views || {};
                             var layer = e.target,
                             d = cases[layer.feature.id];
                             popup.setLatLng(e.latlng);
-                            popup.setContent('<div class="marker-title">' + maptype.charAt(0).toUpperCase() + maptype.slice(1) + ': ' + cases[layer.feature.id].name + '</div>'
+                            popup.setContent('<div class="marker-title">' + mapType.charAt(0).toUpperCase() + mapType.slice(1) + ': ' + cases[layer.feature.id].name + '</div>'
                                              + '<table class="popup-click">'
                                              + '<tr><td>Confirmed cases</td><td>' + d.confirmed + '</td></tr>'
                                              + '<tr><td>Probable cases</td><td>' + d.probable + '</td></tr>'
@@ -237,10 +227,21 @@ WHO.Views = WHO.Views || {};
             }).addTo(WHO.map);
             layer.bringToFront();
             this.layers.push(layer);
+        },
 
+        featureChange: function(type) {
+            if (type === this.mapType) {
+                return;
+            }
+            this.mapType = type;
+            this.getCases();
+        },
+
+        removeLayers: function() {
+            _.each(this.layers, function(layer) {
+                WHO.map.removeLayer(layer);
+            });
         }
-
-
 
     });
 

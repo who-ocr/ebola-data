@@ -21,55 +21,105 @@ WHO.Routers = WHO.Routers || {};
         },
         newload: function() {
             bootstrap();
-            WHO.markerview.load();
         },
     });
 
     function bootstrap() {
-        // model to listen for zoom
-        var mapzoom = new WHO.Models.Zoom();
+
+        //*********** Convenience method to get map type ***********//
+        WHO.getMapType = function(level) {
+            if (level < 5)              {   return 'country'     }
+            else if (level < 7)         {   return 'province'    }
+            else                        {   return 'district'    }
+        }
+
+        //*********** Init collections, models, and views ***********//
+
+        WHO.models = {
+            centroids: new WHO.Models.Centroids(),
+            clinics: new WHO.Models.Clinics()
+        };
 
         WHO.collections = {
             cases: new WHO.Collections.Cases(),
             response: new WHO.Collections.Response(),
             globalrisk: new WHO.Collections.GlobalRisk(),
-            clinics: new WHO.Models.Clinics()
         };
 
-        WHO.mapview = new WHO.Views.Map({
-            el: '#map', id: 'map', map: WHO.map, collection: WHO.collections.globalrisk, zoom: mapzoom
+        var mapzoom = new WHO.Models.Zoom();
+
+        WHO.views = {
+            risk: new WHO.Views.Map({
+                el: '#map', id: 'map', map: WHO.map, collection: WHO.collections.globalrisk
+            }),
+
+            casemarkers: new WHO.Views.Marker({
+                el: '#map', id: 'map', map: WHO.map, collection: WHO.collections.cases,
+                model: WHO.models.centroids
+            }),
+
+            epi: new WHO.Views.epiGraph({
+                el: '#epi-graph', id: 'epi-graph', collection: WHO.collections.cases
+            }),
+
+            clinics: new WHO.Views.Clinic({
+                el: '#map', id: 'map', map: WHO.map, model: WHO.models.clinics,
+            }),
+
+            legend: new WHO.Views.Legend({
+                el: '#legend', id: 'legend', model: mapzoom
+            })
+        }
+
+        var mapType = WHO.getMapType(WHO.map.getZoom());
+
+        //********************* Set default views *********************//
+        var activeViews = [];
+
+        if (mapType === 'country') {
+
+            activeViews = [
+                'casemarkers', 'risk', 'epi', 'clinics'
+            ];
+
+            WHO.collections.cases.query();
+            WHO.collections.globalrisk.query();
+            WHO.models.centroids.fetch();
+            WHO.models.clinics.query();
+
+        }
+
+
+        //********************* Listen for switches to the data UI *********************//
+
+
+
+        //********************* Listen for map zoom to re-draw views *********************//
+
+        var zooming = false,
+            zoomTimer;
+
+        WHO.map.on('zoomstart', function() {
+            zooming = true;
+            window.clearTimeout(zoomTimer);
         });
 
-        WHO.markerview = new WHO.Views.Marker({
-            el: '#map', id: 'map', map: WHO.map, collection: WHO.collections.cases, zoom: mapzoom,
-            model: new WHO.Models.Centroids()
+        WHO.map.on('zoomend', function() {
+            zooming = false;
+            zoomTimer = window.setTimeout(function() {
+                if (!zooming) {
+
+                    // update only active views
+                    mapType = WHO.getMapType(WHO.map.getZoom());
+                    _.each(activeViews, function(view) {
+                        if (WHO.views[view].featureChange) {
+                            WHO.views[view].featureChange(mapType);
+                        }
+                    });
+                }
+            }, 400);
         });
 
-        WHO.epiGraph = new WHO.Views.epiGraph({
-            el: '#epi-graph', id: 'epi-graph', collection: WHO.collections.cases
-        });
-
-        new WHO.Views.Clinic({
-            el: '#map', id: 'map', map: WHO.map, model: WHO.collections.clinics, zoom: mapzoom
-        });
-
-        new WHO.Views.Legend({
-            el: '#legend', id: 'legend', model: mapzoom
-        });
-
-
-        WHO.models = {};
-
-        WHO.models = {};
-        WHO.map.whenReady(function() {
-
-            var $toggles = $('<div id="map-overlay-container"></div>').appendTo(
-                WHO.$map);
-
-        });
-
-        WHO.mapview.load();
-        WHO.epiGraph.load();
 
         //********************* Listen and convert to CSVs *********************//
 
@@ -78,6 +128,7 @@ WHO.Routers = WHO.Routers || {};
                 convertCSV(WHO.collections.cases);
             }
         });
+
 
         init = true;
     }

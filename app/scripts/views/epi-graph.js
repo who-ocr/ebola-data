@@ -14,29 +14,76 @@ WHO.Views = WHO.Views || {};
 
         events: {},
         initialize: function () {
-
-            // Show spinner until load
-            // Not showing spinner since it's now below the map
-            // this.spinner = new Spinner({
-                // color: '#888',
-                // length: 2,
-                // speed: 0.8
-            // }).spin(document.getElementById('epi-graph'));
-
+            this.listenToOnce(this.collection, 'loaded', this.render);
         },
 
-        load: function() {
+        render: function () {
 
-            if (this.collection.length) {
-                this.render();
-            }
-            else {
-                this.listenToOnce(this.collection, 'loaded', this.render);
-                this.collection.query();
-            }
+            // old method relies on an absolute 'start' day, which is ok but not the best
+            // since days are already sorted, we just need to find the sunday before the first date
+            // http://stackoverflow.com/questions/6024328/the-closest-sunday-before-given-date-with-javascript
+            // var d = Date.parse('01/05/2014'),
+                // allWeeks = [], i = 0,
+                // model;
+
+            // while (d < this.collection.models[this.collection.models.length - 1].get('datetime')) {
+                // allWeeks[i] = {week: new Date(d), Suspected: 0, Probable: 0, Confirmed: 0};
+                // d += (7*1000*3600*24);
+                // i++;
+            // }
+
+            var earliest = new Date(this.collection.at(0).get('datetime')),
+                latest = new Date(this.collection.at(this.collection.length - 1).get('datetime'));
+
+            var oneWeek = 1000 * 60 * 60 * 24 * 7,
+                startWeek = Date.parse(lastSunday(earliest));
+
+            var nextWeek = startWeek + oneWeek,
+                format = {Suspected: 0, Probable: 0, Confirmed: 0, Total: 0},
+                weeks = [_.clone(format)],
+                onWeek = 0,
+                model,
+                date,
+                category;
+
+            weeks[0].week = new Date(startWeek);
+
+            for (var i = 0, ii = this.collection.length; i < ii; ++i) {
+                model = this.collection.at(i);
+                date = model.get('datetime');
+
+                // since dates are sorted, we can just keep adding weeks as we go
+                while (date > nextWeek) {
+                    onWeek += 1;
+                    weeks.push(_.clone(format));
+                    weeks[onWeek].week = new Date(nextWeek);
+                    nextWeek += oneWeek;
+                }
+
+                category = model.get('case category');
+                if (category in weeks[onWeek]) {
+                    weeks[onWeek][category] += 1;
+                    weeks[onWeek].Total += 1;
+                }
+            };
+
+            this.order = ['confirmed', 'probable', 'suspected'];
+            var weeks = _.map(weeks.slice(0,-1), function(week) {
+                return {
+                    vals: [week.Confirmed, week.Probable, week.Suspected],
+                    total: week.Total,
+                    time: new Date(week.week)
+                };
+            });
+
+            this.weeks = weeks;
+            this.drawChart();
         },
 
-        drawChart: function(data) {
+        drawChart: function() {
+
+            var data = this.weeks;
+
             var elWidth = this.$el.width(),
                 mobile = elWidth < 480;
 
@@ -221,70 +268,7 @@ WHO.Views = WHO.Views || {};
                 .delay(function(d, i) { return (l - i) * 20 })
                 .attr('class', 'week active');
 
-            // this.spinner.stop();
-
             return;
-        },
-
-        render: function () {
-
-            // old method relies on an absolute 'start' day, which is ok but not the best
-            // since days are already sorted, we just need to find the sunday before the first date
-            // http://stackoverflow.com/questions/6024328/the-closest-sunday-before-given-date-with-javascript
-            // var d = Date.parse('01/05/2014'),
-                // allWeeks = [], i = 0,
-                // model;
-
-            // while (d < this.collection.models[this.collection.models.length - 1].get('datetime')) {
-                // allWeeks[i] = {week: new Date(d), Suspected: 0, Probable: 0, Confirmed: 0};
-                // d += (7*1000*3600*24);
-                // i++;
-            // }
-
-            var earliest = new Date(this.collection.at(0).get('datetime')),
-                latest = new Date(this.collection.at(this.collection.length - 1).get('datetime'));
-
-            var oneWeek = 1000 * 60 * 60 * 24 * 7,
-                startWeek = Date.parse(lastSunday(earliest));
-
-            var nextWeek = startWeek + oneWeek,
-                format = {Suspected: 0, Probable: 0, Confirmed: 0, Total: 0},
-                weeks = [_.clone(format)],
-                onWeek = 0,
-                model,
-                date,
-                category;
-
-            weeks[0].week = new Date(startWeek);
-
-            for (var i = 0, ii = this.collection.length; i < ii; ++i) {
-                model = this.collection.at(i);
-                date = model.get('datetime');
-
-                // since dates are sorted, we can just keep adding weeks as we go
-                while (date > nextWeek) {
-                    onWeek += 1;
-                    weeks.push(_.clone(format));
-                    weeks[onWeek].week = new Date(nextWeek);
-                    nextWeek += oneWeek;
-                }
-
-                category = model.get('case category');
-                if (category in weeks[onWeek]) {
-                    weeks[onWeek][category] += 1;
-                    weeks[onWeek].Total += 1;
-                }
-            };
-
-            this.order = ['confirmed', 'probable', 'suspected'];
-            var weeks = _.map(weeks.slice(0,-1), function(week) {
-                return {
-                    vals: [week.Confirmed, week.Probable, week.Suspected],
-                    total: week.Total,
-                    time: new Date(week.week)
-                };
-            });
-            this.drawChart(weeks);
         },
     });
 })();
