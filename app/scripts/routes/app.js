@@ -54,7 +54,7 @@ WHO.Routers = WHO.Routers || {};
             }),
 
             casemarkers: new WHO.Views.Marker({
-                el: '#map', id: 'map', map: WHO.map, collection: WHO.collections.cases, zoom: mapzoom,
+                el: '#map', id: 'map', map: WHO.map, collection: WHO.collections.cases,
                 model: WHO.models.centroids
             }),
 
@@ -63,7 +63,7 @@ WHO.Routers = WHO.Routers || {};
             }),
 
             clinics: new WHO.Views.Clinic({
-                el: '#map', id: 'map', map: WHO.map, model: WHO.models.clinics, zoom: mapzoom
+                el: '#map', id: 'map', map: WHO.map, model: WHO.models.clinics,
             }),
 
             legend: new WHO.Views.Legend({
@@ -79,12 +79,13 @@ WHO.Routers = WHO.Routers || {};
         if (mapType === 'country') {
 
             activeViews = [
-                'casemarkers', 'risk', 'epi'
+                'casemarkers', 'risk', 'epi', 'clinics'
             ];
 
             WHO.collections.cases.query();
             WHO.collections.globalrisk.query();
             WHO.models.centroids.fetch();
+            WHO.models.clinics.query();
 
         }
 
@@ -107,10 +108,14 @@ WHO.Routers = WHO.Routers || {};
             zooming = false;
             zoomTimer = window.setTimeout(function() {
                 if (!zooming) {
-                    // fire a zoom event
+
+                    // update only active views
                     mapType = WHO.getMapType(WHO.map.getZoom());
-                    WHO.views.casemarkers.featureChange(mapType);
-                    WHO.views.risk.featureChange(mapType);
+                    _.each(activeViews, function(view) {
+                        if (WHO.views[view].featureChange) {
+                            WHO.views[view].featureChange(mapType);
+                        }
+                    });
                 }
             }, 400);
         });

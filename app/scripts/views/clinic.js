@@ -7,30 +7,22 @@ WHO.Views = WHO.Views || {};
 
     WHO.Views.Clinic = Backbone.View.extend({
         initialize: function (options) {
+            this.listenToOnce(this.model, 'loaded', function() {
+                this.featureChange(WHO.getMapType(WHO.map.getZoom()));
+            });
             this.layers = [];
-
-            this.listenTo(options.zoom, 'zoom:end', this.getmap);
-
-            this.listenToOnce(this.model, 'loaded', this.onLoad);
-            this.model.query();
 
             this.on = false;
             this.popup = new L.Popup({ autoPan: false });
         },
 
-        onLoad: function() {
-            this.getmap({level: WHO.defaultZoom});
-        },
-
-        getmap: function(zoom) {
-            var level = zoom.level || WHO.defaultZoom;
-
-            if (level >= 7 && !this.on) {
+        featureChange: function(type) {
+            if (type === 'district' && !this.on) {
                 this.render();
                 this.on = true;
             }
 
-            if (level < 7 && this.on) {
+            if (type !== 'district' && this.on) {
                 this.remove();
                 this.on = false;
             }
@@ -84,8 +76,6 @@ WHO.Views = WHO.Views || {};
                     })
                 }
             }).addTo(WHO.map);
-
-
             this.layers.push(layer);
         }
 
