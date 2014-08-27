@@ -66,9 +66,7 @@ WHO.Routers = WHO.Routers || {};
                 el: '#map', id: 'map', map: WHO.map, model: WHO.models.clinics,
             }),
 
-            legend: new WHO.Views.Legend({
-                el: '#legend', id: 'legend', model: mapzoom
-            })
+            legend: new WHO.Views.Legend({ el: '#map-legend', id: 'map-legend' })
         }
 
         var mapType = WHO.getMapType(WHO.map.getZoom());
@@ -79,7 +77,7 @@ WHO.Routers = WHO.Routers || {};
         if (mapType === 'country') {
 
             activeViews = [
-                'casemarkers', 'risk', 'epi', 'clinics'
+                'casemarkers', 'risk', 'epi', 'clinics', 'legend'
             ];
 
             WHO.collections.cases.query();

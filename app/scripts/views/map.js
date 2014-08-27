@@ -74,26 +74,14 @@ WHO.Views = WHO.Views || {};
                 target,
                 cs,
 
-                // default colors for countries, will change now that all are 5 categories
-                colors = ['#fff',
-                        'rgb(252,202,78)',
-                        'rgb(250,175,78)',
-                        'rgb(249,145,77)',
-                        'rgb(246,104,61)'
+                colors = ['ffffd4',
+                            '#fec44f',
+                            '#fe9929',
+                            '#d95f0e',
+                            '#993404'
                 ],
                 max = 5;
 
-            if (this.mapType === 'country') {
-                colors = [
-                    '#ffffd4',
-                    '#fee391',
-                    '#fec44f',
-                    '#fe9929',
-                    '#d95f0e',
-                    '#993404'
-                ];
-                max = 6;
-            }
 
             cs = d3.scale.ordinal()
                 .range(colors).domain(d3.range(1,max));

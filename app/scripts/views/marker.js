@@ -85,6 +85,7 @@ WHO.Views = WHO.Views || {};
                 if (!cases[geoid]) {
                     cases[geoid] = {
                         name: geo,
+                        country: model.get('ADM0_NAME'),
                         confirmed: 0,
                         probable: 0,
                         suspected: 0,
@@ -209,6 +210,7 @@ WHO.Views = WHO.Views || {};
                             clicked = 1;
                             var layer = e.target,
                             d = cases[layer.feature.id];
+
                             popup.setLatLng(e.latlng);
                             popup.setContent('<div class="marker-title">' + mapType.charAt(0).toUpperCase() + mapType.slice(1) + ': ' + cases[layer.feature.id].name + '</div>'
                                              + '<table class="popup-click">'

@@ -78,33 +78,41 @@
                     </div>
 
                     <div class="col-md-6" id="map-legend">
+                        <h5 class="who-title" id="geography-zoom-level">Country-level response</h5>
 
-                        <div class="row">
-                            <div class="col-md-6">
+                        <div class="legend-container">
 
-                                <ul class="country legend">
-                                    <li><span class="box zone-5">&nbsp;</span> Core zone</li>
-                                    <li><span class="box zone-4">&nbsp;</span> New reporting cases</li>
-                                    <li><span class="box zone-3">&nbsp;</span> At-risk</li>
-                                    <li><span class="box zone-2">&nbsp;</span> Alert</li>
-                                    <li><span class="box zone-1">&nbsp;</span> Rumour countries</li>
-                                    <li><span class="box zone-0">&nbsp;</span> No cases</li>
-                                </ul>
+                            <ul class="country legend inline-legend bg-white">
+                                <li><span class="box zone-0">&nbsp;</span></li>
+                                <li><span class="box zone-1">&nbsp;</span></li>
+                                <li><span class="box zone-2">&nbsp;</span></li>
+                                <li><span class="box zone-3">&nbsp;</span></li>
+                                <li><span class="box zone-4">&nbsp;</span></li>
+                                <li>No Ebola cases/rumours</li>
+                                <li>Rumour countries</li>
+                                <li>At-risk countries</li>
+                                <li>New countries with cases</li>
+                                <li>Core zone</li>
+                            </ul>
 
-                                <ul class="district legend" style="display: none;">
-                                    <li><span class="box zone-4">&nbsp;</span>Core Zone</li>
-                                    <li><span class="box zone-3">&nbsp;</span>Active transmission with response hubs</li>
-                                    <li><span class="box zone-2">&nbsp;</span>Active transmission outside core zone</li>
-                                    <li><span class="box zone-1">&nbsp;</span>New reporting cases</li>
-                                    <li><span class="box zone-0">&nbsp;</span>No cases</li>
-                                </ul>
-                            </div>
+                            <ul class="district legend inline-legend bg-white" style="display:none;">
+                                <li><span class="box zone-0">&nbsp;</span></li>
+                                <li><span class="box zone-1">&nbsp;</span></li>
+                                <li><span class="box zone-2">&nbsp;</span></li>
+                                <li><span class="box zone-3">&nbsp;</span></li>
+                                <li><span class="box zone-4">&nbsp;</span></li>
+                                <li>No Ebola cases</li>
+                                <li>New Ebola cases</li>
+                                <li>Active transmission outside core zone</li>
+                                <li>Active transmission with response hubs</li>
+                                <li>Core zone</li>
+                            </ul>
 
-                            <div class="col-md-6">
-                                <ul class="marker legend">
-                                    <li><span class="round size-4">&nbsp;</span> 500 cases</li>
-                                </ul>
-                            </div>
+                            <ul class="marker legend">
+                                <li><span class="round size-4">&nbsp;</span> 500 cases</li>
+                            </ul>
+
+                        </div>
 
                         </div>
                     </div>

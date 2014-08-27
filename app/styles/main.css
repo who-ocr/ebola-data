@@ -92,9 +92,12 @@ body .navbar {
     font-family: Helvetica, 'Helvetica Neue', Arial, sans-serif;
 }
 
+.legend-container {
+    margin: 48px 1em;
+}
+
 .legend {
     list-style: none;
-    margin-top: 50px;
 }
 
 .legend li {
@@ -113,12 +116,6 @@ body .navbar {
     position: absolute;
     left: 40px;
     top: 40px;
-    margin-top: 0;
-}
-
-.country li,
-.district li {
-    margin: 1em 0;
 }
 
 .legend .box {
@@ -128,13 +125,36 @@ body .navbar {
     margin-right: 4px;
 }
 
+.inline-legend {
+    text-align: center;
+}
+
+.inline-legend li {
+    display: inline-block;
+    vertical-align: top;
+    width: 19%;
+    margin: 0;
+}
+
+.inline-legend .box {
+    height: 8px;
+    width: 100%;
+    margin-right: 0;
+    border-radius: 0;
+}
+
+.bg-white {
+    background: #fff;
+    padding: 12px 0;
+}
+
+.district .box,
 .country .box { opacity: 0.333; }
-.country .zone-0            { background: #ffffd4; }
-.country .zone-1            { background: #fee391; }
-.country .zone-2            { background: #fec44f; }
-.country .zone-3            { background: #fe9929; }
-.country .zone-4            { background: #d95f0e; }
-.country .zone-5            { background: #993404; }
+.zone-0            { background: #ffffd4; }
+.zone-1            { background: #fec44f; }
+.zone-2            { background: #fe9929; }
+.zone-3            { background: #d95f0e; }
+.zone-4            { background: #993404; }
 
 
 .confirmed  { fill: #7b6888; background: #7b6888; }
