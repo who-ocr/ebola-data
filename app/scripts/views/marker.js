@@ -40,7 +40,7 @@ WHO.Views = WHO.Views || {};
         initialize: function (options) {
             this.layers = [];
             this.popup = new L.Popup({ autoPan: false });
-            this.mapType = WHO.getMapType(WHO.map.getZoom());
+            this.maptype = WHO.getMapType(WHO.map.getZoom());
 
             this.listenToOnce(this.collection, 'loaded', this.getCases);
             this.listenToOnce(this.model, 'change', this.render);
@@ -56,7 +56,7 @@ WHO.Views = WHO.Views || {};
                 //dateLimit = this.filters.type === 'recent' ? 1000 * 3600 * 24 * 2 : 0;
                 dateLimit = 0;
 
-            switch(this.mapType) {
+            switch(this.maptype) {
                 case 'country':
                     admin = 'ADM0_NAME';
                     adminCode = 'ADM2_CODE';
@@ -105,8 +105,8 @@ WHO.Views = WHO.Views || {};
                 }
             }
 
-            if (this.mapType === 'province' || this.mapType === 'country') {
-                var end = this.mapType === 'province' ? 8 : 5;
+            if (this.maptype === 'province' || this.maptype === 'country') {
+                var end = this.maptype === 'province' ? 8 : 5;
                 cases = convertIds(cases, 0, end, 20 - end);
             }
 
@@ -132,7 +132,7 @@ WHO.Views = WHO.Views || {};
             }
 
             var cases = this.cases,
-                mapType = this.mapType,
+                maptype = this.maptype,
                 clicked = 0,
 
                 popup = this.popup,
@@ -160,7 +160,7 @@ WHO.Views = WHO.Views || {};
                 sizeFactor = 0.77868852459,
                 opacity = 0.7;
 
-            if (mapType === 'country') {
+            if (maptype === 'country') {
                 sizeFactor = 1.10655737705;
                 opacity = 0.5;
             }
@@ -195,16 +195,16 @@ WHO.Views = WHO.Views || {};
                                 var geoType = maptype.charAt(0).toUpperCase() + maptype.slice(1);
                                 if (geoType === 'Country') {
                                    popup.setContent('<div class="marker-title">' + cases[layer.feature.id].name + '</div>'
-                                				 + '<table class="table-striped">' 
+                                				 + '<table class="table-striped">'
                                 				 + '<tr><td class="cases-total-cell"><span class="cases-total">' +  cases[layer.feature.id].total + '</span>Cases</td></tr>'
                                 				 + '</table>');
                                 } else {
                                    popup.setContent('<div class="marker-title">' + cases[layer.feature.id].name + '</div>'
                                 				 + '<div class="location-type">' + geoType + '</div>'
                             					 + '<div class="country-title">' + cases[layer.feature.id].country + '</div>'
-                                				 + '<table class="table-striped">' 
+                                				 + '<table class="table-striped">'
                                 				 + '<tr><td class="cases-total-cell"><span class="cases-total">' +  cases[layer.feature.id].total + '</span>Cases</td></tr>'
-                                				 + '</table>');                             
+                                				 + '</table>');
                                 }
 
                                 if (!popup._map) popup.openOn(WHO.map);
@@ -227,7 +227,7 @@ WHO.Views = WHO.Views || {};
                             popup.setLatLng(e.latlng);
                             var geoType = maptype.charAt(0).toUpperCase() + maptype.slice(1);
                             if (geoType === 'Country') {
-                            	popup.setContent('<div class="marker-title">' + cases[layer.feature.id].name + '</div>' 
+                            	popup.setContent('<div class="marker-title">' + cases[layer.feature.id].name + '</div>'
                                                + '<table class="table-striped popup-click">'
                                                + '<tr><td>Confirmed cases</td><td class="cell-value">' + d.confirmed + '</td></tr>'
                                                + '<tr><td>Probable cases</td><td class="cell-value">' + d.probable + '</td></tr>'
@@ -235,7 +235,7 @@ WHO.Views = WHO.Views || {};
                                                + '<tr><td>Health Care Workers Affected</td><td class="cell-value">' + d.hcw + '</td></tr>'
                                                + '<tr><td>Total Deaths</td><td class="cell-value">' + d.deaths + '</td></tr></table>');
                             } else {
-                            	popup.setContent('<div class="marker-title">' + cases[layer.feature.id].name + '</div>' 
+                            	popup.setContent('<div class="marker-title">' + cases[layer.feature.id].name + '</div>'
                             	               + '<div class="location-type">' + geoType + '</div>'
                             				   + '<div class="country-title">' + cases[layer.feature.id].country  + '</div>'
                                                + '<table class="table-striped popup-click">'
@@ -257,10 +257,10 @@ WHO.Views = WHO.Views || {};
         },
 
         featureChange: function(type) {
-            if (type === this.mapType) {
+            if (type === this.maptype) {
                 return;
             }
-            this.mapType = type;
+            this.maptype = type;
             this.getCases();
         },
 
