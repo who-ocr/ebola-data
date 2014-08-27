@@ -250,11 +250,45 @@ body .navbar {
 }
 
 .leaflet-popup-content {
-  font-size: 12px;
+	font-size: 12px;
 }
-
-.popup-click td {
-  padding: 1px 5px 1px 0px;
+.leaflet-popup-content table {
+	width: 100%;
+}
+.leaflet-popup-content .marker-title {
+	font-weight: normal !important;
+	margin-bottom: 0 !important;
+}
+.leaflet-popup-content .cases-total {
+	font-weight: bold;
+	font-size: 30px;
+	color: #9686a1;
+	text-align: center;
+	display: block;
+}
+.leaflet-popup-content .country-title {
+	font-size: 10px;
+	text-transform: uppercase;
+	color: #aaa;
+}
+.leaflet-popup-content .location-type {
+	font-size: 10px;
+	color: #aaa;
+	line-height: 1.2;
+}
+.leaflet-popup-content .cell-value {
+ 	font-weight: bold;
+	color: #9686a1;
+	padding: 0 10px;
+}
+.leaflet-popup-content .cases-total-cell {
+	text-align: center;
+	color: #aaa;
+	font-size: 10px;
+	padding: 10px 10px 0 10px;
+}
+.leaflet-popup-content td {
+	padding: 1px 5px 1px 0px;
 }
 
 .footer {

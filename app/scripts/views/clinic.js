@@ -38,17 +38,27 @@ WHO.Views = WHO.Views || {};
 
             if (this.layers.length) this.remove();
             var popup = this.popup;
-
+			console.log(this.model.attributes);
             var layer = L.geoJson(this.model.attributes, {
                 pointToLayer: function(feature, latlng) {
-                    return L.marker(latlng, {
-                        icon: L.icon({
-                            iconSize: [32, 32],
-                            iconUrl: 'img/medical-64x64.png',
-                        }),
-                        opacity: 0.95
-
-                    });
+                   console.log(feature);
+                    if (feature.properties.FUNCTION === 'Major Ebola Treatment Centre HUBS') {
+                    		return L.marker(latlng, {
+                        	icon: L.icon({
+                           		 iconSize: [32, 32],
+                             	iconUrl: 'img/hub-64x64.png',
+                        	}),
+                        	  opacity: 1
+							});
+					} else {
+                    		return L.marker(latlng, {
+                        	icon: L.icon({
+                           		 iconSize: [32, 32],
+                             	iconUrl: 'img/triage-64x64.png',
+                        	}),
+                        	  opacity: 1
+							});		
+					}
                 },
 
                 onEachFeature: function (feature, layer) {
@@ -58,10 +68,10 @@ WHO.Views = WHO.Views || {};
                         },
                         click: function(e) {
                             var props = e.target.feature.properties;
-
+							//console.log(props);
                             popup.setLatLng(e.latlng);
                             popup.setContent('<div class="marker-title">' + props.CITY + ', ' + props.COUNTRY + '</div>'
-                                + '<table class="popup-click">'
+                                + '<table class="table-striped popup-click">'
                                 + '<tr><td>Facility</td><td>' + props.LOCATIONS + '</td></tr>'
                                 + '<tr><td>Function</td><td>' + props.FUNCTION + '</td></tr>'
                                 + '<tr><td>Partners</td><td>' + props.Partners + '</td></tr>'

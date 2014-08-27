@@ -88,9 +88,10 @@ WHO.Views = WHO.Views || {};
                         confirmed: 0,
                         probable: 0,
                         suspected: 0,
-                        total: 1,
+                        total: 0,
                         hcw: 0,
-                        deaths: 0
+                        deaths: 0,
+                        country: model.get('ADM0_NAME')
                     };
                 }
 
@@ -191,7 +192,21 @@ WHO.Views = WHO.Views || {};
                             if (clicked == 0){
                                 var layer = e.target;
                                 popup.setLatLng(e.latlng);
-                                popup.setContent('<div class="marker-title">' + mapType.charAt(0).toUpperCase() + mapType.slice(1) + ': ' + cases[layer.feature.id].name + '</div> Click for more information');
+                                var geoType = maptype.charAt(0).toUpperCase() + maptype.slice(1);
+                                if (geoType === 'Country') {
+                                   popup.setContent('<div class="marker-title">' + cases[layer.feature.id].name + '</div>'
+                                				 + '<table class="table-striped">' 
+                                				 + '<tr><td class="cases-total-cell"><span class="cases-total">' +  cases[layer.feature.id].total + '</span>Cases</td></tr>'
+                                				 + '</table>');
+                                } else {
+                                   popup.setContent('<div class="marker-title">' + cases[layer.feature.id].name + '</div>'
+                                				 + '<div class="location-type">' + geoType + '</div>'
+                            					 + '<div class="country-title">' + cases[layer.feature.id].country + '</div>'
+                                				 + '<table class="table-striped">' 
+                                				 + '<tr><td class="cases-total-cell"><span class="cases-total">' +  cases[layer.feature.id].total + '</span>Cases</td></tr>'
+                                				 + '</table>');                             
+                                }
+
                                 if (!popup._map) popup.openOn(WHO.map);
                                 window.clearTimeout(closeTooltip);
                             }
@@ -210,16 +225,28 @@ WHO.Views = WHO.Views || {};
                             var layer = e.target,
                             d = cases[layer.feature.id];
                             popup.setLatLng(e.latlng);
-                            popup.setContent('<div class="marker-title">' + mapType.charAt(0).toUpperCase() + mapType.slice(1) + ': ' + cases[layer.feature.id].name + '</div>'
-                                             + '<table class="popup-click">'
-                                             + '<tr><td>Confirmed cases</td><td>' + d.confirmed + '</td></tr>'
-                                             + '<tr><td>Probable cases</td><td>' + d.probable + '</td></tr>'
-                                             + '<tr><td>Suspected cases</td><td>' + d.suspected + '</td></tr><tr><td>---</td><td>---</td></tr>'
-                                             + '<tr><td>Total Deaths</td><td>' + d.deaths + '</td></tr>'
-                                             + '<tr><td>Health Care Workers Affected</td><td>' + d.hcw + '</td></tr></table>');
-                                             if (!popup._map) popup.openOn(WHO.map);
-
-                                             window.clearTimeout(closeTooltip);
+                            var geoType = maptype.charAt(0).toUpperCase() + maptype.slice(1);
+                            if (geoType === 'Country') {
+                            	popup.setContent('<div class="marker-title">' + cases[layer.feature.id].name + '</div>' 
+                                               + '<table class="table-striped popup-click">'
+                                               + '<tr><td>Confirmed cases</td><td class="cell-value">' + d.confirmed + '</td></tr>'
+                                               + '<tr><td>Probable cases</td><td class="cell-value">' + d.probable + '</td></tr>'
+                                               + '<tr><td>Suspected cases</td><td class="cell-value">' + d.suspected + '</td></tr>'
+                                               + '<tr><td>Health Care Workers Affected</td><td class="cell-value">' + d.hcw + '</td></tr>'
+                                               + '<tr><td>Total Deaths</td><td class="cell-value">' + d.deaths + '</td></tr></table>');
+                            } else {
+                            	popup.setContent('<div class="marker-title">' + cases[layer.feature.id].name + '</div>' 
+                            	               + '<div class="location-type">' + geoType + '</div>'
+                            				   + '<div class="country-title">' + cases[layer.feature.id].country  + '</div>'
+                                               + '<table class="table-striped popup-click">'
+                                               + '<tr><td>Confirmed cases</td><td class="cell-value">' + d.confirmed + '</td></tr>'
+                                               + '<tr><td>Probable cases</td><td class="cell-value">' + d.probable + '</td></tr>'
+                                               + '<tr><td>Suspected cases</td><td class="cell-value">' + d.suspected + '</td></tr>'
+                                               + '<tr><td>Health Care Workers Affected</td><td class="cell-value">' + d.hcw + '</td></tr>'
+                                               + '<tr><td>Total Deaths</td><td class="cell-value">' + d.deaths + '</td></tr></table>');
+                            }
+                            if (!popup._map) popup.openOn(WHO.map);
+							window.clearTimeout(closeTooltip);
                         }
                     });
                 }
