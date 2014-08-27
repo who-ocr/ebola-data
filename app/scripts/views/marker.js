@@ -5,15 +5,15 @@ WHO.Views = WHO.Views || {};
 (function () {
     'use strict';
 
-    function convertIds(cases, start, end, inc) {
+    function convertIds(cases, start, end, increment, props) {
+        console.log(cases);
         var zeros = [],
             tail = '';
 
-        for (var i = 0, ii = inc; i < inc; zeros.push('0'), ++i);
+        for (var i = 0, ii = increment; i < increment; zeros.push('0'), ++i);
         tail = zeros.join('');
 
         var keys = _.keys(cases),
-            props = _.keys(cases[keys[0]]),
             newids = {},
             newid;
 
@@ -26,12 +26,13 @@ WHO.Views = WHO.Views || {};
                     newids[newid] = _.clone(cases[keys[i]]);
                 } else {
                     _.each(props, function(prop) {
-                        newids[newid][prop] = cases[keys[i]][prop]
+                        newids[newid][prop] += cases[keys[i]][prop]
                     });
                 }
             }
 
         }
+
         return newids;
     }
 
@@ -107,7 +108,8 @@ WHO.Views = WHO.Views || {};
 
             if (this.maptype === 'province' || this.maptype === 'country') {
                 var end = this.maptype === 'province' ? 8 : 5;
-                cases = convertIds(cases, 0, end, 20 - end);
+                cases = convertIds(cases, 0, end, 20 - end,
+                                   ['confirmed', 'probable', 'suspected', 'total', 'hcw', 'deaths']);
             }
 
             _.each(cases, function(c) {
