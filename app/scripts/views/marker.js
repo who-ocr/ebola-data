@@ -85,7 +85,6 @@ WHO.Views = WHO.Views || {};
                 if (!cases[geoid]) {
                     cases[geoid] = {
                         name: geo,
-                        country: model.get('ADM0_NAME'),
                         confirmed: 0,
                         probable: 0,
                         suspected: 0,
