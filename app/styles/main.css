@@ -52,7 +52,7 @@ body .navbar {
 .navbar-brand img {
     width: 90px;
     height: 28px;
-    margin-left: 8px;
+    margin-left: 0px;
 }
 
 .navbar-collapse .nav { margin: 6px -5px 0 0; }
@@ -81,7 +81,7 @@ body .navbar {
     display: inline-block;
     padding: 4px 12px 4px 12px;
     position: absolute;
-    left: 40px;
+    left: 0;
     top: -10px;
 }
 
@@ -315,6 +315,12 @@ body .navbar {
 .leaflet-popup-content td {
 	padding: 1px 5px 1px 0px;
 }
+
+.epi-graph {
+    position: relative;
+}
+
+
 
 .footer {
     display: none;
