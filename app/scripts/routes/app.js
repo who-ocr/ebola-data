@@ -46,8 +46,6 @@ WHO.Routers = WHO.Routers || {};
             globalrisk: new WHO.Collections.GlobalRisk(),
         };
 
-        var mapzoom = new WHO.Models.Zoom();
-
         WHO.views = {
             risk: new WHO.Views.Map({
                 el: '#map', id: 'map', map: WHO.map, collection: WHO.collections.globalrisk
