@@ -129,11 +129,15 @@ body .navbar {
     text-align: center;
 }
 
-.inline-legend li {
+.inline-legend > li {
     display: inline-block;
     vertical-align: top;
-    width: 19%;
     margin: 0;
+}
+
+.fixed-width > li {
+    display: inline-block;
+    width: 19%;
 }
 
 .inline-legend .box {
@@ -161,11 +165,12 @@ body .navbar {
 .suspected  { fill: #98abc5; background: #98abc5; }
 .probable   { fill: #8a89a6 ; background: #8a89a6 ; }
 
-.marker .round {
-    background: #9686A1;
-}
-
-.marker .size-4             { width: 48px; height: 48px; border-radius: 24px; }
+.inline-legend .circle  { background: #9686A1; }
+.inline-legend .size-0  { width: 8px; height: 8px; border-radius: 4px; }
+.inline-legend .size-1  { width: 16px; height: 16px; border-radius: 8px; }
+.inline-legend .size-2  { width: 24px; height: 24px; border-radius: 12px; }
+.inline-legend .size-3  { width: 36px; height: 36px; border-radius: 18px; }
+.inline-legend .size-4  { width: 48px; height: 48px; border-radius: 24px; }
 
 
 /****************************************************/
