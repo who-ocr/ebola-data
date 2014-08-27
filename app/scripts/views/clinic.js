@@ -69,7 +69,7 @@ WHO.Views = WHO.Views || {};
 
                             popup.setLatLng(e.latlng);
                             popup.setContent('<div class="marker-title">' + props.CITY + ', ' + props.COUNTRY + '</div>'
-                                + '<table class="popup-click">'
+                                + '<table class="table-striped popup-click">'
                                 + '<tr><td>Facility</td><td>' + props.LOCATIONS + '</td></tr>'
                                 + '<tr><td>Function</td><td>' + props.FUNCTION + '</td></tr>'
                                 + '<tr><td>Partners</td><td>' + props.Partners + '</td></tr>'
