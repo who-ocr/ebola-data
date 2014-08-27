@@ -40,6 +40,9 @@ p, div, span, section, label, ul, li {
 
 body .navbar {
     min-height: 55px;
+    position: fixed;
+    z-index: 100;
+    width: 100%;
 }
 
 .navbar-brand .title {
@@ -148,7 +151,7 @@ body .navbar {
 }
 
 .bg-white {
-    background: #fff;
+   
     padding: 12px 0;
 }
 
@@ -246,6 +249,23 @@ body .navbar {
     height: 12px;
     display: inline-block;
     background: url(images/download_14.png) no-repeat;
+}
+
+
+.zoom-to-core {
+    position: fixed;
+    top: 78px;
+    right: 160px;
+    z-index: 100;
+    display: none;
+}
+
+.leaflet-control-zoom {
+    top: 70px;
+}
+
+.country-markers {
+  display: none;
 }
 
 /****************************************************/
@@ -349,7 +369,8 @@ body .navbar {
         float: right;
         margin-top: 0;
     }
-    .download {
+    .download,
+    .zoom-to-core {
         display: block;
     }
 }

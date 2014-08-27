@@ -146,5 +146,23 @@ WHO.Routers = WHO.Routers || {};
         var encodedUri = encodeURI(csvString + csvList.join('\n'));
         window.open(encodedUri);
     }
+    
+    
+    //********************* Zoom to core *********************//
+    
+     /*
+     $('#zoom-core').on('click', function() {
+          WHO.map.setView([8.44, -11.7], 7);
+     });
+     */
+     
+     
+     $('a.layer').on('click', function() {
+        //var layer = $(this).data('layer');
+        var zoom = $(this).data('zoom');
+        WHO.map.setView([8.44, -11.7], zoom);
+     });
+     
+    
 
 })();
