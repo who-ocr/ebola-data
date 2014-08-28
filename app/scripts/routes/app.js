@@ -11,7 +11,6 @@ WHO.Routers = WHO.Routers || {};
     WHO.defaultZoom = 3;
     WHO.map = L.mapbox.map('map','devseed.jboe4b81')
         .setView([8.44, -11.7], WHO.defaultZoom);
-    WHO.map.scrollWheelZoom.disable();
     WHO.$map = $('#map');
 
     //********************* Start the router *********************//
@@ -97,7 +96,7 @@ WHO.Routers = WHO.Routers || {};
 
                 response:
                     [0, 1, 1],
-                
+
                 all:
                 	[1, 1, 1]
             },
