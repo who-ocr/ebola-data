@@ -39,6 +39,11 @@ p, div, span, section, label, ul, li {
     box-shadow:         0px 1px 3px 0px rgba(50, 50, 50, 0.75);
 }
 
+
+.navbar-collapse.in {
+  overflow-y: visible !important;
+}
+
 /****************************************************/
 /************** Navs ********************************/
 
@@ -274,9 +279,13 @@ body .navbar {
 .explore {
     position: fixed;
     top: 78px;
-    right: 30px;
+    right: 10px;
     z-index: 100;
     display: none;
+}
+.explore .dropdown-menu {
+   right: 0;
+   left: auto;
 }
 .case-counter {
 	position: fixed;
@@ -289,6 +298,9 @@ body .navbar {
    background: #B20000;
    color: #fff;
    border-radius: 5px 0 0 5px;
+}
+.leaflet-control-zoom {
+  top: 20px;
 }
 
 
@@ -431,7 +443,7 @@ body .navbar {
 /************** Media Queries ***********************/
 
 
-@media only screen and (min-width: 960px) {
+@media only screen and (min-width: 1000px) {
     .subhead h1 { font-size: 38px; }
     .jumbotron p { font-size: 24px; }
     body .navbar { min-height: 70px; }
@@ -441,7 +453,7 @@ body .navbar {
         font-size: 23px;
         margin: 8px 0 0 15px;
     }
-    .navbar-collapse .nav { margin: 18px -5px 0 0; }
+    .navbar-collapse .nav { margin: 14px -5px 0 0; }
 
     .graph-container { margin-top: 1em; }
   
@@ -457,5 +469,7 @@ body .navbar {
     .explore {
         display: block;
     }
-  
+  .leaflet-control-zoom {
+  top: 0px;
+}
 }

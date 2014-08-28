@@ -10,7 +10,7 @@ WHO.Routers = WHO.Routers || {};
     //********************* Map Initialize the map *********************//
     WHO.defaultZoom = 3;
     WHO.map = L.mapbox.map('map','devseed.jboe4b81')
-        .setView([-14.179, -11.426], WHO.defaultZoom);
+        .setView([8.44, -11.7], WHO.defaultZoom);
     WHO.map.scrollWheelZoom.disable();
     WHO.$map = $('#map');
 
@@ -86,7 +86,7 @@ WHO.Routers = WHO.Routers || {};
 
         //********************* Listen for switches to the data UI *********************//
 
-        var mapviews = ['casemarkers', 'risk', 'clinics'],
+        var mapviews = ['casemarkers', 'risk', 'clinics', 'all'],
 
             combinations = {
                 risk:
@@ -96,7 +96,10 @@ WHO.Routers = WHO.Routers || {};
                     [1, 0, 0],
 
                 response:
-                    [0, 1, 1]
+                    [0, 1, 1],
+                
+                all:
+                	[1, 1, 1]
             },
             $target;
 

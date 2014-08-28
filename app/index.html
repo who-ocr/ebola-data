@@ -39,19 +39,25 @@
                     <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
                         <span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand" href="#">
+                    <a class="navbar-brand layer" href="#" data-zoom="3" data-layer="all">
                         <img src="img/who-logo-prp.gif" alt="who-logo-prp" height="60">
                         <span class="title">Ebola Outbreak Data</span>
                     </a>
                 </div>
                 <div class="navbar-collapse collapse" role="navigation">
-                    <ul class="nav nav-pills pull-right" id="nav-main">
+                    <ul class="nav nav-pills navbar-right" id="nav-main">
                         <li>
-                            <a href="https://extranet.who.int/programmebudget/">Home</a>
+                            <a href="#" class="layer" data-zoom="3" data-layer="all">Home</a>
                         </li>
-                        <li class="active">
-                            <a href="#">Response</a>
-                        </li>
+                        
+            			<li class="dropwdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Explore <span class="caret"></span></a>
+        					<ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+        	   					 <li><a href="#" class="layer" data-zoom="3" data-layer="risk">Risk</a></li>
+								<li><a href="#" class="layer" data-zoom="7" data-layer="cases">Cases</a></li>
+								<li><a href="#" class="layer" data-zoom="8" data-layer="response">Response</a></li>
+ 							</ul>
+            			<li>          
+                      
                         <li>
                             <a href="" data-toggle="modal" data-target="#dataModal">Data</a>
                         </li>
@@ -137,14 +143,6 @@
  			</ul>
         </div>
         
-        <div class="explore">
-            <button id="explore-map" data-toggle="dropdown" class="explore-button btn btn-default">Explore <span class="caret"></span></button>
-        	<ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
-        	    <li><a href="#" class="layer" data-zoom="3" data-layer="risk">Risk</a></li>
-				<li><a href="#" class="layer" data-zoom="7" data-layer="cases">Cases</a></li>
-				<li><a href="#" class="layer" data-zoom="9" data-layer="response">Response</a></li>
- 			</ul>
-        </div>
 
         <!-- Notes Modal -->
         <div class="modal fade" id="dataModal" tabindex="-1" role="dialog" aria-labelledby="dataModalLabel" aria-hidden="true">
