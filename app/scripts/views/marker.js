@@ -311,19 +311,6 @@ WHO.Views = WHO.Views || {};
         },
 
 
-        featureChange: function(type) {
-            if (type === this.maptype) {
-                return;
-            }
-            this.maptype = type;
-            this.getCases();
-        },
-
-        removeLayers: function() {
-            _.each(this.layers, function(layer) {
-                WHO.map.removeLayer(layer);
-            });
-        },
         
         numberWithCommas: function(x) {
         	return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");

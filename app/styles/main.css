@@ -354,7 +354,7 @@ body .navbar {
 }
 .leaflet-popup-content .cell-value {
  	font-weight: bold;
-	color: #9686a1;
+	color: #B20000;
 	padding: 0 10px;
 }
 .leaflet-popup-content .cases-total-cell {
@@ -460,8 +460,7 @@ body .navbar {
      display: block;
    }
     .download,
-    .zoom-to-core,
-    .case-counter {
+    .zoom-to-core {
         display: block;
     }
   
