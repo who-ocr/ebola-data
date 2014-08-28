@@ -277,14 +277,14 @@ body .navbar {
 .zoom-to-core {
     position: fixed;
     top: 78px;
-    right: 160px;
+    right: 30px;
     z-index: 100;
     display: none;
 }
 .case-counter {
 	position: fixed;
     top: 78px;
-    right: 242px;
+    right: 112px;
     z-index: 105;
     display: none;
 }
