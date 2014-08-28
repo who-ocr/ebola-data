@@ -202,6 +202,36 @@
                 </div>
             </script>
 
+            <script type="text/template" id="popup-clinic">
+                <div class="marker-title"><%= CITY %>, <%= COUNTRY %></div>
+                <table class="table-striped popup-click">
+                    <tr>
+                        <td>Facility</td>
+                        <td><%= LOCATIONS %></td>
+                    </tr>
+                    <tr>
+                        <td>Function</td>
+                        <td><%= FUNCTION %></td>
+                    </tr>
+                    <tr>
+                        <td>Partners</td>
+                        <td><%= Partners %></td>
+                    </tr>
+                    <tr>
+                        <td>Bed Capacity</td>
+                        <td><%= Bed_capacity_current %></td>
+                    </tr>
+                    <tr>
+                        <td>Laboratory</td>
+                        <td><%= Serving_Lab_Location %></td>
+                    </tr>
+                    <tr>
+                        <td>Status</td>
+                        <td><%= Status_ECT %></td>
+                    </tr>
+                </table>
+            </script>
+
         </div>
 
         <script src="https://api.tiles.mapbox.com/mapbox.js/v1.6.2/mapbox.js"></script>
