@@ -256,7 +256,7 @@ body .navbar {
 
 
 /****************************************************/
-/************** Download ****************************/
+/************** Buttons ****************************/
 
 .download{
     position: fixed;
@@ -264,7 +264,6 @@ body .navbar {
     right: 10px;
     display: none;
 }
-
 .download-button:before {
     content: '';
     width: 20px;
@@ -272,9 +271,7 @@ body .navbar {
     display: inline-block;
     background: url(images/download_14.png) no-repeat;
 }
-
-
-.zoom-to-core {
+.explore {
     position: fixed;
     top: 78px;
     right: 160px;
@@ -295,9 +292,6 @@ body .navbar {
 }
 
 
-.country-markers {
-  
-}
 
 /****************************************************/
 /************** Maps ********************************/
@@ -453,7 +447,7 @@ body .navbar {
      display: block;
    }
     .download,
-    .zoom-to-core {
+    .explore {
         display: block;
     }
   
