@@ -46,6 +46,25 @@ WHO.Views = WHO.Views || {};
             this.listenToOnce(this.model, 'change', this.render);
         },
 
+        featureChange: function(type) {
+            if (type === this.maptype) {
+                return;
+            }
+            this.maptype = type;
+            this.getCases();
+        },
+
+        addLayers: function(type) {
+            this.maptype = type;
+            this.getCases();
+        },
+
+        removeLayers: function() {
+            _.each(this.layers, function(layer) {
+                WHO.map.removeLayer(layer);
+            });
+        },
+
         getCases: function () {
 
             //*********** Aggregating cases ***********//
@@ -291,6 +310,7 @@ WHO.Views = WHO.Views || {};
             }
         },
 
+
         featureChange: function(type) {
             if (type === this.maptype) {
                 return;
@@ -308,6 +328,7 @@ WHO.Views = WHO.Views || {};
         numberWithCommas: function(x) {
         	return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
         }
+
 
     });
 
