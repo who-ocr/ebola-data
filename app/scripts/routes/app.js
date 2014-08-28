@@ -42,7 +42,6 @@ WHO.Routers = WHO.Routers || {};
 
         WHO.collections = {
             cases: new WHO.Collections.Cases(),
-            response: new WHO.Collections.Response(),
             globalrisk: new WHO.Collections.GlobalRisk(),
         };
 
@@ -168,17 +167,37 @@ WHO.Routers = WHO.Routers || {};
         //********************* Listen and convert to CSVs *********************//
 
         $('#csv-download').on('click', function() {
+            // for cases
+            /*
             if (WHO.collections.cases.length) {
-                convertCSV(WHO.collections.cases);
+                collectionToCSV(WHO.collections.cases);
+            }
+            */
+
+            // for risk
+            /*
+            if (WHO.collections.globalrisk.length) {
+                collectionToCSV(WHO.collections.globalrisk);
+            }
+            */
+
+            // for clinics
+            if (WHO.models.clinics.attributes.type === 'FeatureCollection') {
+                var features = WHO.models.clinics.attributes.features,
+                    clinics = _.map(features, function(feature) {
+                        return feature.properties
+                    });
+                listToCSV(clinics);
             }
         });
+
 
 
         init = true;
     }
 
-    function convertCSV(models) {
-        // Convert models to arrays
+    //********************* Collection to CSV *********************//
+    function collectionToCSV(models) {
         var i = 0, ii = models.length,
             keys = _.keys(models.at(0).attributes),
             k = 0, kk = keys.length,
@@ -188,6 +207,25 @@ WHO.Routers = WHO.Routers || {};
 
         for (; i < ii; k = 0, row = [], ++i) {
             for(; k < kk; row.push(models.at(i).get(keys[k])), ++k) {}
+            csvList.push(row.join(','));
+        }
+
+        var encodedUri = encodeURI(csvString + csvList.join('\n'));
+        window.open(encodedUri);
+    }
+
+    //********************* List of objects to CSV *********************//
+    function listToCSV(list) {
+
+        var i = 0, ii = list.length,
+            keys = _.keys(list[0]),
+            k = 0, kk = keys.length,
+            csvList = [],
+            csvString = 'data:text/csv;charset=utf-8,' + keys.join(',') + '\n',
+            row = []
+
+        for (; i < ii; k = 0, row = [], ++i) {
+            for(; k < kk; row.push(list[i][keys[k]]), ++k) {}
             csvList.push(row.join(','));
         }
 
