@@ -28,7 +28,11 @@ WHO.Views = WHO.Views || {};
             }
         },
 
-        remove: function() {
+        addLayers: function(type) {
+            this.featureChange(type);
+        },
+
+        removeLayers: function() {
             _.each(this.layers, function(layer) {
                 WHO.map.removeLayer(layer);
             });
@@ -57,7 +61,7 @@ WHO.Views = WHO.Views || {};
                              	iconUrl: 'img/triage-64x64.png',
                         	}),
                         	  opacity: 1
-							});		
+							});
 					}
                 },
 
@@ -68,7 +72,6 @@ WHO.Views = WHO.Views || {};
                         },
                         click: function(e) {
                             var props = e.target.feature.properties;
-							//console.log(props);
                             popup.setLatLng(e.latlng);
                             popup.setContent('<div class="marker-title">' + props.CITY + ', ' + props.COUNTRY + '</div>'
                                 + '<table class="table-striped popup-click">'

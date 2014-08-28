@@ -85,8 +85,54 @@ WHO.Routers = WHO.Routers || {};
 
         }
 
-
         //********************* Listen for switches to the data UI *********************//
+
+        var mapviews = ['casemarkers', 'risk', 'clinics'],
+
+            combinations = {
+                risk:
+                    [0, 1, 0],
+
+                cases:
+                    [1, 0, 0],
+
+                response:
+                    [0, 0, 1]
+            },
+            $target;
+
+
+
+        $('a.layer').on('click', function() {
+            $target = $(this);
+
+            var zoom = $target.data('zoom'),
+                newMap = WHO.getMapType(zoom),
+                combo = combinations[$target.data('layer')];
+
+            _.each(combo, function(shouldBeOn, i) {
+
+                var view = mapviews[i],
+                    activeIndex = activeViews.indexOf(view);
+
+                if (shouldBeOn && activeIndex === -1) {
+                    //WHO.views[mapviews[i]].draw();
+                    activeViews.push(view);
+                    WHO.views[view].addLayers(newMap);
+                }
+
+                else if (!shouldBeOn && activeIndex !== -1) {
+                    activeViews.splice(activeIndex, 1);
+                    WHO.views[view].removeLayers();
+                }
+
+            });
+
+
+
+            WHO.map.setView([8.44, -11.7], zoom);
+
+        });
 
 
 
@@ -117,6 +163,8 @@ WHO.Routers = WHO.Routers || {};
             }, 400);
         });
 
+
+
         //********************* Listen and convert to CSVs *********************//
 
         $('#csv-download').on('click', function() {
@@ -146,23 +194,25 @@ WHO.Routers = WHO.Routers || {};
         var encodedUri = encodeURI(csvString + csvList.join('\n'));
         window.open(encodedUri);
     }
-    
-    
+
+
     //********************* Zoom to core *********************//
-    
+
      /*
      $('#zoom-core').on('click', function() {
           WHO.map.setView([8.44, -11.7], 7);
      });
      */
-     
-     
+
+
+    /*
      $('a.layer').on('click', function() {
         //var layer = $(this).data('layer');
         var zoom = $(this).data('zoom');
         WHO.map.setView([8.44, -11.7], zoom);
      });
-     
-    
 
+
+
+    */
 })();
