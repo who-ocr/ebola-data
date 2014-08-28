@@ -11,6 +11,9 @@ WHO.Routers = WHO.Routers || {};
     WHO.defaultZoom = 3;
     WHO.map = L.mapbox.map('map','devseed.jboe4b81')
         .setView([8.44, -11.7], WHO.defaultZoom);
+    WHO.map.on('viewreset', function() {
+        WHO.map.closePopup();
+    });
     WHO.$map = $('#map');
 
     //********************* Start the router *********************//
@@ -132,6 +135,7 @@ WHO.Routers = WHO.Routers || {};
 
 
 
+            WHO.map.closePopup();
             WHO.map.setView([8.44, -11.7], zoom);
 
         });
