@@ -85,7 +85,7 @@ WHO.Views = WHO.Views || {};
             var data = this.weeks;
 
             var elWidth = this.$el.width(),
-                mobile = elWidth < 480;
+                mobile = elWidth < 320;
 
             var margin = {top: 30, right: 60, bottom: 30, left: 60};
             if (mobile) {
@@ -117,7 +117,7 @@ WHO.Views = WHO.Views || {};
                     }
                 });
 
-                if (i % 5 === 0) {
+                if (i % 6 === 0) {
                     ticks.push({
                         position: i,
                         display: d.time
