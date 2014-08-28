@@ -222,6 +222,9 @@ WHO.Views = WHO.Views || {};
                         fillOpacity: 1,
                     });
                 },
+                filter: function(feature) {
+                    return cases[feature.id].recent;
+                },
                 onEachFeature: function (feature, layer) {
                     layer.on({
                         dblclick: dblClickHandler,
