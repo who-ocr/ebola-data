@@ -20,7 +20,5 @@ WHO.Models = WHO.Models || {};
             this.set(topojson.feature(clinics, clinics.objects.ebolaClinics));
             this.trigger('loaded');
         }
-
     });
-
 })();

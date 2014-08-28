@@ -32,15 +32,16 @@
     </head>
     <body>
 
-        <div class="navbar navbar-default">
+        <div class="navbar navbar-default navbar-fixed-top">
             <div class="container">
+              <div class="row">
                 <div class="navbar-header">
                     <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
                         <span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span>
                     </button>
                     <a class="navbar-brand" href="#">
                         <img src="img/who-logo-prp.gif" alt="who-logo-prp" height="60">
-                        <span class="title">Ebola Outbreak Portal</span>
+                        <span class="title">Ebola Outbreak Data</span>
                     </a>
                 </div>
                 <div class="navbar-collapse collapse" role="navigation">
@@ -52,10 +53,11 @@
                             <a href="#">Response</a>
                         </li>
                         <li>
-                            <a href="https://extranet.who.int/programmebudget/Feedback">Contact Us</a>
+                            <a href="" data-toggle="modal" data-target="#dataModal">Data</a>
                         </li>
                     </ul>
-                </div>
+                 </div>
+              </div>
             </div>
         </div>
 
@@ -64,7 +66,7 @@
         </div>
 
         <div class="graph-container">
-            <div class="container-fluid">
+            <div class="container">
                 <div class="row">
 
                     <div class="col-md-6" id="epi-graph">
@@ -108,15 +110,16 @@
                                 <li>Core zone</li>
                             </ul>
 
-                            <div class="row">
-                                <div class="col-md-8">
-                                    <ul class="country-markers legend inline-legend">
-                                        <li style="width: 5%"><span class="circle size-0">&nbsp;</span></li>
-                                        <li style="width: 7%"><span class="circle size-1">&nbsp;</span></li>
-                                        <li style="width: 13%"><span class="circle size-2">&nbsp;</span></li>
-                                        <li style="width: 15%"><span class="circle size-3">&nbsp;</span></li>
-                                        <li style="width: 22%"><span class="circle size-4">&nbsp;</span></li>
-                                    </ul>
+                            <div class="row marker-legend">
+                                <div class="col-md-4 cases-marker">
+                                    <img src="img/cases-marker.png" /> Ebola cases 
+                                    <div class="cases-label">Cases in past 7 days</div>
+                                </div>
+                                <div class="col-md-4 response-marker">
+                                    <img src="img/triage-64x64.png" /> Triage and Transit posts
+                                </div>
+                                <div class="col-md-4 response-marker">
+                                    <img src="img/hub-64x64.png" /> Major Ebola Treatment Centre HUBS
                                 </div>
                             </div>
 
@@ -125,10 +128,50 @@
                 </div>
             </div>
         </div>
+        
+        
+        <div class="case-counter">
+          <button id="case-count" data-toggle="dropdown" class="case-counter-button btn btn-default">0 cases <span class="caret"></span></button>
+        	<ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+        	    <li>Some text about case count</li>
+ 			</ul>
+        </div>
+        
+        <div class="explore">
+            <button id="explore-map" data-toggle="dropdown" class="explore-button btn btn-default">Explore <span class="caret"></span></button>
+        	<ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+        	    <li><a href="#" class="layer" data-zoom="3" data-layer="risk">Risk</a></li>
+				<li><a href="#" class="layer" data-zoom="7" data-layer="cases">Cases</a></li>
+				<li><a href="#" class="layer" data-zoom="9" data-layer="response">Response</a></li>
+ 			</ul>
+        </div>
 
+        <!-- Notes Modal -->
+        <div class="modal fade" id="dataModal" tabindex="-1" role="dialog" aria-labelledby="dataModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title" id="dataModalLabel">Download Our Data</h4>
+              </div>
+              <div class="modal-body">
+                <h4 class="left">Ebola Virus Disease (EVD) Case Data</h4>
+                <p>EVD case data contains deidentified data about each case reported to the WHO. This data is updated daily and contains information about date reported, 2nd admin level location, category, and outcome. This data is a complied list from all WHO partners.</p>
+                <button id="csv-download-cases" class="download-button btn btn-default">Download EVD case data</button>
 
-        <div class="download">
-            <button id="csv-download" class="download-button btn btn-default">Download data</button>
+                <h4 class="left">WHO Facilities List</h4>
+                <p>WHO Facilities List data is an itemized list of treatment centers and triage locations. This data contains facility location information as well as status, bed capacity, and status.</p>
+                <button id="csv-download-facilities" class="download-button btn btn-default">Download WHO Facilities List</button>
+
+                <h4 class="left">WHO Response Level Categorization</h4>
+                <p>WHO response level classifies countries and administrative areas according to level of response. Data is categorized at the country globally, and at the province/district level in countries with confirmed cases. Countries and administrative areas are classified with a level between 1 to 5. Level corresponds to an evaluation criteria and is updated on a daily basis.</p>
+                <button id="csv-download-response" class="download-button btn btn-default">Download WHO Response Level Categorization</button>
+
+                <h4 class="left">License</h4>
+                <p>All data is public domain and made freely available under the <a href="https://creativecommons.org/publicdomain/zero/1.0/">CC0 license</a>. </p>
+              </div>
+            </div>
+          </div>
         </div>
 
         <div class="footer">
@@ -181,7 +224,6 @@
         <script src="scripts/views/map.js"></script>
         <script src="scripts/views/table.js"></script>
         <script src="scripts/views/epi-graph.js"></script>
-        <script src="scripts/collections/response.js"></script>
         <script src="scripts/collections/cases.js"></script>
         <script src="scripts/collections/globalrisk.js"></script>
         <script src="scripts/models/deployment.js"></script>

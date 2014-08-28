@@ -9,7 +9,7 @@ WHO.Routers = WHO.Routers || {};
 
     //********************* Map Initialize the map *********************//
     WHO.defaultZoom = 3;
-    WHO.map = L.mapbox.map('map','dmccarey.jb7mama4')
+    WHO.map = L.mapbox.map('map','devseed.jboe4b81')
         .setView([-14.179, -11.426], WHO.defaultZoom);
     WHO.map.scrollWheelZoom.disable();
     WHO.$map = $('#map');
@@ -28,8 +28,8 @@ WHO.Routers = WHO.Routers || {};
 
         //*********** Convenience method to get map type ***********//
         WHO.getMapType = function(level) {
-            if (level < 5)              {   return 'country'     }
-            else if (level < 7)         {   return 'province'    }
+            if (level < 7)              {   return 'country'     }
+            else if (level < 8)         {   return 'province'    }
             else                        {   return 'district'    }
         }
 
@@ -42,7 +42,6 @@ WHO.Routers = WHO.Routers || {};
 
         WHO.collections = {
             cases: new WHO.Collections.Cases(),
-            response: new WHO.Collections.Response(),
             globalrisk: new WHO.Collections.GlobalRisk(),
         };
 
@@ -85,8 +84,57 @@ WHO.Routers = WHO.Routers || {};
 
         }
 
-
         //********************* Listen for switches to the data UI *********************//
+
+        var mapviews = ['casemarkers', 'risk', 'clinics'],
+
+            combinations = {
+                risk:
+                    [0, 1, 0],
+
+                cases:
+                    [1, 0, 0],
+
+                response:
+                    [0, 1, 1]
+            },
+            $target;
+
+
+
+        $('a.layer').on('click', function(e) {
+            $target = $(this);
+
+            e.preventDefault();
+
+            var zoom = $target.data('zoom'),
+                newMap = WHO.getMapType(zoom),
+                combo = combinations[$target.data('layer')];
+
+            _.each(combo, function(shouldBeOn, i) {
+
+                var view = mapviews[i],
+                    activeIndex = activeViews.indexOf(view);
+
+                if (shouldBeOn && activeIndex === -1) {
+                    activeViews.push(view);
+                    WHO.views[view].addLayers(newMap);
+                }
+
+                else if (!shouldBeOn && activeIndex !== -1) {
+                    activeViews.splice(activeIndex, 1);
+                    WHO.views[view].removeLayers();
+                }
+
+            });
+
+
+
+            WHO.map.setView([8.44, -11.7], zoom);
+
+        });
+
+
 
 
 
@@ -119,18 +167,38 @@ WHO.Routers = WHO.Routers || {};
 
         //********************* Listen and convert to CSVs *********************//
 
-        $('#csv-download').on('click', function() {
+        $('#csv-download-cases').on('click', function() {
+            // for cases
             if (WHO.collections.cases.length) {
-                convertCSV(WHO.collections.cases);
+                collectionToCSV(WHO.collections.cases);
             }
         });
+
+        $('#csv-download-response').on('click', function() {
+            // for risk
+            if (WHO.collections.globalrisk.length) {
+                collectionToCSV(WHO.collections.globalrisk);
+            }
+        });
+
+        $('#csv-download-facilities').on('click', function() {
+            // for clinics
+            if (WHO.models.clinics.attributes.type === 'FeatureCollection') {
+                var features = WHO.models.clinics.attributes.features,
+                    clinics = _.map(features, function(feature) {
+                        return feature.properties
+                    });
+                listToCSV(clinics);
+            }
+        });
+
 
 
         init = true;
     }
 
-    function convertCSV(models) {
-        // Convert models to arrays
+    //********************* Collection to CSV *********************//
+    function collectionToCSV(models) {
         var i = 0, ii = models.length,
             keys = _.keys(models.at(0).attributes),
             k = 0, kk = keys.length,
@@ -147,4 +215,43 @@ WHO.Routers = WHO.Routers || {};
         window.open(encodedUri);
     }
 
+    //********************* List of objects to CSV *********************//
+    function listToCSV(list) {
+
+        var i = 0, ii = list.length,
+            keys = _.keys(list[0]),
+            k = 0, kk = keys.length,
+            csvList = [],
+            csvString = 'data:text/csv;charset=utf-8,' + keys.join(',') + '\n',
+            row = []
+
+        for (; i < ii; k = 0, row = [], ++i) {
+            for(; k < kk; row.push(list[i][keys[k]]), ++k) {}
+            csvList.push(row.join(','));
+        }
+
+        var encodedUri = encodeURI(csvString + csvList.join('\n'));
+        window.open(encodedUri);
+    }
+
+
+    //********************* Zoom to core *********************//
+
+     /*
+     $('#zoom-core').on('click', function() {
+          WHO.map.setView([8.44, -11.7], 7);
+     });
+     */
+
+
+    /*
+     $('a.layer').on('click', function() {
+        //var layer = $(this).data('layer');
+        var zoom = $(this).data('zoom');
+        WHO.map.setView([8.44, -11.7], zoom);
+     });
+
+
+
+    */
 })();
