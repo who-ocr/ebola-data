@@ -166,21 +166,21 @@ WHO.Routers = WHO.Routers || {};
 
         //********************* Listen and convert to CSVs *********************//
 
-        $('#csv-download').on('click', function() {
+        $('#csv-download-cases').on('click', function() {
             // for cases
-            /*
             if (WHO.collections.cases.length) {
                 collectionToCSV(WHO.collections.cases);
             }
-            */
+        });
 
+        $('#csv-download-response').on('click', function() {
             // for risk
-            /*
             if (WHO.collections.globalrisk.length) {
                 collectionToCSV(WHO.collections.globalrisk);
             }
-            */
+        });
 
+        $('#csv-download-facilities').on('click', function() {
             // for clinics
             if (WHO.models.clinics.attributes.type === 'FeatureCollection') {
                 var features = WHO.models.clinics.attributes.features,
