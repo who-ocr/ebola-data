@@ -8,7 +8,7 @@ WHO.Views = WHO.Views || {};
     WHO.Views.Map = Backbone.View.extend({
 
         events: {},
-        
+
         initialize: function (options) {
             this.listenToOnce(this.collection, 'loaded', function() {
                 this.featureChange(WHO.getMapType(WHO.map.getZoom()));
@@ -24,7 +24,28 @@ WHO.Views = WHO.Views || {};
             // Keep a list of layers we've added, since we'll have to remove them
             this.layers = [];
         },
-        
+
+        featureChange: function(type) {
+            if (type === this.mapType) {
+                return;
+            }
+
+            this.mapType = type;
+            var modelName = type.charAt(0).toUpperCase() + type.slice(1);
+            this.getBounds(WHO.Models[modelName], type);
+        },
+
+        addLayers: function(type) {
+            this.mapType = type;
+            var modelName = type.charAt(0).toUpperCase() + type.slice(1);
+            this.getBounds(WHO.Models[modelName], type);
+        },
+
+        removeLayers: function() {
+            _.each(this.layers, function(layer) {
+                WHO.map.removeLayer(layer);
+            });
+        },
 
         getBounds: function(model, mapType) {
             var model = WHO.models[mapType]  || new model(); ;
@@ -43,7 +64,7 @@ WHO.Views = WHO.Views || {};
         },
 
         render: function () {
-           
+
             if (this.layers.length) {
                 this.removeLayers();
             }
@@ -115,23 +136,6 @@ WHO.Views = WHO.Views || {};
 
             return;
         },
-
-        featureChange: function(type) {
-            if (type === this.mapType) {
-                return;
-            }
-
-            this.mapType = type;
-            var modelName = type.charAt(0).toUpperCase() + type.slice(1);
-            this.getBounds(WHO.Models[modelName], type);
-        },
-
-        removeLayers: function() {
-            _.each(this.layers, function(layer) {
-                WHO.map.removeLayer(layer);
-            });
-        },
-        
 
     });
 
