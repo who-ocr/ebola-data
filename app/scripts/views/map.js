@@ -8,6 +8,7 @@ WHO.Views = WHO.Views || {};
     WHO.Views.Map = Backbone.View.extend({
 
         events: {},
+        
         initialize: function (options) {
             this.listenToOnce(this.collection, 'loaded', function() {
                 this.featureChange(WHO.getMapType(WHO.map.getZoom()));
@@ -23,6 +24,7 @@ WHO.Views = WHO.Views || {};
             // Keep a list of layers we've added, since we'll have to remove them
             this.layers = [];
         },
+        
 
         getBounds: function(model, mapType) {
             var model = WHO.models[mapType]  || new model(); ;
@@ -41,7 +43,7 @@ WHO.Views = WHO.Views || {};
         },
 
         render: function () {
-
+           
             if (this.layers.length) {
                 this.removeLayers();
             }
@@ -128,7 +130,8 @@ WHO.Views = WHO.Views || {};
             _.each(this.layers, function(layer) {
                 WHO.map.removeLayer(layer);
             });
-        }
+        },
+        
 
     });
 

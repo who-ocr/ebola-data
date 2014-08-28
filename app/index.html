@@ -34,6 +34,7 @@
 
         <div class="navbar navbar-default navbar-fixed-top">
             <div class="container">
+              <div class="row">
                 <div class="navbar-header">
                     <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
                         <span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span>
@@ -55,7 +56,8 @@
                             <a href="https://extranet.who.int/programmebudget/Feedback">Contact Us</a>
                         </li>
                     </ul>
-                </div>
+                 </div>
+              </div>
             </div>
         </div>
 
@@ -64,7 +66,7 @@
         </div>
 
         <div class="graph-container">
-            <div class="container-fluid">
+            <div class="container">
                 <div class="row">
 
                     <div class="col-md-6" id="epi-graph">
@@ -129,6 +131,15 @@
 
         <div class="download">
             <button id="csv-download" class="download-button btn btn-default">Download data</button>
+        </div>
+        
+        <div class="zoom-to-core">
+            <button id="zoom-core" data-toggle="dropdown" class="zoom-core-button btn btn-default">Explore <span class="caret"></span></button>
+        	<ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+        	    <li><a href="#" class="layer" data-zoom="3" data-layer="risk">Risk</a></li>
+				<li><a href="#" class="layer" data-zoom="5" data-layer="cases">Cases</a></li>
+				<li><a href="#" class="layer" data-zoom="8" data-layer="response">Response</a></li>
+ 			</ul>
         </div>
 
         <div class="footer">

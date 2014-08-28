@@ -95,7 +95,7 @@ WHO.Views = WHO.Views || {};
             }
 
             var width = elWidth - margin.left - margin.right;
-            var height = 270 - margin.top - margin.bottom;
+            var height = 200 - margin.top - margin.bottom;
 
             var totals = _.map(data, function(d) { return d['total'] }),
                 max = Math.max.apply(null, totals);

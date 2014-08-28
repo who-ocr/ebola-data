@@ -153,11 +153,11 @@ WHO.Views = WHO.Views || {};
                 closeTooltip,
 
                 sizeFactor = 0.77868852459,
-                opacity = 0.7;
+                opacity = 0.8;
 
             if (maptype === 'country') {
                 sizeFactor = 1.10655737705;
-                opacity = 0.5;
+                opacity = 0.8;
             }
 
             WHO.map.on('popupclose', function () {

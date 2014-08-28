@@ -28,8 +28,8 @@ WHO.Routers = WHO.Routers || {};
 
         //*********** Convenience method to get map type ***********//
         WHO.getMapType = function(level) {
-            if (level < 5)              {   return 'country'     }
-            else if (level < 7)         {   return 'province'    }
+            if (level < 7)              {   return 'country'     }
+            else if (level < 8)         {   return 'province'    }
             else                        {   return 'district'    }
         }
 
@@ -146,5 +146,23 @@ WHO.Routers = WHO.Routers || {};
         var encodedUri = encodeURI(csvString + csvList.join('\n'));
         window.open(encodedUri);
     }
+    
+    
+    //********************* Zoom to core *********************//
+    
+     /*
+     $('#zoom-core').on('click', function() {
+          WHO.map.setView([8.44, -11.7], 7);
+     });
+     */
+     
+     
+     $('a.layer').on('click', function() {
+        //var layer = $(this).data('layer');
+        var zoom = $(this).data('zoom');
+        WHO.map.setView([8.44, -11.7], zoom);
+     });
+     
+    
 
 })();
