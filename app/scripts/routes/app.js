@@ -28,8 +28,8 @@ WHO.Routers = WHO.Routers || {};
 
         //*********** Convenience method to get map type ***********//
         WHO.getMapType = function(level) {
-            if (level < 5)              {   return 'country'     }
-            else if (level < 7)         {   return 'province'    }
+            if (level < 7)              {   return 'country'     }
+            else if (level < 8)         {   return 'province'    }
             else                        {   return 'district'    }
         }
 
