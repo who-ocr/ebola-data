@@ -57,9 +57,9 @@ WHO.Collections = WHO.Collections || {};
             }
 
             data = _.filter(data, function(d) {
-                return isNaN(d.datetime) ||
-                    d.datetime < now && d.datetime > start ||
-                    d.category === 'for aggregates'
+                return d.category !== 'for aggregates'
+                    && !isNaN(d.datetime)
+                    && d.datetime < now && d.datetime > start;
             });
             data = _.sortBy(data, function(d) { return d.datetime });
 
