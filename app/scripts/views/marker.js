@@ -88,7 +88,7 @@ WHO.Views = WHO.Views || {};
                 }
 
                 cases[geoid][category] += 1;
-
+				
                 if (model.get('HCW') === 'TRUE') { cases[geoid].hcw += 1; }
                 if (model.get('outcome') === 'Dead') { cases[geoid].deaths += 1; }
             }
@@ -105,11 +105,17 @@ WHO.Views = WHO.Views || {};
                 cases = convertIds(cases, 0, end, 20 - end,
                                    ['confirmed', 'probable', 'suspected', 'total', 'hcw', 'deaths', 'recent']);
             }
-
+			
+			var totalCases = 0;
+			
             _.each(cases, function(c) {
                 c.total = c.confirmed + c.probable + c.suspected;
+                totalCases = totalCases + c.total;
             });
-
+            
+            $('body').find('button#case-count').empty();
+			$('body').find('button#case-count').append(this.numberWithCommas(totalCases) + ' cases');
+			
             this.cases = cases;
             this.render();
         },
@@ -153,11 +159,11 @@ WHO.Views = WHO.Views || {};
                 closeTooltip,
 
                 sizeFactor = 0.77868852459,
-                opacity = 0.8;
+                opacity = 0.5;
 
             if (maptype === 'country') {
                 sizeFactor = 1.10655737705;
-                opacity = 0.8;
+                opacity = 0.5;
             }
 
             WHO.map.on('popupclose', function () {
@@ -169,9 +175,9 @@ WHO.Views = WHO.Views || {};
                     return L.circleMarker(latlng, {
                         radius: Math.sqrt(scale(cases[feature.id][category]) / Math.PI)/sizeFactor,
                         weight: 1.5,
-                        color: '#9686A1',
+                        color: '#B20000',
                         opacity: opacity,
-                        fillColor: '#9686A1',
+                        fillColor: '#B20000',
                         fillOpacity: opacity,
                     });
                 },
@@ -191,10 +197,10 @@ WHO.Views = WHO.Views || {};
                     return L.circleMarker(latlng, {
                         radius: Math.sqrt(scale(cases[feature.id].recent) / Math.PI)/sizeFactor,
                         weight: 1.5,
-                        color: '#9686A1',
-                        opacity: 0.9,
-                        fillColor: '#9686A1',
-                        fillOpacity: 0.9,
+                        color: '#660000',
+                        opacity: 1,
+                        fillColor: '#660000',
+                        fillOpacity: 1,
                     });
                 },
                 onEachFeature: function (feature, layer) {
@@ -297,6 +303,10 @@ WHO.Views = WHO.Views || {};
             _.each(this.layers, function(layer) {
                 WHO.map.removeLayer(layer);
             });
+        },
+        
+        numberWithCommas: function(x) {
+        	return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
         }
 
     });
