@@ -90,6 +90,7 @@ WHO.Routers = WHO.Routers || {};
 
 
 
+
         //********************* Listen for map zoom to re-draw views *********************//
 
         var zooming = false,
@@ -116,6 +117,15 @@ WHO.Routers = WHO.Routers || {};
             }, 400);
         });
 
+
+
+        new Dragdealer('time-slider', {
+            handleClass: 'start-handle'
+        });
+
+        new Dragdealer('time-slider', {
+            handleClass: 'end-handle'
+        });
 
         //********************* Listen and convert to CSVs *********************//
 

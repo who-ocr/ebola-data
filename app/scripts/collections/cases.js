@@ -16,6 +16,28 @@ WHO.Collections = WHO.Collections || {};
             this.ref.once("value", onload);
         },
 
+        lastWeek: function() {
+
+            var i = this.models.length - 1,
+                // this doesn't work because our data isn't live yet, so nothing is as recent as last week from today
+                // lastWeek = Date.parse(new Date()) - 1000 * 60 * 60 * 24 * 7,
+
+                // instead we use the week ending with the latest case
+                lastWeek = this.at(i).get('datetime') - 1000 * 60 * 60 * 24 * 7,
+                cases = [],
+                model;
+
+            for(; i >= 0; i--) {
+                model = this.at(i);
+                if (model.get('datetime') < lastWeek) {
+                    return cases;
+                }
+                cases.push(model.attributes);
+            }
+
+            return cases;
+        },
+
         onload: function(snap) {
 
             var data = snap.val(),
@@ -31,10 +53,13 @@ WHO.Collections = WHO.Collections || {};
                 // data[i].datetime = Date.parse([d[1],d[0],d[2]].join('/'));
                 d = data[i]['date'];
                 data[i].datetime = Date.parse(d);
+                data[i].category = data[i]['case category'].toLowerCase();
             }
 
             data = _.filter(data, function(d) {
-                return !isNaN(d.datetime) && d.datetime < now && d.datetime > start;
+                return isNaN(d.datetime) ||
+                    d.datetime < now && d.datetime > start ||
+                    d.category === 'for aggregates'
             });
             data = _.sortBy(data, function(d) { return d.datetime });
 
