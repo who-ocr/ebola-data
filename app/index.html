@@ -110,15 +110,16 @@
                                 <li>Core zone</li>
                             </ul>
 
-                            <div class="row">
-                                <div class="col-md-8">
-                                    <ul class="country-markers legend inline-legend">
-                                        <li style="width: 5%"><span class="circle size-0">&nbsp;</span></li>
-                                        <li style="width: 7%"><span class="circle size-1">&nbsp;</span></li>
-                                        <li style="width: 13%"><span class="circle size-2">&nbsp;</span></li>
-                                        <li style="width: 15%"><span class="circle size-3">&nbsp;</span></li>
-                                        <li style="width: 22%"><span class="circle size-4">&nbsp;</span></li>
-                                    </ul>
+                            <div class="row marker-legend">
+                                <div class="col-md-4 cases-marker">
+                                    <img src="img/cases-marker.png" /> Ebola cases 
+                                    <div class="cases-label">Cases in past 7 days</div>
+                                </div>
+                                <div class="col-md-4 response-marker">
+                                    <img src="img/triage-64x64.png" /> Triage and Transit posts
+                                </div>
+                                <div class="col-md-4 response-marker">
+                                    <img src="img/hub-64x64.png" /> Major Ebola Treatment Centre HUBS
                                 </div>
                             </div>
 
@@ -126,6 +127,14 @@
                     </div>
                 </div>
             </div>
+        </div>
+        
+        
+        <div class="case-counter">
+          <button id="case-count" data-toggle="dropdown" class="zoom-core-button btn btn-default">0 cases <span class="caret"></span></button>
+        	<ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+        	    <li>Some text about case count</li>
+ 			</ul>
         </div>
         
         <div class="zoom-to-core">

@@ -93,8 +93,8 @@ WHO.Views = WHO.Views || {};
                         return {
                             color: '#666',
                             fillColor: cs(risks[feature.id]),
-                            opacity: 0.333,
-                            fillOpacity: 0.333,
+                            opacity: 0.2,
+                            fillOpacity: 0.2,
                             weight: 1
                         };
                     },
