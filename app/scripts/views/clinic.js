@@ -42,7 +42,10 @@ WHO.Views = WHO.Views || {};
         render: function () {
 
             if (this.layers.length) this.removeLayers();
-            var popup = this.popup;
+
+            var popup = this.popup,
+                template = this.template;
+
             var layer = L.geoJson(this.model.attributes, {
                 pointToLayer: function(feature, latlng) {
                     if (feature.properties.FUNCTION === 'Major Ebola Treatment Centre HUBS') {
@@ -71,23 +74,22 @@ WHO.Views = WHO.Views || {};
                         },
                         click: function(e) {
                             var props = e.target.feature.properties;
+                            _.each(['CITY', 'LOCATIONS', 'FUNCTION', 'Partners', 'Bed_capacity_current',
+                                   'COUNTRY', 'Serving_Lab_Location', 'Status_ECT'], function(p) {
+                               if (props[p] === undefined) {
+                                   props[p] = 'N/A';
+                               }
+                            });
                             popup.setLatLng(e.latlng);
-                            popup.setContent('<div class="marker-title">' + props.CITY + ', ' + props.COUNTRY + '</div>'
-                                             + '<table class="table-striped popup-click">'
-                                             + '<tr><td>Facility</td><td>' + props.LOCATIONS + '</td></tr>'
-                                             + '<tr><td>Function</td><td>' + props.FUNCTION + '</td></tr>'
-                                             + '<tr><td>Partners</td><td>' + props.Partners + '</td></tr>'
-                                             + '<tr><td>Bed Capacity</td><td>' + props.Bed_capacity_current + '</td></tr>'
-                                             + '<tr><td>Laboratory</td><td>' + props.Serving_Lab_Location + '</td></tr>'
-                                             + '<tr><td>Status</td><td>' + props.Status_ECT + '</td></tr></table>'
-                                            );
-                                            if (!popup._map) popup.openOn(WHO.map);
+                            popup.setContent(template(props));
+                            if (!popup._map) popup.openOn(WHO.map);
                         }
                     })
                 }
             }).addTo(WHO.map);
             this.layers.push(layer);
-        }
+        },
+        template: _.template($('#popup-clinic').html()),
 
     });
 

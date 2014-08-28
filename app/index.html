@@ -49,15 +49,15 @@
                         <li>
                             <a href="#" class="layer" data-zoom="3" data-layer="all">Home</a>
                         </li>
-                        
+
             			<li class="dropwdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Explore <span class="caret"></span></a>
         					<ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
         	   					 <li><a href="#" class="layer" data-zoom="3" data-layer="risk">Risk</a></li>
 								<li><a href="#" class="layer" data-zoom="7" data-layer="cases">Cases</a></li>
 								<li><a href="#" class="layer" data-zoom="8" data-layer="response">Response</a></li>
  							</ul>
-            			<li>          
-                      
+            			<li>
+
                         <li>
                             <a href="" data-toggle="modal" data-target="#dataModal">Data</a>
                         </li>
@@ -118,7 +118,7 @@
 
                             <div class="row marker-legend">
                                 <div class="col-md-4 cases-marker">
-                                    <img src="img/cases-marker.png" /> Ebola cases 
+                                    <img src="img/cases-marker.png" /> Ebola cases
                                     <div class="cases-label">Cases in past 7 days</div>
                                 </div>
                                 <div class="col-md-4 response-marker">
@@ -134,15 +134,14 @@
                 </div>
             </div>
         </div>
-        
-        
+
+
         <div class="case-counter">
           <button id="case-count" data-toggle="dropdown" class="case-counter-button btn btn-default">0 cases <span class="caret"></span></button>
         	<ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
         	    <li>Some text about case count</li>
  			</ul>
         </div>
-        
 
         <!-- Notes Modal -->
         <div class="modal fade" id="dataModal" tabindex="-1" role="dialog" aria-labelledby="dataModalLabel" aria-hidden="true">
@@ -198,6 +197,36 @@
                         <% }); %>
                     </ul>
                 </div>
+            </script>
+
+            <script type="text/template" id="popup-clinic">
+                <div class="marker-title"><%= CITY %>, <%= COUNTRY %></div>
+                <table class="table-striped popup-click">
+                    <tr>
+                        <td>Facility</td>
+                        <td><%= LOCATIONS %></td>
+                    </tr>
+                    <tr>
+                        <td>Function</td>
+                        <td><%= FUNCTION %></td>
+                    </tr>
+                    <tr>
+                        <td>Partners</td>
+                        <td><%= Partners %></td>
+                    </tr>
+                    <tr>
+                        <td>Bed Capacity</td>
+                        <td><%= Bed_capacity_current %></td>
+                    </tr>
+                    <tr>
+                        <td>Laboratory</td>
+                        <td><%= Serving_Lab_Location %></td>
+                    </tr>
+                    <tr>
+                        <td>Status</td>
+                        <td><%= Status_ECT %></td>
+                    </tr>
+                </table>
             </script>
 
         </div>
