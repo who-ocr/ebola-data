@@ -96,7 +96,7 @@ WHO.Routers = WHO.Routers || {};
                     [1, 0, 0],
 
                 response:
-                    [0, 0, 1]
+                    [0, 1, 1]
             },
             $target;
 
@@ -117,7 +117,6 @@ WHO.Routers = WHO.Routers || {};
                     activeIndex = activeViews.indexOf(view);
 
                 if (shouldBeOn && activeIndex === -1) {
-                    //WHO.views[mapviews[i]].draw();
                     activeViews.push(view);
                     WHO.views[view].addLayers(newMap);
                 }

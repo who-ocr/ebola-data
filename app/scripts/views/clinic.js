@@ -36,6 +36,7 @@ WHO.Views = WHO.Views || {};
             _.each(this.layers, function(layer) {
                 WHO.map.removeLayer(layer);
             });
+            this.on = false;
         },
 
         render: function () {
