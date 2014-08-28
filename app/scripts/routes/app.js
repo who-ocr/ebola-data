@@ -117,16 +117,6 @@ WHO.Routers = WHO.Routers || {};
             }, 400);
         });
 
-
-
-        new Dragdealer('time-slider', {
-            handleClass: 'start-handle'
-        });
-
-        new Dragdealer('time-slider', {
-            handleClass: 'end-handle'
-        });
-
         //********************* Listen and convert to CSVs *********************//
 
         $('#csv-download').on('click', function() {
