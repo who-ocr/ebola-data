@@ -10,8 +10,7 @@ WHO.Routers = WHO.Routers || {};
     //********************* Map Initialize the map *********************//
     WHO.defaultZoom = 3;
     WHO.map = L.mapbox.map('map','dmccarey.jb7mama4')
-        .setView([-14.179, -11.426], WHO.defaultZoom);
-    WHO.map.scrollWheelZoom.disable();
+        .setView([0, 0], WHO.defaultZoom);
     WHO.$map = $('#map');
 
     //********************* Start the router *********************//
@@ -96,14 +95,16 @@ WHO.Routers = WHO.Routers || {};
                     [1, 0, 0],
 
                 response:
-                    [0, 1, 1]
+                    [0, 0, 1]
             },
             $target;
 
 
 
-        $('a.layer').on('click', function() {
+        $('a.layer').on('click', function(e) {
             $target = $(this);
+            
+            e.preventDefault();
 
             var zoom = $target.data('zoom'),
                 newMap = WHO.getMapType(zoom),
