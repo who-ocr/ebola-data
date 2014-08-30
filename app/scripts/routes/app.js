@@ -9,7 +9,7 @@ WHO.Routers = WHO.Routers || {};
 
     //********************* Map Initialize the map *********************//
     WHO.defaultZoom = 3;
-    WHO.map = L.mapbox.map('map','devseed.jboe4b81')
+    WHO.map = L.mapbox.map('map','devseed.jcbd85k7')
         .setView([8.44, -11.7], WHO.defaultZoom);
     WHO.map.on('viewreset', function() {
         WHO.map.closePopup();
