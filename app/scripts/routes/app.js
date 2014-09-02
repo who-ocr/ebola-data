@@ -8,9 +8,9 @@ WHO.Routers = WHO.Routers || {};
     var init = false;
 
     //********************* Map Initialize the map *********************//
-    WHO.defaultZoom = 3;
+    WHO.defaultZoom = 5;
     WHO.map = L.mapbox.map('map','devseed.jcbd85k7')
-        .setView([8.44, -11.7], WHO.defaultZoom);
+        .setView([8.0, -5.7], WHO.defaultZoom);
     WHO.map.on('viewreset', function() {
         WHO.map.closePopup();
     });
@@ -30,8 +30,8 @@ WHO.Routers = WHO.Routers || {};
 
         //*********** Convenience method to get map type ***********//
         WHO.getMapType = function(level) {
-            if (level < 7)              {   return 'country'     }
-            else if (level < 8)         {   return 'province'    }
+            if (level < 6)              {   return 'country'     }
+            else if (level < 7)         {   return 'province'    }
             else                        {   return 'district'    }
         }
 
