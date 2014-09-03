@@ -48,7 +48,8 @@ p, div, span, section, label, ul, li {
 /************** Navs ********************************/
 
 body .navbar {
-    min-height: 55px;
+    min-height: 50px !important;
+    height: 60px;
     position: fixed;
     z-index: 100;
     width: 100%;
@@ -67,6 +68,10 @@ body .navbar {
     margin-left: 20px;
 }
 
+.navbar-right {
+    margin-top: 10px !important;
+}
+
 .navbar-collapse .nav { margin: 6px -5px 0 0; }
 
 /****************************************************/
@@ -74,14 +79,15 @@ body .navbar {
 
 .graph-container {
     position: fixed;
-    bottom: 0;
+    bottom: -180px;
     left: 0;
     width: 100%;
     height: 210px;
     background: #ffffff;
     background: rgba(255,255,255,0.8);
-    z-index: 100;
-    border-top: 1px solid #ccc;
+    z-index: 1000;
+    border-top: 1px solid #a1a6a9;
+    box-shadow: 0 1px 10px rgba(0, 0, 0, 0.2);
     display: none;
 }
 
@@ -203,6 +209,23 @@ body .navbar {
   width: 60px;
 }
 
+.legend-control {
+  z-index: 10;
+  color: #33475b;
+  display: block;
+  padding: 10px;
+  text-align: center;
+  position: absolute;
+  font-size: 14px;
+  right: 0;
+  top: -5px;
+}
+.legend-control:focus {
+  outline: none;
+}
+body .tooltip {
+  width: 100px;
+}
 /****************************************************/
 /************** SVG *********************************/
 
@@ -379,6 +402,10 @@ body .navbar {
 }
 .footer {
     display: none;
+}
+.mapbox-info-toggle,
+.map-info-container {
+  margin-bottom: 30px;
 }
 
 /****************************************************/

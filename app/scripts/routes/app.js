@@ -241,14 +241,26 @@ WHO.Routers = WHO.Routers || {};
     }
 
 
-    //********************* Zoom to core *********************//
+    //********************* Hide UI *********************//
 
-     /*
-     $('#zoom-core').on('click', function() {
-          WHO.map.setView([8.44, -11.7], 7);
+     
+     $('.graph-container').on('click', function() {
+        if ($(this).hasClass('ui-open')) {
+           $(this).animate({bottom: '-180px'});
+           $(this).removeClass('ui-open');
+           $('.legend-control span').removeClass('glyphicon-chevron-down');
+           $('.legend-control span').addClass('glyphicon-chevron-up');
+        } else {
+           $(this).animate({bottom: '0px'});
+           $(this).addClass('ui-open');
+           $('.legend-control span').removeClass('glyphicon-chevron-up');
+           $('.legend-control span').addClass('glyphicon-chevron-down');
+        }     
      });
-     */
-
+     
+     $('.legend-control').tooltip();
+     
+   
 
     /*
      $('a.layer').on('click', function() {

@@ -193,8 +193,8 @@ WHO.Views = WHO.Views || {};
                 pointToLayer: function(feature, latlng) {
                     return L.circleMarker(latlng, {
                         radius: Math.sqrt(scale(cases[feature.id][category]) / Math.PI)/sizeFactor,
-                        weight: 1.5,
-                        color: '#B20000',
+                        weight: 0,
+                        color: '#000',
                         opacity: opacity,
                         fillColor: '#B20000',
                         fillOpacity: opacity,

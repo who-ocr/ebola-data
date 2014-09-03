@@ -98,10 +98,17 @@ WHO.Views = WHO.Views || {};
                 cs,
 
                 colors = ['ffffd4',
-                            '#fec44f',
-                            '#fe9929',
-                            '#d95f0e',
-                            '#993404'
+                            '#ffffff',
+                            '#ff8104',
+                            '#9d4e00',
+                            '#623000'
+                            
+                            /*
+                            '#FFFF99',
+                            '#FFC351',
+                            '#FF6C00',
+                            '#8C4600'
+                            */
                 ],
                 max = 5;
 
@@ -114,8 +121,8 @@ WHO.Views = WHO.Views || {};
                         return {
                             color: '#666',
                             fillColor: cs(risks[feature.id]),
-                            opacity: 0.2,
-                            fillOpacity: 0.2,
+                            opacity: 0.5,
+                            fillOpacity: 0.4,
                             weight: 1
                         };
                     },
