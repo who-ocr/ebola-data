@@ -5,7 +5,7 @@
 }
 
 .leaflet-top .leaflet-control {
-    margin-top: 40px !important;
+    margin-top: 80px !important;
 }
 
 
@@ -73,16 +73,6 @@ body .navbar {
 }
 
 .navbar-collapse .nav { margin: 6px -5px 0 0; }
-
-.dropdown {
-    z-index: 1000;
-    left: 85%;
-    top: 75px;
-}
-
-.menu-right {
-    left:-72px;
-}
 
 /****************************************************/
 /************** Graphs ******************************/
@@ -296,11 +286,22 @@ body .tooltip {
 /****************************************************/
 /************** Buttons ****************************/
 
+.dropdown {
+    z-index: 1000;
+    float:left;
+}
+.menu-right {
+    left:-64px;
+}
 .download{
     position: absolute;
     z-index: 1000;
     top: 75px;
     right: 35px;
+}
+.download button {
+    float: left;
+    margin-left:10px;
 }
 .download-button:before {
     content: '';
@@ -484,7 +485,7 @@ body .tooltip {
     .subhead h1 { font-size: 38px; }
     .jumbotron p { font-size: 24px; }
     body .navbar { min-height: 70px; }
-    .navbar-brand { padding: 8px; }
+    .navbar-brand { padding: 8px!important; }
     .navbar-brand img { width: 140px; height: 43px; margin-left: 0px; }
     .navbar-brand .title {
         font-size: 23px;

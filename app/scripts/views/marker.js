@@ -295,7 +295,8 @@ WHO.Views = WHO.Views || {};
                                    + '<tr><td>Suspected cases</td><td class="cell-value">' + d.suspected + '</td></tr>'
                                    + '<tr><td>Health Care Workers Affected</td><td class="cell-value">' + d.hcw + '</td></tr>'
                                    + '<tr><td>Total Deaths</td><td class="cell-value">' + d.deaths + '</td></tr>'
-                                   + '<tr><td>Cases in past 21 days</td><td class="cell-value">' + d.recent + '</td></tr></table>');
+                                   + '<tr><td>Cases in past 21 days</td><td class="cell-value">' + d.recent + '</td></tr>'
+                                   + '<tr><td>Total Cases</td><td class="cell-value">' + cases[layer.feature.id].total + '</td></tr></table>');
                 } else {
                     popup.setContent('<div class="marker-title">' + cases[layer.feature.id].name + '</div>'
                                    + '<div class="location-type">' + geoType + '</div>'
@@ -306,7 +307,9 @@ WHO.Views = WHO.Views || {};
                                    + '<tr><td>Suspected cases</td><td class="cell-value">' + d.suspected + '</td></tr>'
                                    + '<tr><td>Health Care Workers Affected</td><td class="cell-value">' + d.hcw + '</td></tr>'
                                    + '<tr><td>Total Deaths</td><td class="cell-value">' + d.deaths + '</td></tr>'
-                                   + '<tr><td>Cases in past 21 days</td><td class="cell-value">' + d.recent + '</td></tr></table>');
+                                   + '<tr><td>Cases in past 21 days</td><td class="cell-value">' + d.recent + '</td></tr>'
+                                   + '<tr><td>Total Cases</td><td class="cell-value">' + cases[layer.feature.id].total + '</td></tr></table>');
+
                 }
                 if (!popup._map) popup.openOn(WHO.map);
                 window.clearTimeout(closeTooltip);
