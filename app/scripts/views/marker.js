@@ -108,8 +108,8 @@ WHO.Views = WHO.Views || {};
 
                 cases[geoid][category] += 1;
 				
-                if (model.get('HCW') === 'TRUE') { cases[geoid].hcw += 1; }
-                if (model.get('outcome') === 'Dead') { cases[geoid].deaths += 1; }
+                if (model.get('HCW') === 'Yes') { cases[geoid].hcw += 1; }
+                if (model.get('outcome') === 'Deceased') { cases[geoid].deaths += 1; }
             }
 
             //*********** Past 7 days ***********//
@@ -194,7 +194,7 @@ WHO.Views = WHO.Views || {};
                     return L.circleMarker(latlng, {
                         radius: Math.sqrt(scale(cases[feature.id][category]) / Math.PI)/sizeFactor,
                         weight: 0,
-                        color: '#000',
+                        color: '#fff',
                         opacity: opacity,
                         fillColor: '#B20000',
                         fillOpacity: opacity,
@@ -217,9 +217,9 @@ WHO.Views = WHO.Views || {};
                         radius: Math.sqrt(scale(cases[feature.id].recent) / Math.PI)/sizeFactor,
                         weight: 1.5,
                         color: '#660000',
-                        opacity: 1,
+                        opacity: 0.7,
                         fillColor: '#660000',
-                        fillOpacity: 1,
+                        fillOpacity: 0.7,
                     });
                 },
                 filter: function(feature) {
@@ -295,7 +295,7 @@ WHO.Views = WHO.Views || {};
                                    + '<tr><td>Suspected cases</td><td class="cell-value">' + d.suspected + '</td></tr>'
                                    + '<tr><td>Health Care Workers Affected</td><td class="cell-value">' + d.hcw + '</td></tr>'
                                    + '<tr><td>Total Deaths</td><td class="cell-value">' + d.deaths + '</td></tr>'
-                                   + '<tr><td>Cases in past 7 days</td><td class="cell-value">' + d.recent + '</td></tr></table>');
+                                   + '<tr><td>Cases in past 21 days</td><td class="cell-value">' + d.recent + '</td></tr></table>');
                 } else {
                     popup.setContent('<div class="marker-title">' + cases[layer.feature.id].name + '</div>'
                                    + '<div class="location-type">' + geoType + '</div>'
@@ -306,7 +306,7 @@ WHO.Views = WHO.Views || {};
                                    + '<tr><td>Suspected cases</td><td class="cell-value">' + d.suspected + '</td></tr>'
                                    + '<tr><td>Health Care Workers Affected</td><td class="cell-value">' + d.hcw + '</td></tr>'
                                    + '<tr><td>Total Deaths</td><td class="cell-value">' + d.deaths + '</td></tr>'
-                                   + '<tr><td>Cases in past 7 days</td><td class="cell-value">' + d.recent + '</td></tr></table>');
+                                   + '<tr><td>Cases in past 21 days</td><td class="cell-value">' + d.recent + '</td></tr></table>');
                 }
                 if (!popup._map) popup.openOn(WHO.map);
                 window.clearTimeout(closeTooltip);

@@ -90,7 +90,7 @@ WHO.Views = WHO.Views || {};
                 bounds = {
                     type: 'FeatureCollection',
                     features: _.filter(this.model.attributes.features, function(feature) {
-                        return risks[feature.id] > 1;
+                        return risks[feature.id] > 2;
                     })
                 },
 
