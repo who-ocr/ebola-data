@@ -102,18 +102,13 @@ WHO.Views = WHO.Views || {};
                 target,
                 cs,
 
-                countryColors = [
-                            // '#AE5500',
-                            // '#0089AE',
-                            // '#EE7500'
-
-                            '#FB8819',
-                            '#33D3FF',
-                            '#AE5500'
+                countryColors = ['#9d4e00',
+                            '#ff8104',
+                            '#623000'
                 ],
-                districtColors = ['#FB8819',
-                            '#AE5500',
-                            '#33D3FF'
+                districtColors = ['#9d4e00',
+                            '#623000',
+                            '#ff8104'
                 ],
                 max = 3;
 
@@ -125,7 +120,7 @@ WHO.Views = WHO.Views || {};
                     style: function(feature) {
                         return {
                             color: '#666',
-                            fillColor: level == 'country' ? countryColors[risks[feature.id]-4] : districtColors[risks[feature.id]-4],
+                            fillColor: level === 'country' ? countryColors[risks[feature.id]-4] : districtColors[risks[feature.id]-4],
                             opacity: 0.5,
                             fillOpacity: 0.4,
                             weight: 1
