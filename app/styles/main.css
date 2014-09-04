@@ -176,10 +176,10 @@ body .navbar {
 .district .box,
 .country .box { opacity: 0.5; }
 .zone-0            { background: #eef0ef; }
-.zone-1            { background: #ffffff; }
-.zone-2            { background: #ff8104; }
-.zone-3            { background: #9d4e00; }
-.zone-4            { background: #623000; }
+.zone-new          { background: #33D3FF; }
+.zone-4            { background: #FB8819; }
+.zone-5            { background: #AE5500; }
+.zone-6            { background: #AE5500; }
 
 
 .confirmed  { fill: #B20000; background: #B20000; }
