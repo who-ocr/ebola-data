@@ -84,32 +84,33 @@ WHO.Views = WHO.Views || {};
 
 
         drawBounds: function() {
-
-            var risks = this.risks,
+            var level = WHO.getMapType(WHO.map.getZoom()),
+                risks = this.risks,
                 values = _.values(risks),
                 bounds = {
                     type: 'FeatureCollection',
                     features: _.filter(this.model.attributes.features, function(feature) {
-                        return risks[feature.id] > 3;
+                        if (level == 'country' ){
+                            return risks[feature.id] > 3;
+                        }
+                        else {
+                            return risks[feature.id];
+                        }
                     })
                 },
 
                 target,
                 cs,
 
-                colors = ['#ff8104',
-                            '#9d4e00',
+                countryColors = ['#9d4e00',
+                            '#ff8104',
                             '#623000'
-                            
-                            /*
-                            '#FFFF99',
-                            '#FFC351',
-                            '#FF6C00',
-                            '#8C4600'
-                            */
+                ],
+                districtColors = ['#9d4e00',
+                            '#623000',
+                            '#ff8104'
                 ],
                 max = 3;
-
 
             // cs = d3.scale.ordinal()
             //     .range(colors).domain(d3.range(1,max));
@@ -119,7 +120,7 @@ WHO.Views = WHO.Views || {};
                     style: function(feature) {
                         return {
                             color: '#666',
-                            fillColor: colors[risks[feature.id]-4],
+                            fillColor: level === 'country' ? countryColors[risks[feature.id]-4] : districtColors[risks[feature.id]-4],
                             opacity: 0.5,
                             fillOpacity: 0.4,
                             weight: 1
