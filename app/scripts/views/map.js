@@ -107,13 +107,14 @@ WHO.Views = WHO.Views || {};
                             // '#0089AE',
                             // '#EE7500'
 
-                            '#FB8819',
-                            '#33D3FF',
-                            '#AE5500'
+                            '#FFBFBF',
+                            '#FF7373',
+                            '#B20000'
                 ],
-                districtColors = ['#FB8819',
-                            '#AE5500',
-                            '#33D3FF'
+                districtColors = [
+                 			'#FFBFBF',
+                            '#FF7373',
+                            '#B20000'
                 ],
                 max = 3;
 

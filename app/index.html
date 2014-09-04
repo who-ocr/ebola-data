@@ -88,9 +88,7 @@
             <div id="map-loader"></div>
         </div>
 
-        <div class="graph-container">
-          
-          
+        <div class="graph-container ui-open">
           
             <div class="container">
             	
@@ -112,20 +110,20 @@
                         <div class="legend-container">
 
                             <ul class="country legend inline-legend fixed-width bg-white">
-                                <li><span class="box zone-0">&nbsp;</span></li>
-                                <li><span class="box zone-4">&nbsp;</span></li>
-                                <li><span class="box zone-6">&nbsp;</span></li>
-                                <li><span class="box zone-new">&nbsp;</span></li>
+                                <li><span class="box zone-none">&nbsp;</span></li>
+                                <li><span class="box zone-bordering">&nbsp;</span></li>
+                                <li><span class="box zone-initial">&nbsp;</span></li>
+                                <li><span class="box zone-intense">&nbsp;</span></li>
                                 <li>No Ebola cases/rumours</li>
                                 <li>Land bordering countries</li>
-                                <li>Widespread & intense transmission</li>
                                 <li>Initial Cases or localized transmission</li>
+                                <li>Widespread & intense transmission</li>
                             </ul>
 
                             <ul class="district legend inline-legend fixed-width bg-white" style="display:none;">
-                                <li><span class="box zone-0">&nbsp;</span></li>
-                                <li><span class="box zone-4">&nbsp;</span></li>
-                                <li><span class="box zone-5">&nbsp;</span></li>
+                                <li><span class="box zone-none">&nbsp;</span></li>
+                                <li><span class="box zone-not-active">&nbsp;</span></li>
+                                <li><span class="box zone-active">&nbsp;</span></li>
                                 <li><span class="box zone-new">&nbsp;</span></li>
                                 <li>No Ebola cases</li>
                                 <li>Not Active - No cases in previous 21 days</li>
@@ -135,7 +133,7 @@
 
                             <div class="row marker-legend">
                             
-                               <a href="#" class="legend-control" data-toggle="tooltip" data-placement="top" title="Toggle legend"><span class="glyphicon glyphicon-chevron-up"></span></a>
+                               <a href="#" class="legend-control" data-toggle="tooltip" data-placement="top" title="Toggle legend"><span class="glyphicon glyphicon-chevron-down"></span></a>
                                
                                 <div class="col-md-4 cases-marker">
                                     <img src="img/cases-marker.png" /> Ebola cases
