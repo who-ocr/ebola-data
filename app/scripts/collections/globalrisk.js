@@ -8,7 +8,7 @@ WHO.Collections = WHO.Collections || {};
     WHO.Collections.GlobalRisk = Backbone.Collection.extend({
 
         initialize: function () {
-          this.ref = new Firebase('https://luminous-heat-4380.firebaseio.com/allResponse');
+          this.ref = new Firebase('https://who-ocr-dev.firebaseio.com/response_aug30');
         },
 
         query: function () {

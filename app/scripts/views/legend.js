@@ -8,25 +8,32 @@ WHO.Views = WHO.Views || {};
     WHO.Views.Legend = Backbone.View.extend({
 
         initialize: function () {
-            this.listenTo(this.model, 'zoom:end', this.render);
             this.$country = this.$('.country');
             this.$district = this.$('.district');
-
-            this.onCountry = true;
+            this.$title = this.$('#geography-zoom-level');
+            this.onLevel = 'country';
         },
 
-        render: function (zoom) {
-            var level = zoom.level || WHO.defaultZoom;
-            if (this.onCountry && level >= 5) {
-                this.$country.hide();
-                this.$district.show();
-                this.onCountry = false;
-            }
-            else if (!this.onCountry && level < 5) {
+        featureChange: function(type) {
+            // changing out the legend
+            if (type === 'country' && this.onLevel !== 'country') {
                 this.$country.show();
                 this.$district.hide();
                 this.onCountry = true;
             }
+
+            else if (type !== 'country' && this.onLevel === 'country') {
+                this.$country.hide();
+                this.$district.show();
+                this.onCountry = false;
+            }
+
+            // changing out the text
+            if (this.onLevel !== type) {
+                this.$title.text(type + '-level response');
+                this.onLevel = type;
+            }
+
         }
 
     });

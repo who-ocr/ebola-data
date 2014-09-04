@@ -7,7 +7,7 @@ WHO.Models = WHO.Models || {};
 
     WHO.Models.Clinics = Backbone.Model.extend({
         initialize: function () {
-            this.ref = new Firebase('https://luminous-heat-4380.firebaseio.com/ebolaClinics_aug17');
+            this.ref = new Firebase('https://who-ocr-dev.firebaseio.com/clinics_aug29');
         },
 
         query: function () {
@@ -17,10 +17,8 @@ WHO.Models = WHO.Models || {};
 
         onload: function(snap) {
             var clinics = snap.val()
-            this.set(topojson.feature(clinics, clinics.objects.ebolaClinics));
+            this.set(topojson.feature(clinics, clinics.objects.clinics_aug29));
             this.trigger('loaded');
         }
-
     });
-
 })();

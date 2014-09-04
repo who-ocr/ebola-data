@@ -1,7 +1,19 @@
 /****************************************************/
+/************** Anti-Bootstrap **********************/
+.navbar {
+    margin-bottom: 0 !important;
+}
+
+.leaflet-top .leaflet-control {
+    margin-top: 80px !important;
+}
+
+
+/****************************************************/
 /************** Base ********************************/
 
 html {
+    height: 100%;
 }
 
 body {
@@ -13,31 +25,12 @@ body {
 }
 
 h1, h2, h3, h4, h5, h6,
-p, div, span, section, lable, ul, li {
+p, div, span, section, label, ul, li {
     margin: 0;
     padding: 0;
+    margin-top: 0;
+    margin-bottom: 0;
     text-rendering: optimizeLegibility;
-}
-
-#map > .who-title,
-.who-title {
-    font-size: 12px;
-    line-height: 20px;
-    font-weight: 600;
-    text-transform: uppercase;
-    padding: 4px 12px;
-    background: #33475B;
-    color: #fff;
-    display: inline-block;
-    position: absolute;
-    left: 0;
-    top: 0;
-    padding: 4px 12px 4px 36px;
-}
-
-#map > .who-title {
-    z-index: 1005;
-    top: 1em;
 }
 
 .shadow {
@@ -46,11 +39,20 @@ p, div, span, section, lable, ul, li {
     box-shadow:         0px 1px 3px 0px rgba(50, 50, 50, 0.75);
 }
 
+
+.navbar-collapse.in {
+  overflow-y: visible !important;
+}
+
 /****************************************************/
 /************** Navs ********************************/
 
 body .navbar {
-    min-height: 55px;
+    min-height: 65px !important;
+    height: 60px;
+    position: fixed;
+    z-index: 100;
+    width: 100%;
 }
 
 .navbar-brand .title {
@@ -63,7 +65,11 @@ body .navbar {
 .navbar-brand img {
     width: 90px;
     height: 28px;
-    margin-left: 8px;
+    margin-left: 20px;
+}
+
+.navbar-right {
+    margin-top: 10px !important;
 }
 
 .navbar-collapse .nav { margin: 6px -5px 0 0; }
@@ -72,38 +78,156 @@ body .navbar {
 /************** Graphs ******************************/
 
 .graph-container {
-    position: relative;
+    position: fixed;
+    bottom: -180px;
+    left: 0;
+    width: 100%;
+    height: 210px;
+    background: #ffffff;
+    background: rgba(255,255,255,0.8);
+    z-index: 1000;
+    border-top: 1px solid #a1a6a9;
+    box-shadow: 0 1px 10px rgba(0, 0, 0, 0.2);
+    display: none;
+}
+
+.who-title {
+    font-size: 12px;
+    line-height: 20px;
+    font-weight: 600;
+    text-transform: uppercase;
+    background: #33475B;
+    color: #fff;
+    display: inline-block;
+    padding: 4px 12px 4px 12px;
+    position: absolute;
+    left: 0;
+    top: -10px;
 }
 
 #epi-graph {
-    text-align: center;
-    width: 100%;
-    height: 237px;
+    height: 105px;
     position: relative;
-    font: 10px sans-serif;
+    font-size: 10px;
+    font-family: Helvetica, 'Helvetica Neue', Arial, sans-serif;
 }
 
-.graph-legend {
-    float: right;
-    height: 12px;
-    margin: 45px 45px 0;
-    position: relative;
+.legend-container {
+    margin: 48px 1em;
 }
 
-.graph-legend > span {
+.legend {
+    list-style: none;
+}
+
+.legend li {
     font-size: 12px;
     line-height: 12px;
-    display: inline-block;
-    vertical-align: middle;
+    margin: 1em 1.2em;
+    font-weight: 600;
+    color: #444;
 }
 
-.graph-legend > .box {
-    height: 12px;
-    width: 12px;
-    border-radius: 2px;
-    margin-right: 0.5em;
-    margin-left: 1.2em;
+.legend li > span {
+    display: inline-block;
 }
+
+.fixed-legend {
+    position: absolute;
+    left: 40px;
+    top: 40px;
+}
+
+.legend .box {
+    height: 10px;
+    width: 10px;
+    border-radius: 2px;
+    margin-right: 4px;
+}
+
+.inline-legend {
+    text-align: center;
+}
+
+.inline-legend > li {
+    display: inline-block;
+    vertical-align: top;
+    margin: 0;
+}
+
+.fixed-width > li {
+    display: inline-block;
+    width: 20%;
+}
+
+.inline-legend .box {
+    height: 8px;
+    width: 100%;
+    margin-right: 0;
+    border-radius: 0;
+    border: 1px solid #888;
+}
+
+.bg-white {
+   
+    padding: 12px 0;
+}
+
+.district .box,
+.country .box { opacity: 0.5; }
+.zone-0            { background: #eef0ef; }
+.zone-new          { background: #ff8104; }
+.zone-4            { background: #9d4e00; }
+.zone-5            { background: #623000; }
+.zone-6            { background: #623000; }
+
+
+.confirmed  { fill: #B20000; background: #B20000; }
+.suspected  { fill: #D7ADAB; background: #D7ADAB; }
+.probable   { fill: #C96564; background: #C96564; }
+
+.circle  { background: #B20000; opacity: 0.7; }
+.size-4  { width: 48px; height: 48px; border-radius: 24px; display: block; }
+
+
+.marker-legend {
+  font-size: 11px;
+  color: #777;
+  line-height: 1.2;
+}
+.marker-legend .response-marker img {
+  float: left;
+  width: 30px;
+}
+.cases-marker img {
+  vertical-align: top;
+}
+.cases-label {
+  position: absolute;
+  top: 22px;
+  left: 80px;
+  width: 60px;
+}
+
+.legend-control {
+  z-index: 10;
+  color: #33475b;
+  display: block;
+  padding: 10px;
+  text-align: center;
+  position: absolute;
+  font-size: 14px;
+  right: 0;
+  top: -5px;
+}
+.legend-control:focus {
+  outline: none;
+}
+body .tooltip {
+  width: 100px;
+}
+/****************************************************/
+/************** SVG *********************************/
 
 .axis path,
 .axis line {
@@ -119,27 +243,8 @@ body .navbar {
     stroke: #EBBA5D;
 }
 
-.tick line {
-    stroke: #666;
-}
-.tick text {
-    color: #666;
-}
-
-.confirmed {
-    fill: #7b6888;
-    background: #7b6888;
-}
-
-.suspected {
-    fill: #98abc5;
-    background: #98abc5;
-}
-
-.probable {
-    fill: #8a89a6 ;
-    background: #8a89a6 ;
-}
+.tick line { stroke: #666; }
+.tick text { color: #666; }
 
 .week {
     opacity: 0;
@@ -156,9 +261,9 @@ body .navbar {
     line-height: 1;
     font-weight: bold;
     padding: 6px 12px;
-    background: #34495e;
+    background: #fff;
     opacity: 0.8;
-    color: #fff;
+    color: #333;
     border-radius: 4px;
     pointer-events: none;
     z-index: 1002;
@@ -173,17 +278,31 @@ body .navbar {
 .d3-tip > p {
     font-size: 12px;
     line-height: 18px;
-    font-weight: 300;
+    font-weight: 400;
     margin-bottom: 6px;
 }
 
-.download{
-    margin: 0 10px 10px 0;
-    line-height: 14px;
-    text-align: right;
-    display: none;
-}
 
+/****************************************************/
+/************** Buttons ****************************/
+
+.dropdown {
+    z-index: 1000;
+    float:left;
+}
+.menu-right {
+    left:-64px;
+}
+.download{
+    position: absolute;
+    z-index: 1000;
+    top: 75px;
+    right: 35px;
+}
+.download button {
+    float: left;
+    margin-left:10px;
+}
 .download-button:before {
     content: '';
     width: 20px;
@@ -191,89 +310,41 @@ body .navbar {
     display: inline-block;
     background: url(images/download_14.png) no-repeat;
 }
+.explore {
+    position: fixed;
+    top: 78px;
+    right: 10px;
+    z-index: 100;
+    display: none;
+}
+.explore .dropdown-menu {
+   right: 0;
+   left: auto;
+}
+.case-counter {
+	position: fixed;
+    top: 78px;
+    right: 112px;
+    z-index: 105;
+    display: none;
+}
+.case-counter button {
+   background: #B20000;
+   color: #fff;
+   border-radius: 5px 0 0 5px;
+}
+.leaflet-control-zoom {
+  top: 20px;
+}
+
+
 
 /****************************************************/
 /************** Maps ********************************/
 
 #map {
     width: 100%;
-    height: 350px;
-    position: relative;
-}
-
-.leaflet-top.leaflet-left {
-    top: 40px;
-}
-
-.cluster {
-    background: rgb(37,77,128);
-    border-radius: 50%;
-    text-align: center;
-    color: #eee;
-    font-weight: 300;
-    border: 1px solid rgb(37,77,128);
-}
-
-.cluster:before {
-    content: ' ';
-    position: absolute;
-    border-radius: 50%;
-    z-index: -1;
-    top: 1px;
-    left: 1px;
-    right: 1px;
-    bottom: 1px;
-    border: 1px solid #eee;
-}
-
-.digits-1 {
-    font-size: 14px;
-    height: 28px;
-    width: 28px;
-    line-height: 25px;
-    margin-top: -14px;
-    margin-left: -14px;
-}
-
-.digits-2 {
-    font-size: 16px;
-    height: 34px;
-    width: 34px;
-    line-height: 32px;
-    margin-top: -17px;
-    margin-left: -17px;
-}
-
-.digits-2:before {
-    border-width: 2px;
-}
-
-.digits-3 {
-    font-size: 16px;
-    height: 48px;
-    width: 47px;
-    line-height: 42px;
-    border-width: 3px;
-    margin-top: -24px;
-    margin-left: -24px;
-}
-
-.digits-3:before {
-    border-width: 3px;
-}
-
-.digits-4 {
-    font-size: 16px;
-    height: 58px;
-    width: 58px;
-    line-height: 50px;
-    border-width: 4px;
-    margin-top: -29px;
-    margin-left: -29px;
-}
-
-.digits-4:before {
-    border-width: 4px;
+    height: 100%;
 }
 
 #map-overlay-container {
@@ -294,78 +365,149 @@ body .navbar {
     background: #fff;
 }
 
+.leaflet-popup-content {
+	font-size: 12px;
+}
+.leaflet-popup-content table {
+	width: 100%;
+}
+.leaflet-popup-content .marker-title {
+	font-weight: normal !important;
+	margin-bottom: 0 !important;
+}
+.leaflet-popup-content .cases-total {
+	font-weight: bold;
+	font-size: 30px;
+	color: #B20000;
+	text-align: center;
+	display: block;
+}
+.leaflet-popup-content .country-title {
+	font-size: 10px;
+	text-transform: uppercase;
+	color: #aaa;
+}
+.leaflet-popup-content .location-type {
+	font-size: 10px;
+	color: #aaa;
+	line-height: 1.2;
+}
+.leaflet-popup-content .cell-value {
+ 	font-weight: bold;
+	color: #B20000;
+	padding: 0 10px;
+}
+.leaflet-popup-content .cases-total-cell {
+	text-align: center;
+	color: #aaa;
+	font-size: 10px;
+	padding: 10px 10px 0 10px;
+}
+.leaflet-popup-content td {
+	padding: 1px 5px 1px 0px;
+}
+
+#epi-graph svg {
+    position: absolute;
+    left: -30px;
+}
+.footer {
+    display: none;
+}
+.mapbox-info-toggle,
+.map-info-container {
+  margin-bottom: 30px;
+}
 
 /****************************************************/
-/************** Map Legend **************************/
+/************** Download ****************************/
+
+#dataModal p {
+    margin-bottom: 15px;
+}
 
 
-.legend label,
-.legend span {
-    z-index: 999;
-    display:block;
-    float:left;
-    height: 10px;
-    font-size: 11px;
-    line-height: 14px;
-    text-align:center;
-    color:#333;
-    font-weight: 400;
-    font: 12px sans-serif;
+/****************************************************/
+/************** Time Slider *************************/
+
+/**
+ * Dragdealer.js 0.9.7
+ * http://github.com/skidding/dragdealer
+ *
+ * (c) 2010+ Ovidiu Cherecheș
+ * http://skidding.mit-license.org
+ */
+
+.dragdealer {
+    position: relative;
+    height: 24px;
 }
 
-.legend.country span,
-.legend.country label {
-    width:16.666666666%;
-}
-.legend.district span, .legend.district label {
-    width:20%;
-}
-.legend.country{
-    margin-bottom:15px;
-}
-.legend.district{
-    margin-bottom:20px;
+.dragdealer .handle {
+    position: absolute;
+    top: 0;
+    left: 0;
+    cursor: pointer;
 }
 
-.leaflet-popup-content {
-  font-size: 12px;
+.dragdealer .red-bar {
+    width: 100px;
+    height: 24px;
+    background: #CC0000;
+    color: #FFF;
+    font-size: 14px;
+    line-height: 24px;
+    text-align: center;
 }
 
-.popup-click td {
-  padding: 1px 5px 1px 0px;
+.dragdealer .disabled {
+    background: #898989;
+}
+
+.slider-overlay {
+    position: fixed;
+    top: 80px;
+    left: 0;
+    width: 100%;
+    z-index: 101;
+}
+
+.slider-container {
+    background: #ffffff;
+    background: rgba(255,255,255,0.7);
 }
 
 /****************************************************/
 /************** Media Queries ***********************/
 
-@media only screen and (min-width: 960px) {
+
+@media only screen and (min-width: 1000px) {
     .subhead h1 { font-size: 38px; }
     .jumbotron p { font-size: 24px; }
     body .navbar { min-height: 70px; }
-    .navbar-brand { padding: 8px; }
-    .navbar-brand img { width: 140px; height: 43px; }
+    .navbar-brand { padding: 8px!important; }
+    .navbar-brand img { width: 140px; height: 43px; margin-left: 0px; }
     .navbar-brand .title {
         font-size: 23px;
         margin: 8px 0 0 15px;
     }
-    .navbar-collapse .nav { margin: 18px -5px 0 0; }
+    .navbar-collapse .nav { margin: 14px -5px 0 0; }
 
     .graph-container { margin-top: 1em; }
-    .graph-legend { margin: 0 45px; }
-    #epi-graph { height: 192px; }
+  
     #test-index { display: none; }
-    #map { height: 500px; }
     #map-overlay-container > .dropdown-container {
         float: right;
         margin-top: 0;
     }
-    .legend label,
-    .legend span {
-        height:20px;
-        font-size:12px;
-        line-height: 20px;
-    }
-    .download {
+      .graph-container {
+     display: block;
+   }
+    .download,
+    .explore {
         display: block;
     }
+  .leaflet-control-zoom {
+  top: 0px;
+}
 }

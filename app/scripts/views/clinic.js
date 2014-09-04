@@ -7,56 +7,64 @@ WHO.Views = WHO.Views || {};
 
     WHO.Views.Clinic = Backbone.View.extend({
         initialize: function (options) {
+            this.listenToOnce(this.model, 'loaded', function() {
+                this.featureChange(WHO.getMapType(WHO.map.getZoom()));
+            });
             this.layers = [];
-
-            this.listenTo(options.zoom, 'zoom:end', this.getmap);
-
-            this.listenToOnce(this.model, 'loaded', this.onLoad);
-            this.model.query();
 
             this.on = false;
             this.popup = new L.Popup({ autoPan: false });
         },
 
-        onLoad: function() {
-            this.getmap({level: WHO.defaultZoom});
-        },
-
-        getmap: function(zoom) {
-            var level = zoom.level || WHO.defaultZoom;
-
-            if (level >= 7 && !this.on) {
+        featureChange: function(type) {
+            if (type === 'district' && !this.on) {
                 this.render();
                 this.on = true;
             }
 
-            if (level < 7 && this.on) {
-                this.remove();
+            if (type !== 'district' && this.on) {
+                this.removeLayers();
                 this.on = false;
             }
         },
 
-        remove: function() {
+        addLayers: function(type) {
+            this.featureChange(type);
+        },
+
+        removeLayers: function() {
             _.each(this.layers, function(layer) {
                 WHO.map.removeLayer(layer);
             });
+            this.on = false;
         },
 
         render: function () {
 
-            if (this.layers.length) this.remove();
-            var popup = this.popup;
+            if (this.layers.length) this.removeLayers();
+
+            var popup = this.popup,
+                template = this.template;
 
             var layer = L.geoJson(this.model.attributes, {
                 pointToLayer: function(feature, latlng) {
-                    return L.marker(latlng, {
-                        icon: L.icon({
-                            iconSize: [32, 32],
-                            iconUrl: 'img/medical-64x64.png',
-                        }),
-                        opacity: 0.95
-
-                    });
+                    if (feature.properties.FUNCTION === 'Triage') {
+                        return L.marker(latlng, {
+                            icon: L.icon({
+                                iconSize: [32, 32],
+                                iconUrl: 'img/triage-64x64.png',
+                            }),
+                            opacity: 1
+                        });
+                    } else {
+                        return L.marker(latlng, {
+                            icon: L.icon({
+                                iconSize: [32, 32],
+                                iconUrl: 'img/hub-64x64.png',
+                            }),
+                            opacity: 1
+                        });
+                    }
                 },
 
                 onEachFeature: function (feature, layer) {
@@ -66,28 +74,22 @@ WHO.Views = WHO.Views || {};
                         },
                         click: function(e) {
                             var props = e.target.feature.properties;
-
+                            _.each(['TOWN', 'classification', 'FUNCTION', 'Partners_to_ETC', 'Bed_capacity_current',
+                                   'COUNTRY', 'Serving_Lab_Location', 'Status_HF'], function(p) {
+                               if (props[p] === undefined) {
+                                   props[p] = 'N/A';
+                               }
+                            });
                             popup.setLatLng(e.latlng);
-                            popup.setContent('<div class="marker-title">' + props.CITY + ', ' + props.COUNTRY + '</div>'
-                                + '<table class="popup-click">'
-                                + '<tr><td>Facility</td><td>' + props.LOCATIONS + '</td></tr>'
-                                + '<tr><td>Function</td><td>' + props.FUNCTION + '</td></tr>'
-                                + '<tr><td>Partners</td><td>' + props.Partners + '</td></tr>'
-                                + '<tr><td>Bed Capacity</td><td>' + props.Bed_capacity_current + '</td></tr>'
-                                + '<tr><td>Laboratory</td><td>' + props.Serving_Lab_Location + '</td></tr>'
-                                + '<tr><td>Status</td><td>' + props.Status_ECT + '</td></tr></table>'
-                                );
-
+                            popup.setContent(template(props));
                             if (!popup._map) popup.openOn(WHO.map);
                         }
-
                     })
                 }
             }).addTo(WHO.map);
-
-
             this.layers.push(layer);
-        }
+        },
+        template: _.template($('#popup-clinic').html()),
 
     });
 

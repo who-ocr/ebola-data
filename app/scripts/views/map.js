@@ -8,8 +8,11 @@ WHO.Views = WHO.Views || {};
     WHO.Views.Map = Backbone.View.extend({
 
         events: {},
+
         initialize: function (options) {
-            this.listenTo(options.zoom, 'zoom:end', this.getmap);
+            this.listenToOnce(this.collection, 'loaded', function() {
+                this.featureChange(WHO.getMapType(WHO.map.getZoom()));
+            });
 
             // Show spinner until load
             this.spinner = new Spinner({
@@ -22,34 +25,36 @@ WHO.Views = WHO.Views || {};
             this.layers = [];
         },
 
-        load: function(mapType) {
-            if (this.collection.length) {
-                this.getmap();
+        featureChange: function(type) {
+            if (type === this.mapType) {
+                return;
             }
-            else {
-                this.listenToOnce(this.collection, 'loaded', this.getmap);
-                this.collection.query();
-            }
+
+            this.mapType = type;
+            var modelName = type.charAt(0).toUpperCase() + type.slice(1);
+            this.getBounds(WHO.Models[modelName], type);
         },
 
-        getmap: function(zoom) {
-            var level = zoom.level || WHO.defaultZoom;
-
-            if (this.level === level)   {   return;                                             }
-            else if (level < 5)         {   this.getBounds(WHO.Models.Country, 'country');      }
-            else if (level < 7)         {   this.getBounds(WHO.Models.Province, 'province');    }
-            else                        {   this.getBounds(WHO.Models.District, 'district');    }
-            this.level = level;
+        addLayers: function(type) {
+            this.mapType = type;
+            var modelName = type.charAt(0).toUpperCase() + type.slice(1);
+            this.getBounds(WHO.Models[modelName], type);
         },
 
-        getBounds: function(model, maptype) {
-            var model = WHO.models[maptype]  || new model(); ;
+        removeLayers: function() {
+            _.each(this.layers, function(layer) {
+                WHO.map.removeLayer(layer);
+            });
+        },
+
+        getBounds: function(model, mapType) {
+            var model = WHO.models[mapType]  || new model(); ;
             this.model = model;
-            this.maptype = maptype;
+            this.mapType = mapType;
 
             // If topojson not loaded yet, load it before drawing
             if (model.get('type') !== 'FeatureCollection') {
-                WHO.models[maptype] = model;
+                WHO.models[mapType] = model;
                 this.listenToOnce(model, 'change', this.render);
                 model.fetch();
             }
@@ -58,54 +63,66 @@ WHO.Views = WHO.Views || {};
             }
         },
 
-        removeLayers: function() {
+        render: function () {
 
-            _.each(this.layers, function(layer) {
-                WHO.map.removeLayer(layer);
-            });
+            if (this.layers.length) {
+                this.removeLayers();
+            }
+
+            var risks = {},
+            model, geo;
+
+            for(var i = 0, ii = this.collection.models.length; i < ii; ++i) {
+                model = this.collection.models[i];
+                geo = model.get("geoID");
+                risks[geo] = model.get("level")
+            }
+
+            this.risks = risks;
+            this.drawBounds();
         },
 
-        drawBounds: function(risks) {
 
-            var values = _.values(risks),
+        drawBounds: function() {
+            var level = WHO.getMapType(WHO.map.getZoom()),
+                risks = this.risks,
+                values = _.values(risks),
                 bounds = {
                     type: 'FeatureCollection',
                     features: _.filter(this.model.attributes.features, function(feature) {
-                        return risks[feature.id] > 1;
+                        if (level == 'country' ){
+                            return risks[feature.id] > 3;
+                        }
+                        else {
+                            return risks[feature.id];
+                        }
                     })
                 },
 
                 target,
-                colors, cs, max;
+                cs,
 
-            if (this.maptype === 'country') {
-                colors = ['#fff',
-                        'rgb(255,252,224)',
-                        'rgb(252,202,78)',
-                        'rgb(250,175,78)',
-                        'rgb(249,145,77)',
-                        'rgb(246,104,61)'
-                ];
-                max = 6;
-            } else {
-                colors = ['#fff',
-                        'rgb(252,202,78)',
-                        'rgb(250,175,78)',
-                        'rgb(249,145,77)',
-                        'rgb(246,104,61)'
-                ];
-                max = 5;
-            }
-            cs = d3.scale.ordinal()
-                .range(colors).domain(d3.range(1,max));
+                countryColors = ['#9d4e00',
+                            '#ff8104',
+                            '#623000'
+                ],
+                districtColors = ['#9d4e00',
+                            '#623000',
+                            '#ff8104'
+                ],
+                max = 3;
 
+            // cs = d3.scale.ordinal()
+            //     .range(colors).domain(d3.range(1,max));
+
+            // country levels are 1-6. we only show levels 4-6. 
             var layer = L.geoJson(bounds, {
                     style: function(feature) {
                         return {
-                            color: 'rgb(254,243,183)',
-                            fillColor: cs(risks[feature.id]),
-                            opacity: 0.7,
-                            fillOpacity: 0.7,
+                            color: '#666',
+                            fillColor: level === 'country' ? countryColors[risks[feature.id]-4] : districtColors[risks[feature.id]-4],
+                            opacity: 0.5,
+                            fillOpacity: 0.4,
                             weight: 1
                         };
                     },
@@ -127,23 +144,6 @@ WHO.Views = WHO.Views || {};
             return;
         },
 
-        render: function () {
-
-            if (this.layers.length) {
-                this.removeLayers();
-            }
-
-            var risks = {},
-            model, geo;
-
-            for(var i = 0, ii = this.collection.models.length; i < ii; ++i) {
-                model = this.collection.models[i];
-                geo = model.get("geoID");
-                risks[geo] = model.get("level")
-            }
-
-            this.drawBounds(risks);
-        },
     });
 
 })();

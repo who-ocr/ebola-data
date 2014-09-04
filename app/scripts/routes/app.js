@@ -5,156 +5,271 @@ WHO.Routers = WHO.Routers || {};
 (function () {
     'use strict';
 
-    var defaultType = 'total';
-    var defaultMap = 'cases',
-        init = false,
-        timeParams = [
-            {
-                display: 'Most recent',
-                val: 'recent'
-            },
-            {
-                display: 'All',
-                val: 'all'
-            }
-        ],
-        typeParams = [
-            {
-                display: 'All cases',
-                val: 'total'
-            },
-            {
-                display: 'Confirmed cases',
-                val: 'confirmed'
-            },
-            {
-                display: 'Suspected cases',
-                val: 'suspected'
-            },
-            {
-                display: 'Probable cases',
-                val: 'probable'
-            }
-        ],
-        state = {
-            time: '',
-            type: ''
-        };
+    var init = false;
+
+    //********************* Map Initialize the map *********************//
+    WHO.defaultZoom = 5;
+    WHO.map = L.mapbox.map('map','devseed.jcbd85k7')
+        .setView([8.0, -5.7], WHO.defaultZoom);
+    WHO.map.on('viewreset', function() {
+        WHO.map.closePopup();
+    });
+    WHO.$map = $('#map');
+
+    //********************* Start the router *********************//
+    WHO.Routers.App = Backbone.Router.extend({
+        routes: {
+            ''                              : 'newload'
+        },
+        newload: function() {
+            bootstrap();
+        },
+    });
 
     function bootstrap() {
-        // model to listen for zoom
-        var mapzoom = new WHO.Models.Zoom();
 
-        WHO.collections = {
-            cases: new WHO.Collections.Cases(),
-            response: new WHO.Collections.Response(),
-            globalrisk: new WHO.Collections.GlobalRisk(),
+        //*********** Convenience method to get map type ***********//
+        WHO.getMapType = function(level) {
+            if (level < 6)              {   return 'country'     }
+            else if (level < 7)         {   return 'province'    }
+            else                        {   return 'district'    }
+        }
+
+        //*********** Init collections, models, and views ***********//
+
+        WHO.models = {
+            centroids: new WHO.Models.Centroids(),
             clinics: new WHO.Models.Clinics()
         };
 
-        WHO.mapview = new WHO.Views.Map({
-            el: '#map', id: 'map', map: WHO.map, collection: WHO.collections.globalrisk, zoom: mapzoom
+        WHO.collections = {
+            cases: new WHO.Collections.Cases(),
+            globalrisk: new WHO.Collections.GlobalRisk(),
+        };
+
+        WHO.views = {
+            risk: new WHO.Views.Map({
+                el: '#map', id: 'map', map: WHO.map, collection: WHO.collections.globalrisk
+            }),
+
+            casemarkers: new WHO.Views.Marker({
+                el: '#map', id: 'map', map: WHO.map, collection: WHO.collections.cases,
+                model: WHO.models.centroids
+            }),
+
+            epi: new WHO.Views.epiGraph({
+                el: '#epi-graph', id: 'epi-graph', collection: WHO.collections.cases
+            }),
+
+            clinics: new WHO.Views.Clinic({
+                el: '#map', id: 'map', map: WHO.map, model: WHO.models.clinics,
+            }),
+
+            legend: new WHO.Views.Legend({ el: '#map-legend', id: 'map-legend' })
+        }
+
+        var mapType = WHO.getMapType(WHO.map.getZoom());
+
+        //********************* Set default views *********************//
+        var activeViews = [];
+
+        if (mapType === 'country') {
+
+            activeViews = [
+                'casemarkers', 'risk', 'epi', 'clinics', 'legend'
+            ];
+
+            WHO.collections.cases.query();
+            WHO.collections.globalrisk.query();
+            WHO.models.centroids.fetch();
+            WHO.models.clinics.query();
+
+        }
+
+        //********************* Listen for switches to the data UI *********************//
+
+        var mapviews = ['casemarkers', 'risk', 'clinics', 'all'],
+
+            combinations = {
+                risk:
+                    [0, 1, 0],
+
+                cases:
+                    [1, 0, 0],
+
+                response:
+                    [0, 1, 1],
+
+                all:
+                	[1, 1, 1]
+            },
+            $target;
+
+
+
+        $('a.layer').on('click', function(e) {
+            $target = $(this);
+
+            e.preventDefault();
+
+            var zoom = $target.data('zoom'),
+                newMap = WHO.getMapType(zoom),
+                combo = combinations[$target.data('layer')];
+
+            _.each(combo, function(shouldBeOn, i) {
+
+                var view = mapviews[i],
+                    activeIndex = activeViews.indexOf(view);
+
+                if (shouldBeOn && activeIndex === -1) {
+                    activeViews.push(view);
+                    WHO.views[view].addLayers(newMap);
+                }
+
+                else if (!shouldBeOn && activeIndex !== -1) {
+                    activeViews.splice(activeIndex, 1);
+                    WHO.views[view].removeLayers();
+                }
+
+            });
+
+
+
+            WHO.map.closePopup();
+            WHO.map.setView([8.44, -11.7], zoom);
+
         });
 
-        WHO.markerview = new WHO.Views.Marker({
-            el: '#map', id: 'map', map: WHO.map, collection: WHO.collections.cases, zoom: mapzoom,
-            model: new WHO.Models.Centroids()
+
+
+
+
+        //********************* Listen for map zoom to re-draw views *********************//
+
+        var zooming = false,
+            zoomTimer;
+
+        WHO.map.on('zoomstart', function() {
+            zooming = true;
+            window.clearTimeout(zoomTimer);
         });
 
-        WHO.epiGraph = new WHO.Views.epiGraph({
-            el: '#epi-graph', id: 'epi-graph', collection: WHO.collections.cases
+        WHO.map.on('zoomend', function() {
+            zooming = false;
+            zoomTimer = window.setTimeout(function() {
+                if (!zooming) {
+
+                    // update only active views
+                    mapType = WHO.getMapType(WHO.map.getZoom());
+                    _.each(activeViews, function(view) {
+                        if (WHO.views[view].featureChange) {
+                            WHO.views[view].featureChange(mapType);
+                        }
+                    });
+                }
+            }, 400);
         });
 
-        new WHO.Views.Clinic({
-            el: '#map', id: 'map', map: WHO.map, model: WHO.collections.clinics, zoom: mapzoom
+
+        //********************* Listen and convert to CSVs *********************//
+
+        $('#csv-download-cases').on('click', function() {
+            // for cases
+            if (WHO.collections.cases.length) {
+                collectionToCSV(WHO.collections.cases);
+            }
         });
 
-        new WHO.Views.Legend({
-            el: '#legend', id: 'legend', model: mapzoom
+        $('#csv-download-response').on('click', function() {
+            // for risk
+            if (WHO.collections.globalrisk.length) {
+                collectionToCSV(WHO.collections.globalrisk);
+            }
+        });
+
+        $('#csv-download-facilities').on('click', function() {
+            // for clinics
+            if (WHO.models.clinics.attributes.type === 'FeatureCollection') {
+                var features = WHO.models.clinics.attributes.features,
+                    clinics = _.map(features, function(feature) {
+                        return feature.properties
+                    });
+                listToCSV(clinics);
+            }
         });
 
 
-        WHO.models = {};
 
-        WHO.models = {};
-        WHO.map.whenReady(function() {
-
-            var $toggles = $('<div id="map-overlay-container"></div>').appendTo(
-                WHO.$map);
-
-            // new WHO.Views.Dropdown({
-                // id: 'toggle-case-type',
-                // el: $('<div id="toggle-case-type" class="dropdown-container"></div>').appendTo($toggles),
-                // options: typeParams,
-                // className: 'type'
-            // });
-
-            // new WHO.Views.Dropdown({
-                // id: 'toggle-time',
-                // el: $('<div id="toggle-time" class="dropdown-container"></div>').appendTo($toggles),
-                // options: timeParams,
-                // className: 'time'
-            // });
-
-        });
-
-        WHO.mapview.load();
-        WHO.epiGraph.load();
         init = true;
     }
 
-    WHO.defaultZoom = 3;
-    WHO.map = L.mapbox.map('map','nate.j8n0m4ld')
-        .setView([22.23, 8.00], WHO.defaultZoom);
+    //********************* Collection to CSV *********************//
+    function collectionToCSV(models) {
+        var i = 0, ii = models.length,
+            keys = _.keys(models.at(0).attributes),
+            k = 0, kk = keys.length,
+            csvList = [],
+            csvString = 'data:text/csv;charset=utf-8,' + keys.join(',') + '\n',
+            row = [];
 
-    WHO.map.scrollWheelZoom.disable();
-
-    WHO.$map = $('#map');
-
-    WHO.Routers.App = Backbone.Router.extend({
-        routes: {
-            ''                              : 'newload',
-            ':time/:type'                   : 'newload'
-            // ':time/:type'                : 'newfilter',
-        },
-
-        newload: function() {
-            bootstrap();
-
-            WHO.markerview.setFilter({type: defaultType, time: 'recent'});
-            WHO.markerview.load();
-
-            //this.navigate('recent/' + defaultType, {trigger: false});
-            state['time'] = 'recent';
-            state['type'] = defaultType;
-        },
-
-        newfilter: function(time, type) {
-            if (!init) bootstrap();
-            if (_.map(timeParams, function(t) { return t.val }).indexOf(time) !== -1 &&
-                _.map(typeParams, function(t) { return t.val }).indexOf(type) !== -1) {
-
-                WHO.markerview.setFilter({type: type, time: time});
-                this.navigate(time + '/' + type, {trigger: false});
-                state['time'] = time;
-                state['type'] = type;
-            }
-
-            else {
-                WHO.markerview.setFilter({type: defaultType, time: 'recent'});
-                this.navigate('recent/' + defaultType, {trigger: false});
-                state['time'] = 'recent';
-                state['type'] = defaultType;
-            }
-
-            WHO.markerview.load();
-
-        },
-
-        set: function(key, val) {
-            state[key] = val;
-            this.navigate(state['time'] + '/' + state['type'], {trigger: true});
+        for (; i < ii; k = 0, row = [], ++i) {
+            for(; k < kk; row.push(models.at(i).get(keys[k])), ++k) {}
+            csvList.push(row.join(','));
         }
-    });
 
+        var encodedUri = encodeURI(csvString + csvList.join('\n'));
+        window.open(encodedUri);
+    }
+
+    //********************* List of objects to CSV *********************//
+    function listToCSV(list) {
+
+        var i = 0, ii = list.length,
+            keys = _.keys(list[0]),
+            k = 0, kk = keys.length,
+            csvList = [],
+            csvString = 'data:text/csv;charset=utf-8,' + keys.join(',') + '\n',
+            row = []
+
+        for (; i < ii; k = 0, row = [], ++i) {
+            for(; k < kk; row.push(list[i][keys[k]]), ++k) {}
+            csvList.push(row.join(','));
+        }
+
+        var encodedUri = encodeURI(csvString + csvList.join('\n'));
+        window.open(encodedUri);
+    }
+
+
+    //********************* Hide UI *********************//
+
+     
+     $('.graph-container').on('click', function() {
+        if ($(this).hasClass('ui-open')) {
+           $(this).animate({bottom: '-180px'});
+           $(this).removeClass('ui-open');
+           $('.legend-control span').removeClass('glyphicon-chevron-down');
+           $('.legend-control span').addClass('glyphicon-chevron-up');
+        } else {
+           $(this).animate({bottom: '0px'});
+           $(this).addClass('ui-open');
+           $('.legend-control span').removeClass('glyphicon-chevron-up');
+           $('.legend-control span').addClass('glyphicon-chevron-down');
+        }     
+     });
+     
+     $('.legend-control').tooltip();
+     
+   
+
+    /*
+     $('a.layer').on('click', function() {
+        //var layer = $(this).data('layer');
+        var zoom = $(this).data('zoom');
+        WHO.map.setView([8.44, -11.7], zoom);
+     });
+
+
+
+    */
 })();

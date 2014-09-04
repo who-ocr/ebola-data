@@ -4,14 +4,14 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>WHO</title>
+        <title>Tracking the Ebola Outbreak - World Health Organization</title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet" type="text/css">
         <link href="img/favicon.ico" rel="shortcut icon">
 
         <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
-        <link rel="stylesheet" href="styles/a034a626.main.css">
+        <link rel="stylesheet" href="styles/169db5d1.main.css">
 
         <!--[if lt IE 9]>
             <script src="scripts/vendor/ie9/html5shiv.js"></script>
@@ -23,89 +23,161 @@
     </head>
     <body>
 
-        <div class="navbar navbar-default">
+        <div class="navbar navbar-default navbar-fixed-top">
             <div class="container">
+              <div class="row">
                 <div class="navbar-header">
                     <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
                         <span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand" href="#">
+                    <a class="navbar-brand layer" href="#" data-zoom="5" data-layer="all">
                         <img src="img/who-logo-prp.gif" alt="who-logo-prp" height="60">
-                        <span class="title">Ebola Outbreak Portal</span>
+                        <span class="title">Ebola Portal</span>
                     </a>
                 </div>
                 <div class="navbar-collapse collapse" role="navigation">
-                    <ul class="nav nav-pills pull-right" id="nav-main">
+                    <ul class="nav nav-pills navbar-right" id="nav-main">
                         <li>
-                            <a href="https://extranet.who.int/programmebudget/">Home</a>
-                        </li>
-                        <li class="active">
-                            <a href="#">Response</a>
+                            <a href="#" class="layer" data-zoom="5" data-layer="all">Map</a>
                         </li>
                         <li>
-                            <a href="https://extranet.who.int/programmebudget/Feedback">Contact Us</a>
+                            <a href="/roadmap">Roadmap</a>
+                        </li>
+                        <li>
+                            <a href="/roadmap">Response</a>
+                        </li>
+                        <li>
+                            <a href="/roadmap">Resources</a>
+                        </li>
+                        <li>
+                            <a href="/roadmap">Contact Us</a>
                         </li>
                     </ul>
+                 </div>
+              </div>
+            </div>
+        </div>
+
+        <div class="download">
+            <div class="dropdown">
+                <button id="dLabel" class="btn btn-default dropdown-toggle" data-toggle="dropdown" type="button">Explore 
+                    <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu menu-right" role="menu" aria-labelledby="dLabel">
+                    <li role="presentation"><a role="menuitem" href="#" class="layer" data-zoom="6" data-layer="cases">Cases</a></li>
+                    <li role="presentation"><a role="menuitem" href="#" class="layer" data-zoom="7" data-layer="response">District Response</a></li>
+                    <li role="presentation"><a role="menuitem" href="#" class="layer" data-zoom="4" data-layer="risk">Global Response</a></li>
+                    <li role="presentation" class="divider"></li>
+                    <li role="presentation"><a role="menuitem" href="#" class="layer" data-zoom="5" data-layer="all">Reset Map</a></li>
+                </ul>
+            </div>
+        
+            <button class="btn btn-default" href="" data-toggle="modal" data-target="#dataModal">Data</button>
+        </div>
+
+        <div id="map">
+            <div id="map-loader"></div>
+        </div>
+
+        <div class="graph-container">
+          
+          
+          
+            <div class="container">
+            	
+                <div class="row">
+                    <div class="col-md-6" id="epi-graph">
+                
+                        <h5 class="who-title">Reported Ebola cases by week</h5>
+
+                        <ul class="legend fixed-legend">
+                            <li><span class="box confirmed">&nbsp;</span> Confirmed</li>
+                            <li><span class="box probable">&nbsp;</span> Probable</li>
+                            <li><span class="box suspected">&nbsp;</span> Suspected</li>
+                        </ul>
+                    </div>
+
+                    <div class="col-md-6" id="map-legend">
+                        <h5 class="who-title" id="geography-zoom-level">Country-level response</h5>
+
+                        <div class="legend-container">
+
+                            <ul class="country legend inline-legend fixed-width bg-white">
+                                <li><span class="box zone-0">&nbsp;</span></li>
+                                <li><span class="box zone-4">&nbsp;</span></li>
+                                <li><span class="box zone-6">&nbsp;</span></li>
+                                <li><span class="box zone-new">&nbsp;</span></li>
+                                <li>No Ebola cases/rumours</li>
+                                <li>Land bordering countries</li>
+                                <li>Widespread & intense transmission</li>
+                                <li>Initial Cases or localized transmission</li>
+                            </ul>
+
+                            <ul class="district legend inline-legend fixed-width bg-white" style="display:none">
+                                <li><span class="box zone-0">&nbsp;</span></li>
+                                <li><span class="box zone-4">&nbsp;</span></li>
+                                <li><span class="box zone-5">&nbsp;</span></li>
+                                <li><span class="box zone-new">&nbsp;</span></li>
+                                <li>No Ebola cases</li>
+                                <li>Not Active - No cases in previous 21 days</li>
+                                <li>Active - New Cases in previous 21 days</li>
+                                <li>Newly Infected - New cases in previous 7 days</li>
+                            </ul>
+
+                            <div class="row marker-legend">
+                            
+                               <a href="#" class="legend-control" data-toggle="tooltip" data-placement="top" title="Toggle legend"><span class="glyphicon glyphicon-chevron-up"></span></a>
+                               
+                                <div class="col-md-4 cases-marker">
+                                    <img src="img/cases-marker.png"> Ebola cases
+                                    <div class="cases-label">Cases in past 21 days</div>
+                                </div>
+                                <div class="col-md-4 response-marker">
+                                    <img src="img/triage-64x64.png"> Triage and Transit posts
+                                </div>
+                                <div class="col-md-4 response-marker">
+                                    <img src="img/hub-64x64.png"> Major Ebola Treatment Centre HUBS
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <div id="main">
-            <div class="graph-container">
-              <h5 class="who-title">Reported Ebola cases by week</h5>
-              <div id="epi-graph" class="full">
-                  <div class="graph-legend">
-                      <span class="box confirmed"></span> <span>Confirmed</span>
-                      <span class="box probable"></span> <span>Probable</span>
-                      <span class="box suspected"></span> <span>Suspected</span>
-                      <span class="</div">
-                  <div id="epi-graph-loader"></div>
-              </span></div>
-          </div>
-          <div class="download">
-            <a href="https://luminous-heat-4380.firebaseio.com/cases_admin_aug17/.json?download=who-reported-cases.txt">
-                <button class="download-button btn btn-xs btn-default">Download data</button>
-            <a>
-          </a></a></div>
 
-          <div id="map" class="full">
-              <div id="map-loader"></div>
-              <h5 class="who-title">Response level and cases</h5>
-          </div>
+        <div class="case-counter">
+          <button id="case-count" data-toggle="dropdown" class="case-counter-button btn btn-default">0 cases <span class="caret"></span></button>
+        	<ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+        	    <li>Some text about case count</li>
+ 			</ul>
+        </div>
 
-          <div id="map-legend">
-            <div id="legend">
-                <nav class="legend clearfix country">
-                    <span style="background:rgba(246,247,246,0.7)"></span>
-                    <span style="background:rgba(255,252,224,0.7)"></span>
-                    <span style="background:rgba(252,202,78,0.7)"></span>
-                    <span style="background:rgba(250,175,78,0.7)"></span>
-                    <span style="background:rgba(249,145,77,0.7)"></span>
-                    <span style="background:rgba(246,104,61,0.7)"></span>
-                    <label>No cases</label>
-                    <label>Rumour Countries</label>
-                    <label>Alert Countries</label>
-                    <label>At-risk Countries</label>
-                    <label>New reporting cases</label>
-                    <label>Core Zone</label>
-                </nav>
+        <!-- Notes Modal -->
+        <div class="modal fade" id="dataModal" tabindex="-1" role="dialog" aria-labelledby="dataModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title" id="dataModalLabel">Download Our Data</h4>
+              </div>
+              <div class="modal-body">
+                <h4>Ebola Virus Disease (EVD) Case Data</h4>
+                <p>EVD case data contains deidentified data about each case reported to the WHO. This data is updated daily and contains information about date reported, 2nd admin level location, category, and outcome. This data is a complied list from all WHO partners.</p>
 
-                <nav class="legend clearfix district" style="display:none">
-                    <span style="background:rgba(246,247,246,0.7)"></span>
-                    <span style="background:rgba(252,202,78,0.7)"></span>
-                    <span style="background:rgba(250,175,78,0.7)"></span>
-                    <span style="background:rgba(249,145,77,0.7)"></span>
-                    <span style="background:rgba(246,104,61,0.7)"></span>
-                    <label>No cases</label>
-                    <label>New reporting cases</label>
-                    <label>Active transmission outside core zone</label>
-                    <label>Active transmission with response hubs</label>
-                    <label>Core Zone</label>
-                </nav>
+                <h4>WHO Facilities List</h4>
+                <p>WHO Facilities List data is an itemized list of treatment centers and triage locations. This data contains facility location information as well as status, bed capacity, and status.</p>
+
+                <h4>WHO Response Level Categorization</h4>
+                <p>WHO response level classifies countries and administrative areas according to level of response. Data is categorized at the country globally, and at the province/district level in countries with confirmed cases. Countries and administrative areas are classified with a level between 1 to 5. Level corresponds to an evaluation criteria and is updated on a daily basis.</p>
+
+                <h4>Data Availability</h4>
+                <p>Data will be made available for open access in the coming days. All data will be made available via open format downloads as well as through an open access API.</p>
+              </div>
             </div>
-       </div>
-
-   </div>
+          </div>
+        </div>
 
         <div class="footer">
             <div class="container">
@@ -116,6 +188,7 @@
                 </ul>
             </div>
         </div>
+
         <div id="test-index"></div>
 
         <div id="project-templates" style="display:none">
@@ -134,12 +207,48 @@
                 </div>
             </script>
 
+            <script type="text/template" id="popup-clinic">
+                <div class="marker-title"><%= TOWN %>, <%= COUNTRY %></div>
+                <table class="table-striped popup-click">
+                    <tr>
+                        <td>Function</td>
+                        <td><%= FUNCTION %></td>
+                    </tr>
+                    <tr>
+                        <td>Partners</td>
+                        <td><%= Partners_to_ETC %></td>
+                    </tr>
+                    <tr>
+                        <td>Bed Capacity</td>
+                        <td><%= Bed_capacity_current %></td>
+                    </tr>
+                    <tr>
+                        <td>Laboratory</td>
+                        <td><%= Serving_Lab_Location %></td>
+                    </tr>
+                    <tr>
+                        <td>Status</td>
+                        <td><%= Status_HF %></td>
+                    </tr>
+                </table>
+            </script>
+
         </div>
 
         <script src="https://api.tiles.mapbox.com/mapbox.js/v1.6.2/mapbox.js"></script>
 
-        <script src="scripts/1b8f3f3a.vendor.js"></script>
+        <script src="scripts/2ee30a36.vendor.js"></script>
 
-        <script src="scripts/bc7bd3a1.main.js"></script>
-</div></body>
+        <script src="scripts/6fa99c3b.main.js"></script>
+
+        <script>
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+            ga('create', 'UA-88478-44', 'auto');
+            ga('send', 'pageview');
+        </script>
+
+</body>
 </html>
