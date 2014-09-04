@@ -102,13 +102,16 @@ WHO.Views = WHO.Views || {};
                 target,
                 cs,
 
-                countryColors = ['#9d4e00',
-                            '#ff8104',
-                            '#623000'
+
+                countryColors = [
+                            '#FFBFBF',
+                            '#FF7373',
+                            '#B20000'
                 ],
-                districtColors = ['#9d4e00',
-                            '#623000',
-                            '#ff8104'
+                districtColors = [
+                 			'#FFBFBF',
+                            '#FF7373',
+                            '#B20000'
                 ],
                 max = 3;
 
