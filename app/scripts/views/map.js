@@ -102,11 +102,8 @@ WHO.Views = WHO.Views || {};
                 target,
                 cs,
 
-                countryColors = [
-                            // '#AE5500',
-                            // '#0089AE',
-                            // '#EE7500'
 
+                countryColors = [
                             '#FFBFBF',
                             '#FF7373',
                             '#B20000'
@@ -126,7 +123,7 @@ WHO.Views = WHO.Views || {};
                     style: function(feature) {
                         return {
                             color: '#666',
-                            fillColor: level == 'country' ? countryColors[risks[feature.id]-4] : districtColors[risks[feature.id]-4],
+                            fillColor: level === 'country' ? countryColors[risks[feature.id]-4] : districtColors[risks[feature.id]-4],
                             opacity: 0.5,
                             fillOpacity: 0.4,
                             weight: 1
