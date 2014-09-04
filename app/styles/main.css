@@ -48,7 +48,7 @@ p, div, span, section, label, ul, li {
 /************** Navs ********************************/
 
 body .navbar {
-    min-height: 50px !important;
+    min-height: 65px !important;
     height: 60px;
     position: fixed;
     z-index: 100;
