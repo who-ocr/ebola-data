@@ -90,7 +90,7 @@ WHO.Views = WHO.Views || {};
                 bounds = {
                     type: 'FeatureCollection',
                     features: _.filter(this.model.attributes.features, function(feature) {
-                        if (level == 'country' ){
+                        if (level === 'country' ){
                             return risks[feature.id] > 3;
                         }
                         else {
