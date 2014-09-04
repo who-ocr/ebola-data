@@ -48,11 +48,11 @@ WHO.Views = WHO.Views || {};
 
             var layer = L.geoJson(this.model.attributes, {
                 pointToLayer: function(feature, latlng) {
-                    if (feature.properties.FUNCTION === 'Major Ebola Treatment Centre HUBS') {
+                    if (feature.properties.FUNCTION === 'Triage') {
                         return L.marker(latlng, {
                             icon: L.icon({
                                 iconSize: [32, 32],
-                                iconUrl: 'img/hub-64x64.png',
+                                iconUrl: 'img/triage-64x64.png',
                             }),
                             opacity: 1
                         });
@@ -60,7 +60,7 @@ WHO.Views = WHO.Views || {};
                         return L.marker(latlng, {
                             icon: L.icon({
                                 iconSize: [32, 32],
-                                iconUrl: 'img/triage-64x64.png',
+                                iconUrl: 'img/hub-64x64.png',
                             }),
                             opacity: 1
                         });
@@ -74,8 +74,8 @@ WHO.Views = WHO.Views || {};
                         },
                         click: function(e) {
                             var props = e.target.feature.properties;
-                            _.each(['CITY', 'LOCATIONS', 'FUNCTION', 'Partners', 'Bed_capacity_current',
-                                   'COUNTRY', 'Serving_Lab_Location', 'Status_ECT'], function(p) {
+                            _.each(['TOWN', 'classification', 'FUNCTION', 'Partners_to_ETC', 'Bed_capacity_current',
+                                   'COUNTRY', 'Serving_Lab_Location', 'Status_HF'], function(p) {
                                if (props[p] === undefined) {
                                    props[p] = 'N/A';
                                }

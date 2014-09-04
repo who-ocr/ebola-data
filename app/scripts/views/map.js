@@ -90,16 +90,14 @@ WHO.Views = WHO.Views || {};
                 bounds = {
                     type: 'FeatureCollection',
                     features: _.filter(this.model.attributes.features, function(feature) {
-                        return risks[feature.id] > 2;
+                        return risks[feature.id] > 3;
                     })
                 },
 
                 target,
                 cs,
 
-                colors = ['ffffd4',
-                            '#ffffff',
-                            '#ff8104',
+                colors = ['#ff8104',
                             '#9d4e00',
                             '#623000'
                             
@@ -110,17 +108,18 @@ WHO.Views = WHO.Views || {};
                             '#8C4600'
                             */
                 ],
-                max = 5;
+                max = 3;
 
 
-            cs = d3.scale.ordinal()
-                .range(colors).domain(d3.range(1,max));
+            // cs = d3.scale.ordinal()
+            //     .range(colors).domain(d3.range(1,max));
 
+            // country levels are 1-6. we only show levels 4-6. 
             var layer = L.geoJson(bounds, {
                     style: function(feature) {
                         return {
                             color: '#666',
-                            fillColor: cs(risks[feature.id]),
+                            fillColor: colors[risks[feature.id]-4],
                             opacity: 0.5,
                             fillOpacity: 0.4,
                             weight: 1
