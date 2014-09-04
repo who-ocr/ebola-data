@@ -48,7 +48,8 @@ p, div, span, section, label, ul, li {
 /************** Navs ********************************/
 
 body .navbar {
-    min-height: 55px;
+    min-height: 65px !important;
+    height: 60px;
     position: fixed;
     z-index: 100;
     width: 100%;
@@ -67,6 +68,10 @@ body .navbar {
     margin-left: 20px;
 }
 
+.navbar-right {
+    margin-top: 10px !important;
+}
+
 .navbar-collapse .nav { margin: 6px -5px 0 0; }
 
 /****************************************************/
@@ -74,14 +79,15 @@ body .navbar {
 
 .graph-container {
     position: fixed;
-    bottom: 0;
+    bottom: -180px;
     left: 0;
     width: 100%;
-    height: 230px;
+    height: 210px;
     background: #ffffff;
     background: rgba(255,255,255,0.8);
-    z-index: 100;
-    border-top: 1px solid #ccc;
+    z-index: 1000;
+    border-top: 1px solid #a1a6a9;
+    box-shadow: 0 1px 10px rgba(0, 0, 0, 0.2);
     display: none;
 }
 
@@ -151,7 +157,7 @@ body .navbar {
 
 .fixed-width > li {
     display: inline-block;
-    width: 19%;
+    width: 20%;
 }
 
 .inline-legend .box {
@@ -168,12 +174,12 @@ body .navbar {
 }
 
 .district .box,
-.country .box { opacity: 0.333; }
-.zone-0            { background: #ffffd4; }
-.zone-1            { background: #fec44f; }
-.zone-2            { background: #fe9929; }
-.zone-3            { background: #d95f0e; }
-.zone-4            { background: #993404; }
+.country .box { opacity: 0.5; }
+.zone-0            { background: #eef0ef; }
+.zone-1            { background: #ffffff; }
+.zone-2            { background: #ff8104; }
+.zone-3            { background: #9d4e00; }
+.zone-4            { background: #623000; }
 
 
 .confirmed  { fill: #B20000; background: #B20000; }
@@ -203,6 +209,23 @@ body .navbar {
   width: 60px;
 }
 
+.legend-control {
+  z-index: 10;
+  color: #33475b;
+  display: block;
+  padding: 10px;
+  text-align: center;
+  position: absolute;
+  font-size: 14px;
+  right: 0;
+  top: -5px;
+}
+.legend-control:focus {
+  outline: none;
+}
+body .tooltip {
+  width: 100px;
+}
 /****************************************************/
 /************** SVG *********************************/
 
@@ -263,11 +286,22 @@ body .navbar {
 /****************************************************/
 /************** Buttons ****************************/
 
+.dropdown {
+    z-index: 1000;
+    float:left;
+}
+.menu-right {
+    left:-64px;
+}
 .download{
-    position: fixed;
-    top: 78px;
-    right: 10px;
-    display: none;
+    position: absolute;
+    z-index: 1000;
+    top: 75px;
+    right: 35px;
+}
+.download button {
+    float: left;
+    margin-left:10px;
 }
 .download-button:before {
     content: '';
@@ -380,11 +414,15 @@ body .navbar {
 .footer {
     display: none;
 }
+.mapbox-info-toggle,
+.map-info-container {
+  margin-bottom: 30px;
+}
 
 /****************************************************/
 /************** Download ****************************/
 
-#dataModal button {
+#dataModal p {
     margin-bottom: 15px;
 }
 
@@ -447,7 +485,7 @@ body .navbar {
     .subhead h1 { font-size: 38px; }
     .jumbotron p { font-size: 24px; }
     body .navbar { min-height: 70px; }
-    .navbar-brand { padding: 8px; }
+    .navbar-brand { padding: 8px!important; }
     .navbar-brand img { width: 140px; height: 43px; margin-left: 0px; }
     .navbar-brand .title {
         font-size: 23px;
