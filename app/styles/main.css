@@ -5,7 +5,7 @@
 }
 
 .leaflet-top .leaflet-control {
-    margin-top: 80px !important;
+    margin-top: 40px !important;
 }
 
 
@@ -73,6 +73,16 @@ body .navbar {
 }
 
 .navbar-collapse .nav { margin: 6px -5px 0 0; }
+
+.dropdown {
+    z-index: 1000;
+    left: 85%;
+    top: 75px;
+}
+
+.menu-right {
+    left:-72px;
+}
 
 /****************************************************/
 /************** Graphs ******************************/
@@ -287,10 +297,10 @@ body .tooltip {
 /************** Buttons ****************************/
 
 .download{
-    position: fixed;
-    top: 78px;
-    right: 10px;
-    display: none;
+    position: absolute;
+    z-index: 1000;
+    top: 75px;
+    right: 35px;
 }
 .download-button:before {
     content: '';
@@ -411,7 +421,7 @@ body .tooltip {
 /****************************************************/
 /************** Download ****************************/
 
-#dataModal button {
+#dataModal p {
     margin-bottom: 15px;
 }
 

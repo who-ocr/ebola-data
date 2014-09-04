@@ -41,30 +41,47 @@
                     </button>
                     <a class="navbar-brand layer" href="#" data-zoom="5" data-layer="all">
                         <img src="img/who-logo-prp.gif" alt="who-logo-prp" height="60">
-                        <span class="title">Ebola Outbreak Data</span>
+                        <span class="title">Ebola Portal</span>
                     </a>
                 </div>
                 <div class="navbar-collapse collapse" role="navigation">
                     <ul class="nav nav-pills navbar-right" id="nav-main">
                         <li>
-                            <a href="#" class="layer" data-zoom="3" data-layer="all">Roadmap</a>
+                            <a href="#" class="layer" data-zoom="5" data-layer="all">Map</a>
                         </li>
-
-            			<li class="dropwdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Explore <span class="caret"></span></a>
-        					<ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
-        	   					 <li><a href="#" class="layer" data-zoom="3" data-layer="risk">Global Response</a></li>
-								<li><a href="#" class="layer" data-zoom="6" data-layer="cases">Cases</a></li>
-								<li><a href="#" class="layer" data-zoom="7" data-layer="response">District Response</a></li>
- 							</ul>
-            			<li>
-
                         <li>
-                            <a href="" data-toggle="modal" data-target="#dataModal">Data</a>
+                            <a href="/roadmap">Roadmap</a>
+                        </li>
+                        <li>
+                            <a href="/roadmap">Response</a>
+                        </li>
+                        <li>
+                            <a href="/roadmap">Resources</a>
+                        </li>
+                        <li>
+                            <a href="/roadmap">Contact Us</a>
                         </li>
                     </ul>
                  </div>
               </div>
             </div>
+        </div>
+
+        <div class="dropdown">
+            <button id="dLabel" class="btn btn-default dropdown-toggle" data-toggle="dropdown" type="button">Explore 
+                <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu menu-right" role="menu" aria-labelledby="dLabel">
+                <li role="presentation"><a role="menuitem" href="#" class="layer" data-zoom="6" data-layer="cases">Cases</a></li>
+                <li role="presentation"><a role="menuitem" href="#" class="layer" data-zoom="7" data-layer="response">District Response</a></li>
+                <li role="presentation"><a role="menuitem" href="#" class="layer" data-zoom="4" data-layer="risk">Global Response</a></li>
+                <li role="presentation" class="divider"></li>
+                <li role="presentation"><a role="menuitem" href="#" class="layer" data-zoom="5" data-layer="all">Reset Map</a></li>
+            </ul>
+        </div>
+
+        <div class="download">
+            <button class="btn btn-default" href="" data-toggle="modal" data-target="#dataModal">Data</button>
         </div>
 
         <div id="map">
@@ -157,18 +174,15 @@
               <div class="modal-body">
                 <h4>Ebola Virus Disease (EVD) Case Data</h4>
                 <p>EVD case data contains deidentified data about each case reported to the WHO. This data is updated daily and contains information about date reported, 2nd admin level location, category, and outcome. This data is a complied list from all WHO partners.</p>
-                <button id="csv-download-cases" class="download-button btn btn-default">Download EVD case data</button>
 
                 <h4>WHO Facilities List</h4>
                 <p>WHO Facilities List data is an itemized list of treatment centers and triage locations. This data contains facility location information as well as status, bed capacity, and status.</p>
-                <button id="csv-download-facilities" class="download-button btn btn-default">Download WHO Facilities List</button>
 
                 <h4>WHO Response Level Categorization</h4>
                 <p>WHO response level classifies countries and administrative areas according to level of response. Data is categorized at the country globally, and at the province/district level in countries with confirmed cases. Countries and administrative areas are classified with a level between 1 to 5. Level corresponds to an evaluation criteria and is updated on a daily basis.</p>
-                <button id="csv-download-response" class="download-button btn btn-default">Download WHO Response Level Categorization</button>
 
-                <h4>License</h4>
-                <p>All data is public domain and made freely available under the <a href="https://creativecommons.org/publicdomain/zero/1.0/">CC0 license</a>. </p>
+                <h4>Data Availability</h4>
+                <p>Data will be made available for open access in the coming days. All data will be made available via open format downloads as well as through an open access API.</p>
               </div>
             </div>
           </div>
