@@ -53,11 +53,15 @@ body .navbar {
     width: 100%;
 }
 
+.navbar-brand {
+    margin-left:-3px!important;
+}
+
 .navbar-brand .title {
     font-size: 14px;
     line-height: 14px;
-    margin: 5px 0 0 10px;
-    padding: 6px 0 6px 10px;
+    margin: 14px 0 0 26px!important;
+    padding: 6px 0 6px 12px;
 }
 
 .navbar-brand img {
@@ -67,7 +71,7 @@ body .navbar {
 }
 
 .navbar-right {
-    margin-top: 10px !important;
+    margin-top: 18px !important;
 }
 
 .navbar-collapse .nav { margin: 6px -5px 0 0; }

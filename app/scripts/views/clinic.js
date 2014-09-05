@@ -48,7 +48,7 @@ WHO.Views = WHO.Views || {};
 
             var layer = L.geoJson(this.model.attributes, {
                 pointToLayer: function(feature, latlng) {
-                    if (feature.properties.FUNCTION === 'Triage') {
+                    if (feature.properties.FUNCTION === 'ETC + Triage') {
                         return L.marker(latlng, {
                             icon: L.icon({
                                 iconSize: [32, 32],
@@ -62,7 +62,7 @@ WHO.Views = WHO.Views || {};
                                 iconSize: [32, 32],
                                 iconUrl: 'img/hub-64x64.png',
                             }),
-                            opacity: 1
+                            opacity: 0
                         });
                     }
                 },
