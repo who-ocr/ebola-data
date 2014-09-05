@@ -251,9 +251,10 @@ WHO.Views = WHO.Views || {};
                 .attr('class', 'y axis')
                 .call(yAxis)
             .append('text')
-                .attr('transform', 'rotate(-90)')
-                .attr('y', 6)
+                .attr('transform', 'rotate(90)')
+                .attr('y', -24)
                 .attr('dy', '-.8em')
+                .attr('x', 82)
                 .style('text-anchor', 'end')
                 .text('Cases');
 
