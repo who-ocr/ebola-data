@@ -61,13 +61,13 @@ body .navbar {
     font-size: 14px;
     line-height: 14px;
     margin: 14px 0 0 26px!important;
-    padding: 6px 0 6px 12px;
+    padding: 7px 0 6px 10px;
 }
 
 .navbar-brand img {
     width: 90px;
     height: 28px;
-    margin: 5px 0 0 20px;
+    margin: 4px 0 0 20px;
 }
 
 .navbar-right {
