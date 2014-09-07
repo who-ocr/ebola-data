@@ -75,7 +75,7 @@ WHO.Views = WHO.Views || {};
                         click: function(e) {
                             var props = e.target.feature.properties;
                             _.each(['TOWN', 'classification', 'FUNCTION', 'Partners_to_ETC', 'Bed_capacity_current',
-                                   'COUNTRY', 'Serving_Lab_Location', 'Status_HF'], function(p) {
+                                   'COUNTRY', 'Serving_Lab_Location', 'Status_HF', 'Structure_location'], function(p) {
                                if (props[p] === undefined) {
                                    props[p] = 'N/A';
                                }
