@@ -99,9 +99,9 @@ WHO.Routers = WHO.Routers || {};
 
                 response:
                     [0, 1, 1],
-
+                
                 all:
-                	[1, 1, 1]
+                    [1, 0, 0]
             },
             $target;
 
