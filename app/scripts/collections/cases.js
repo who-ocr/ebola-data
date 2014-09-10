@@ -42,15 +42,17 @@ WHO.Collections = WHO.Collections || {};
 
             var data = snap.val(),
                 now = Date.parse(new Date()),
-                start = Date.parse(new Date('2013', '11', '20'));
-
+                start = 1387515600000 // this evaluates differently by browser. Date.parse(new Date('2013', '11', '20'));
+            console.log(data.length)
+            console.log(now)
+            console.log(start)
             // parse each date as such
             var i = 0, ii = data.length,
                 d;
 
             for(; i < ii; ++i) {
                 d = data[i]['Date of notification to WHO'].split('/');
-                data[i].datetime = Date.parse([d[1],d[0],d[2]].join('/'));
+                data[i].datetime = Date.parse([d[2],d[1],d[0]].join('-') + 'T00:00:00Z');
                 //d = data[i]['date'];
                 //data[i].datetime = Date.parse(d);
                 data[i].category = data[i]['Category'].toLowerCase();
@@ -62,7 +64,7 @@ WHO.Collections = WHO.Collections || {};
                     && d.datetime < now && d.datetime > start;
             });
             data = _.sortBy(data, function(d) { return d.datetime });
-
+            console.log(data.length)
             this.reset(data);
             this.trigger("loaded", data);
         }
