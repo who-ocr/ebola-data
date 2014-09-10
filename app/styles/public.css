@@ -374,6 +374,11 @@ body {
     font-size: 120%;
 }
 
+.row-header {
+    font-weight: bold;
+    background: #efefef;
+}
+
 .align-right {
     text-align: right;
 }
@@ -451,8 +456,8 @@ body {
 
         .navbar-brand .title {
             font-size: 26px;
-            margin-left: 5px;
-            padding-left: 10px;
+            margin-left: 10px;
+            padding-left: 15px;
             margin-top: -5px;
         }
 
