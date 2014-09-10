@@ -11,7 +11,7 @@
         <link href="img/favicon.ico" rel="shortcut icon">
 
         <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
-        <link rel="stylesheet" href="styles/8209a7fc.main.css">
+        <link rel="stylesheet" href="styles/98ff8d3d.main.css">
 
         <!--[if lt IE 9]>
             <script src="scripts/vendor/ie9/html5shiv.js"></script>
@@ -22,7 +22,6 @@
         <script src="scripts/vendor/a52a8685.modernizr.js"></script>
     </head>
     <body>
-
         <div class="navbar navbar-default navbar-fixed-top">
             <div class="container">
               <div class="row">
@@ -30,7 +29,7 @@
                     <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
                         <span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand layer" href="/">
+                    <a class="navbar-brand layer" href="/ebola">
                         <img src="img/who-logo-prp.gif" alt="who-logo-prp" height="60">
                         <span class="title">Ebola Portal</span>
                     </a>
@@ -38,19 +37,19 @@
                 <div class="navbar-collapse collapse" role="navigation">
                     <ul class="nav nav-pills navbar-right" id="nav-main">
                         <li>
-                            <a href="/">Home</a>
+                            <a href="/ebola">Home</a>
                         </li>
                         <li>
-                            <a href="/">Operations</a>
+                            <a href="/ebola">Operations</a>
                         </li>
                         <li>
-                            <a href="/">Funding</a>
+                            <a href="/ebola">Funding</a>
                         </li>
                         <li>
-                            <a href="/">About WHO</a>
+                            <a href="/ebola">About WHO</a>
                         </li>
                         <li>
-                            <a href="#" class="layer" data-zoom="5" data-layer="all" style="background-color:#eee">Maps</a>
+                            <a href="#" class="layer" data-zoom="5" data-layer="all">Maps</a>
                         </li>
                     </ul>
                  </div>
@@ -65,8 +64,8 @@
                 </button>
                 <ul class="dropdown-menu menu-right" role="menu" aria-labelledby="dLabel">
                     <li role="presentation"><a role="menuitem" href="#" class="layer" data-zoom="6" data-layer="cases">Cases</a></li>
-                    <li role="presentation"><a role="menuitem" href="#" class="layer" data-zoom="7" data-layer="response">District Response</a></li>
-                    <li role="presentation"><a role="menuitem" href="#" class="layer" data-zoom="4" data-layer="risk">Global Response</a></li>
+                    <li role="presentation"><a role="menuitem" href="#" class="layer" data-zoom="7" data-layer="response">District Level</a></li>
+                    <li role="presentation"><a role="menuitem" href="#" class="layer" data-zoom="4" data-layer="risk">Global Level</a></li>
                     <li role="presentation" class="divider"></li>
                     <li role="presentation"><a role="menuitem" href="/ebola">Reset Map</a></li>
                 </ul>
@@ -96,7 +95,7 @@
                     </div>
 
                     <div class="col-md-6" id="map-legend">
-                        <h5 class="who-title" id="geography-zoom-level">Country-level response</h5>
+                        <h5 class="who-title" id="geography-zoom-level">Country-level Cases</h5>
 
                         <div class="legend-container">
 
@@ -131,7 +130,8 @@
                                     <div class="cases-label">Cases in past 21 days</div>
                                 </div>
                                 <div class="col-md-4 response-marker">
-                                    <img src="img/triage-64x64.png"> Major Ebola Treatment Centre HUBS
+                                    <img src="img/triage-64x64.png">
+                                    <span class="response-marker-text">Ebola Treatment Centre</span>
                                 </div>
                             </div>
 
@@ -236,9 +236,9 @@
 
         <script src="https://api.tiles.mapbox.com/mapbox.js/v1.6.2/mapbox.js"></script>
 
-        <script src="scripts/7e105c27.vendor.js"></script>
+        <script src="scripts/2ee30a36.vendor.js"></script>
 
-        <script src="scripts/93d528bd.main.js"></script>
+        <script src="scripts/8fd3a6a7.main.js"></script>
 
         <script>
             (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
