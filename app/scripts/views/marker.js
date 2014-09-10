@@ -109,7 +109,7 @@ WHO.Views = WHO.Views || {};
                 cases[geoid][category] += 1;
 				
                 if (model.get('HCW') === 'Yes') { cases[geoid].hcw += 1; }
-                if (model.get('outcome') === 'Deceased') { cases[geoid].deaths += 1; }
+                if (model.get('Outcome') === 'Deceased') { cases[geoid].deaths += 1; }
             }
 
             //*********** Past 7 days ***********//

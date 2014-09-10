@@ -166,6 +166,10 @@ p, div, span, section, label, ul, li {
   float: left;
   width: 30px;
 }
+.response-marker-text {
+  float:left;
+  margin-top: 6px;
+}
 .cases-marker img {
   vertical-align: top;
 }
@@ -443,6 +447,27 @@ body .tooltip {
     background: #ffffff;
     background: rgba(255,255,255,0.7);
 }
+
+/****************************************************/
+/************** IE banner ***********************/
+
+#ie-banner {
+  display:none;
+  position:relative;
+  padding:15px 0 8px;
+  background:#F2F0E2;
+  text-align: center;
+  font-weight:bold;
+  -webkit-border-top-left-radius:    3px;
+  -webkit-border-bottom-left-radius: 3px;
+  -moz-border-radius-topleft:        3px;
+  -moz-border-radius-bottomleft:     3px;
+  border-top-left-radius:            3px;
+  border-bottom-left-radius:         3px;
+  }
+#banner-close {
+  padding-left:20px;
+  }
 
 /****************************************************/
 /************** Media Queries ***********************/
