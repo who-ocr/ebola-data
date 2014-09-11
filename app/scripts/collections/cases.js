@@ -43,9 +43,7 @@ WHO.Collections = WHO.Collections || {};
             var data = snap.val(),
                 now = Date.parse(new Date()),
                 start = 1387515600000 // this evaluates differently by browser. Date.parse(new Date('2013', '11', '20'));
-            console.log(data.length)
-            console.log(now)
-            console.log(start)
+
             // parse each date as such
             var i = 0, ii = data.length,
                 d;
@@ -64,7 +62,7 @@ WHO.Collections = WHO.Collections || {};
                     && d.datetime < now && d.datetime > start;
             });
             data = _.sortBy(data, function(d) { return d.datetime });
-            console.log(data.length)
+
             this.reset(data);
             this.trigger("loaded", data);
         }
