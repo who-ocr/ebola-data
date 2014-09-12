@@ -65,10 +65,12 @@
               </div>
             </div>
         </div>
-
+        <!--[if lt IE 9]>
+        <div id="ie-banner">You're using an outdated browser and some features of the site may not work as intended. Please consider upgrading at <a href="http://browsehappy.com/">Browsehappy.com</a>.</div>
+        <![endif]-->
         <div class="download">
             <div class="dropdown">
-                <button id="dLabel" class="btn btn-default dropdown-toggle" data-toggle="dropdown" type="button">Explore 
+                <button id="dLabel" class="btn btn-default dropdown-toggle" data-toggle="dropdown" type="button">Explore
                     <span class="caret"></span>
                 </button>
                 <ul class="dropdown-menu menu-right" role="menu" aria-labelledby="dLabel">
@@ -79,7 +81,7 @@
                     <li role="presentation"><a role="menuitem" href="/ebola">Reset Map</a></li>
                 </ul>
             </div>
-        
+
             <button class="btn btn-default" href="" data-toggle="modal" data-target="#dataModal">Data</button>
         </div>
 
@@ -88,12 +90,12 @@
         </div>
 
         <div class="graph-container ui-open">
-          
+
             <div class="container">
-            	
+
                 <div class="row">
                     <div class="col-md-6" id="epi-graph">
-                
+
                         <h5 class="who-title">Reported Ebola cases by week</h5>
 
                         <ul class="legend fixed-legend">
@@ -131,9 +133,9 @@
                             </ul>
 
                             <div class="row marker-legend">
-                            
+
                                <a href="#" class="legend-control" data-toggle="tooltip" data-placement="top" title="Toggle legend"><span class="glyphicon glyphicon-chevron-down"></span></a>
-                               
+
                                 <div class="col-md-4 cases-marker">
                                     <img src="img/cases-marker.png" /> Ebola cases
                                     <div class="cases-label">Cases in past 21 days</div>
@@ -240,7 +242,6 @@
                     </tr>
                 </table>
             </script>
-
         </div>
 
         <script src="https://api.tiles.mapbox.com/mapbox.js/v1.6.2/mapbox.js"></script>

@@ -132,7 +132,7 @@ p, div, span, section, label, ul, li {
 }
 
 .bg-white {
-   
+
     padding: 12px 0;
 }
 
@@ -146,8 +146,8 @@ p, div, span, section, label, ul, li {
 
 .zone-not-active { background: #FFBFBF; }
 .zone-active {  background: #FF7373; }
-.zone-new {  background: #B20000; }                                        
-                            
+.zone-new {  background: #B20000; }
+
 
 .confirmed  { fill: #B20000; background: #B20000; }
 .suspected  { fill: #D7ADAB; background: #D7ADAB; }
@@ -452,7 +452,6 @@ body .tooltip {
 /************** IE banner ***********************/
 
 #ie-banner {
-  display:none;
   position:relative;
   padding:15px 0 8px;
   background:#F2F0E2;
@@ -477,7 +476,7 @@ body .tooltip {
     .jumbotron p { font-size: 24px; }
 
     .graph-container { margin-top: 1em; }
-  
+
     #test-index { display: none; }
     #map-overlay-container > .dropdown-container {
         float: right;
