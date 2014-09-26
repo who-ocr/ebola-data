@@ -18,13 +18,13 @@ WHO.Views = WHO.Views || {};
 
         featureChange: function(type) {
             // if (type === 'district' && !this.on) {
-            if (WHO.map.getZoom() > 7 && !this.on) {
+            if (WHO.map.getZoom() >= 7 && !this.on) {
                 this.render();
                 this.on = true;
             }
 
             // if (type !== 'district' && this.on) {
-            if (WHO.map.getZoom() <= 7 && this.on) {
+            if (WHO.map.getZoom() < 7 && this.on) {
                 this.removeLayers();
                 this.on = false;
             }
