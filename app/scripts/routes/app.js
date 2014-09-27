@@ -32,7 +32,7 @@ WHO.Routers = WHO.Routers || {};
         WHO.getMapType = function(level) {
             if (level < 6)              {   return 'country'     }
             else if (level < 7)         {   return 'province'    }
-            else                        {   return 'district'    }
+            else                        {   return 'province'    }
         }
 
         //*********** Init collections, models, and views ***********//

@@ -75,11 +75,11 @@ WHO.Views = WHO.Views || {};
             switch(this.maptype) {
                 case 'country':
                     admin = 'ADM0_NAME';
-                    adminCode = 'ADM2_CODE';
+                    adminCode = 'ADM0_CODE';
                     break;
                 case 'province':
                     admin = 'ADM1_NAME';
-                    adminCode = 'ADM2_CODE';
+                    adminCode = 'ADM1_CODE';
                     break;
                 case 'district':
                     admin = 'ADM2_NAME';
@@ -94,7 +94,7 @@ WHO.Views = WHO.Views || {};
 
                 if (!cases[geoid]) {
                     cases[geoid] = {
-                        name: geo,
+                        name: geo.toUpperCase(),
                         confirmed: 0,
                         probable: 0,
                         suspected: 0,
@@ -293,8 +293,8 @@ WHO.Views = WHO.Views || {};
                                    + '<tr><td>Confirmed cases</td><td class="cell-value">' + d.confirmed + '</td></tr>'
                                    + '<tr><td>Probable cases</td><td class="cell-value">' + d.probable + '</td></tr>'
                                    + '<tr><td>Suspected cases</td><td class="cell-value">' + d.suspected + '</td></tr>'
-                                   + '<tr><td>Health Care Workers Affected</td><td class="cell-value">' + d.hcw + '</td></tr>'
-                                   + '<tr><td>Total Deaths</td><td class="cell-value">' + d.deaths + '</td></tr>'
+                                   // + '<tr><td>Health Care Workers Affected</td><td class="cell-value">' + d.hcw + '</td></tr>'
+                                   // + '<tr><td>Total Deaths</td><td class="cell-value">' + d.deaths + '</td></tr>'
                                    + '<tr><td>Cases in past 21 days</td><td class="cell-value">' + d.recent + '</td></tr>'
                                    + '<tr><td>Total Cases</td><td class="cell-value">' + cases[layer.feature.id].total + '</td></tr></table>');
                 } else {
@@ -305,8 +305,8 @@ WHO.Views = WHO.Views || {};
                                    + '<tr><td>Confirmed cases</td><td class="cell-value">' + d.confirmed + '</td></tr>'
                                    + '<tr><td>Probable cases</td><td class="cell-value">' + d.probable + '</td></tr>'
                                    + '<tr><td>Suspected cases</td><td class="cell-value">' + d.suspected + '</td></tr>'
-                                   + '<tr><td>Health Care Workers Affected</td><td class="cell-value">' + d.hcw + '</td></tr>'
-                                   + '<tr><td>Total Deaths</td><td class="cell-value">' + d.deaths + '</td></tr>'
+                                   // + '<tr><td>Health Care Workers Affected</td><td class="cell-value">' + d.hcw + '</td></tr>'
+                                   // + '<tr><td>Total Deaths</td><td class="cell-value">' + d.deaths + '</td></tr>'
                                    + '<tr><td>Cases in past 21 days</td><td class="cell-value">' + d.recent + '</td></tr>'
                                    + '<tr><td>Total Cases</td><td class="cell-value">' + cases[layer.feature.id].total + '</td></tr></table>');
 

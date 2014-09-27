@@ -8,7 +8,7 @@ WHO.Collections = WHO.Collections || {};
     WHO.Collections.Cases = Backbone.Collection.extend({
 
         initialize: function () {
-            this.ref = new Firebase('https://who-ocr-dev.firebaseio.com/cases_aug30');
+            this.ref = new Firebase('https://who-ocr-dev.firebaseio.com/cases_sep25');
         },
 
         query: function () {
@@ -49,7 +49,7 @@ WHO.Collections = WHO.Collections || {};
                 d;
 
             for(; i < ii; ++i) {
-                d = data[i]['Date of notification to WHO'].split('/');
+                d = data[i]['Date of Notification to WHO'].split('/');
                 data[i].datetime = Date.parse([d[2],d[1],d[0]].join('-') + 'T00:00:00Z');
                 //d = data[i]['date'];
                 //data[i].datetime = Date.parse(d);

@@ -38,7 +38,7 @@
                     <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
                         <span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand layer" href="/ebola">
+                    <a class="navbar-brand layer" href="#/home">
                         <img src="img/who-logo-prp.gif" alt="who-logo-prp" height="60">
                         <span class="title">Ebola Portal</span>
                     </a>
@@ -46,19 +46,19 @@
                 <div class="navbar-collapse collapse" role="navigation">
                     <ul class="nav nav-pills navbar-right" id="nav-main">
                         <li>
-                            <a href="/ebola">Home</a>
+                            <a href="#/response" data-page="response">Operations</a>
                         </li>
                         <li>
-                            <a href="/ebola">Operations</a>
+                            <a href="#/resources" data-page="resources">Funding</a>
                         </li>
                         <li>
-                            <a href="/ebola">Funding</a>
+                            <a href="#" class="layer" data-zoom="5">Maps</a>
+                        </li>
+                        <li class="hidden-xs">
+                            <a href="http://www.who.int/csr/disease/ebola/en/">About Ebola</a>
                         </li>
                         <li>
-                            <a href="http://who.int/about/en/">About</a>
-                        </li>
-                        <li>
-                            <a href="#" class="layer" data-zoom="5" data-layer="all">Maps</a>
+                            <a href="http://www.who.int/">WHO</a>
                         </li>
                     </ul>
                  </div>
@@ -70,9 +70,9 @@
         <![endif]-->
         <div class="download">
             <div class="dropdown">
-                <button id="dLabel" class="btn btn-default dropdown-toggle" data-toggle="dropdown" type="button">Explore
+     <!--            <button id="dLabel" class="btn btn-default dropdown-toggle" data-toggle="dropdown" type="button">Explore
                     <span class="caret"></span>
-                </button>
+                </button> -->
                 <ul class="dropdown-menu menu-right" role="menu" aria-labelledby="dLabel">
                     <li role="presentation"><a role="menuitem" href="#" class="layer" data-zoom="6" data-layer="cases">Cases</a></li>
                     <li role="presentation"><a role="menuitem" href="#" class="layer" data-zoom="7" data-layer="response">District Level</a></li>
