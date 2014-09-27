@@ -75,7 +75,7 @@ WHO.Views = WHO.Views || {};
             switch(this.maptype) {
                 case 'country':
                     admin = 'ADM0_NAME';
-                    adminCode = 'ADM2_CODE';
+                    adminCode = 'ADM0_CODE';
                     break;
                 case 'province':
                     admin = 'ADM1_NAME';
